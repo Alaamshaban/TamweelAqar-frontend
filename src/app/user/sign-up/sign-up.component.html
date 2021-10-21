@@ -1,0 +1,64 @@
+<div class="form">
+    <form [formGroup]="signUPForm" [hidden]="confirmationResult">
+        <div class="flex-container">
+            <!-- <div class="logo">
+                    <img src="assets/logo.svg" />
+                </div> -->
+            <div class="FormCell">
+                <mat-form-field>
+                    <input matInput type="text" formControlName="username" placeholder="User name">
+                    <mat-error *ngIf="f.username.hasError('required') && (f.username.dirty || f.username.touched)">
+                        Field is required.
+                    </mat-error>
+                    <!-- <mat-error *ngIf="f.username.hasError('invalid_field') && (f.phone_number.dirty || f.phone_number.touched)">
+                            {{BeError}}.
+                        </mat-error> -->
+                </mat-form-field>
+            </div>
+            <div class="FormCell">
+                <mat-form-field>
+                    <input matInput type="text" formControlName="phone_number" maxlength="10"
+                        placeholder="Phone number">
+                    <mat-error
+                        *ngIf="f.phone_number.hasError('required') && (f.phone_number.dirty || f.phone_number.touched)">
+                        Field is required.
+                    </mat-error>
+                    <mat-error
+                        *ngIf="f.phone_number.hasError('pattern') && (f.phone_number.dirty || f.phone_number.touched)">
+                        Field format is incorrect.
+                    </mat-error>
+                    <!-- <mat-error *ngIf="f.phone_number.hasError('invalid_field') && (f.phone_number.dirty || f.phone_number.touched)">
+                            {{BeError}}.
+                        </mat-error> -->
+                    <span matPrefix>+20&nbsp;</span>
+                </mat-form-field>
+            </div>
+
+            <button mat-raised-button color="primary" id="signup-btn">Create account</button>
+            <button class="back-to-login" mat-stroked-button color="primary" (click)="login()">Back to login</button>
+        </div>
+    </form>
+
+    <form [formGroup]="verificationForm" *ngIf="confirmationResult">
+        <div class="flex-container">
+            <div class="text">
+                <h1>
+                    Verification Code
+                </h1>
+                <p>
+                    We sent you a SMS on your phone, please enter your <br /> verification code
+                </p>
+            </div>
+
+            <div class="FormCell">
+                <mat-form-field>
+                    <input matInput type="text" formControlName="verification_code" placeholder="Verification code">
+                    <mat-error *ngIf="verificationF.verification_code.hasError('required') && (verificationF.verification_code.dirty || verificationF.verification_code.touched)"></mat-error>
+                </mat-form-field>
+            </div>
+            <button mat-raised-button color="primary" (click)="verifyLoginCode()">Verify</button>
+        </div>
+    </form>
+    <!-- <button (click)="signOut()">Sign Out</button> -->
+
+</div>

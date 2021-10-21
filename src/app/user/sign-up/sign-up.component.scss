@@ -1,0 +1,30 @@
+.back-to-login {
+    margin-top: 50px;
+  }
+  .form {
+    .flex-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      .FormCell {
+        margin: 10px;
+        width: 60%;
+        > mat-form-field {
+          width: 100%;
+        }
+      }
+      button {
+        width: 60%;
+      }
+    }
+    h1 {
+      margin: 50px;
+    }
+    .text {
+      text-align: center;
+      font: normal normal 300 16px/24px Prompt;
+      letter-spacing: -0.8px;
+      color: #231f20;
+    }
+  }
