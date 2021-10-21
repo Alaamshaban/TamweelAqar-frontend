@@ -22,7 +22,8 @@
     </div>
 
     <div class="side-nav">
-        <a class="side-nav-left" routerLink="/home-five">Sign In</a>
-        <a class="side-nav-right" (click)="signUp()"><i class='bx bx-link-external'></i>Sign Up</a>
+        <a class="side-nav-left" *ngIf="!ifUserLoggedIn">Sign In</a>
+        <a class="side-nav-right" (click)="signUp()" *ngIf="!ifUserLoggedIn"><i class='bx bx-link-external'></i>Sign Up</a>
+        <a class="side-nav-right" (click)="signOut()" *ngIf="ifUserLoggedIn"><i class='bx bx-link-external'></i>Sign Out</a>
     </div>
 </nav>

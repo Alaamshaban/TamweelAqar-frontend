@@ -88,10 +88,6 @@ export class SignUpComponent implements OnInit {
   get verificationF() {
     return this.verificationForm.controls;
   }
-  signOut() {
-    var user = firebase.auth().currentUser;
-    this.cookieService.delete('user_uid');
-    user.delete();
-  }
+
 
 }
