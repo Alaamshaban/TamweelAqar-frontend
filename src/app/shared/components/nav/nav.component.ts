@@ -1,11 +1,11 @@
+import { UserService } from './../../services/user.service';
+import { Router } from '@angular/router';
+import { environment } from './../../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SignUpComponent } from 'src/app/user/sign-up/sign-up.component';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -13,26 +13,32 @@ import 'firebase/auth';
 })
 export class NavComponent implements OnInit {
 
-  constructor(    
-    private cookieService:CookieService,
+
+  constructor(
+    private cookieService: CookieService,
+    private router: Router,
+    private userService: UserService,
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
-  signUp(){
+  signUp() {
     const dialogRef = this.dialog.open(SignUpComponent, {
       width: '300px'
     });
   }
 
   signOut() {
-    var user = firebase.auth().currentUser;
     this.cookieService.delete('user_uid');
+    const user = this.userService.user;
     user.delete();
+    this.router.navigate(['/home']);
   }
 
-  get ifUserLoggedIn(){
+
+
+  get ifUserLoggedIn() {
     return this.cookieService.get('user_uid');
   }
 

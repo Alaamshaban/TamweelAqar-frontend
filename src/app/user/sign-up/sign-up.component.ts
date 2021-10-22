@@ -1,3 +1,4 @@
+import { UserService } from './../../shared/services/user.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,7 +24,8 @@ export class SignUpComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public cookieService: CookieService,
-    private router:Router,
+    private userService: UserService,
+    private router: Router,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<SignUpComponent>) { }
 
@@ -58,10 +60,10 @@ export class SignUpComponent implements OnInit {
     this.confirmationResult.confirm(this.verificationForm.value.verification_code).then(result => {
       console.log(result);
       this.cookieService.set('user_uid', result.user.uid);
+      const user = firebase.auth().currentUser;
+      this.userService.user = user;
       this.dialogRef.close();
       this.router.navigate(['/offers']);
-      
-
     }).catch(error => console.log(error, 'incorrect code entered'));
   }
 
