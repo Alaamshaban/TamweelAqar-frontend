@@ -1,7 +1,7 @@
 <div class="form">
-    <form [formGroup]="signUPForm" [hidden]="confirmationResult">
+    <form [formGroup]="signUPForm" [hidden]="confirmationResult || data?.process==='verification'">
         <div class="flex-container">
-            <div class="FormCell" *ngIf="!hideUserName">
+            <div class="FormCell" *ngIf="!loginProcess">
                 <mat-form-field>
                     <input matInput type="text" formControlName="username" placeholder="User name">
                     <mat-error *ngIf="f.username.hasError('required') && (f.username.dirty || f.username.touched)">
@@ -32,15 +32,15 @@
             </div>
 
             <button mat-raised-button color="primary" id="signup-btn" [disabled]="signUPForm.invalid"
-                *ngIf="!hideUserName">Create account</button>
+                *ngIf="!loginProcess">Create account</button>
             <button mat-raised-button color="primary" id="signup-btn" [disabled]="signUPForm.invalid"
-                [hidden]="!hideUserName">Login</button>
-            <button class="back-to-login" mat-stroked-button color="primary" (click)="hideUserName=!hideUserName"
-                *ngIf="!hideUserName">Back to login</button>
+                [hidden]="!loginProcess">Login</button>
+            <button class="back-to-login" mat-stroked-button color="primary" (click)="loginProcess=!loginProcess"
+                *ngIf="!loginProcess">Back to login</button>
         </div>
     </form>
 
-    <form [formGroup]="verificationForm" *ngIf="confirmationResult">
+    <form [formGroup]="verificationForm" *ngIf="confirmationResult || data?.process==='verification'">
         <div class="flex-container">
             <div class="text">
                 <h1>

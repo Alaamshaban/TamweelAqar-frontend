@@ -1,3 +1,4 @@
+import { OffersService } from './../../shared/services/offers.service';
 import { UserService } from './../../shared/services/user.service';
 import { Router } from '@angular/router';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
@@ -22,12 +23,13 @@ export class SignUpComponent implements OnInit, OnDestroy {
   confirmationResult: any;
   app: any;
 
-  hideUserName: boolean = false;
+  loginProcess: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     public cookieService: CookieService,
     private userService: UserService,
+    private offersService: OffersService,
     private router: Router,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<SignUpComponent>,
@@ -35,7 +37,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setForms();
-    this.app = firebase.initializeApp(environment.firebase);
+    if (!firebase.apps.length) {
+      this.app = firebase.initializeApp(environment.firebase);
+
+    } else {
+      this.app = firebase.app(); // if already initialized, use that one
+    }
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'signup-btn',
       {
@@ -48,8 +55,25 @@ export class SignUpComponent implements OnInit, OnDestroy {
       }
     );
     this.recaptchaVerifier.render();
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log(user)
+        // User is signed in and token is expired
+        this.loginProcess = true;
+        // user.getIdToken().then(idToken => {
+        //   console.log(idToken)
+        //   this.cookieService.set('token', idToken);
+        // });
+      } else {
+        console.log('no user');
+        this.loginProcess = false;
+        /** sign up pop-up will appear */
+        // No user is signed in.
+      }
+    });
     if (this.data && this.data.process === 'signIn') {
-      this.hideUserName = true;
+      console.log(this.data)
+      this.loginProcess = true;
       this.signUPForm.controls['username'].clearValidators();
       this.signUPForm.updateValueAndValidity();
     }
@@ -66,17 +90,22 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   verifyLoginCode(): void {
+    if (!this.confirmationResult && this.data.process === 'verification') {
+      this.confirmationResult = this.data.confirmation;
+    }
     this.confirmationResult.confirm(this.verificationForm.value.verification_code).then(result => {
       this.cookieService.set('user_uid', result.user.uid);
       const user = firebase.auth().currentUser;
       firebase.auth().currentUser.getIdToken(true).then(token => {
         this.cookieService.set('token', token);
-        this.cookieService.set('refresh_token',firebase.auth().currentUser.refreshToken);
+        this.offersService.getOffers(result.user.uid).subscribe(offers => {
+          console.log(offers);
+          this.router.navigate(['/offers'], { state: { data: { offers } } });
+        });
       });
       this.userService.user = user;
       this.userService.auth = firebase.auth();
       this.dialogRef.close();
-      this.router.navigate(['/offers']);
     }).catch(error => console.log(error, 'incorrect code entered'));
   }
 
@@ -106,7 +135,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-   this.app.delete();
+    this.app.delete();
   }
 
 
