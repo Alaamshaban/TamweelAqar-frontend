@@ -28,6 +28,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -47,6 +48,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
   imports: [
     // modules
     CommonModule,
+    HttpClientModule,
     MatDialogModule,
     MatSnackBarModule,
     MatIconModule,
@@ -67,6 +69,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     RouterModule
   ],
   exports: [
+    HttpClientModule,
     MatDialogModule,
     MatSnackBarModule,
     MatIconModule,

@@ -1,4 +1,9 @@
+import { OffersService } from './../../shared/services/offers.service';
+import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { SignUpComponent } from 'src/app/user/sign-up/sign-up.component';
 
 
 @Component({
@@ -9,31 +14,27 @@ import { Component, OnInit } from '@angular/core';
 
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private cookieService: CookieService,
+    private dialog: MatDialog,
+    private offersService: OffersService) { }
 
   ngOnInit(): void {
 
   }
 
-  // getToken(): void {
-  //   this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-  //     'signup-btn',
-  //     {
-  //       size: 'invisible',
-  //       callback: (token) => {
-  //         if (token) {
-  //           this.signUp(token);
-  //         }
-  //       },
-  //     }
-  //   );
-  //   this.recaptchaVerifier.render();
-  // }
-
-
-
-
-
-
+  calculateMoney() {
+    const userId = this.cookieService.get('user_uid');
+    this.offersService.getOffers(userId).subscribe(offers => {
+      console.log(offers);
+    }, (error: HttpErrorResponse) => {
+      console.log('err>>', error);
+      if (error.status === 401) {
+        this.dialog.open(SignUpComponent, {
+          width: '300px'
+        });
+      }
+    })
+  }
 
 }

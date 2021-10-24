@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { environment } from './../../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 
+
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SignUpComponent } from 'src/app/user/sign-up/sign-up.component';
@@ -21,6 +22,7 @@ export class NavComponent implements OnInit {
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
+
   }
 
   signUp() {
@@ -29,17 +31,26 @@ export class NavComponent implements OnInit {
     });
   }
 
-  signOut() {
-    this.cookieService.delete('user_uid');
-    const user = this.userService.user;
-    user.delete();
-    this.router.navigate(['/home']);
+  signIn() {
+    const dialogRef = this.dialog.open(SignUpComponent, {
+      width: '300px',
+      data:{
+        process: 'signIn'
+      }
+    });
   }
 
+  signOut() {
+    this.userService.signOut().then(res => {
+      this.router.navigate(['/home']);
+      this.cookieService.delete('token');
+    })
 
+  }
+  
 
   get ifUserLoggedIn() {
-    return this.cookieService.get('user_uid');
+    return this.cookieService.get('token');
   }
 
 }

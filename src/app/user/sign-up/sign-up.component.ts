@@ -1,8 +1,8 @@
 import { UserService } from './../../shared/services/user.service';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { CookieService } from 'ngx-cookie-service';
@@ -14,12 +14,15 @@ import { LoginComponent } from '../login/login.component';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnDestroy {
   signUPForm: FormGroup;
   verificationForm: FormGroup;
   recaptchaVerifier: firebase.auth.RecaptchaVerifier;
 
   confirmationResult: any;
+  app: any;
+
+  hideUserName: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -27,11 +30,12 @@ export class SignUpComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private dialog: MatDialog,
-    public dialogRef: MatDialogRef<SignUpComponent>) { }
+    public dialogRef: MatDialogRef<SignUpComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     this.setForms();
-    firebase.initializeApp(environment.firebase);
+    this.app = firebase.initializeApp(environment.firebase);
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'signup-btn',
       {
@@ -44,6 +48,11 @@ export class SignUpComponent implements OnInit {
       }
     );
     this.recaptchaVerifier.render();
+    if (this.data && this.data.process === 'signIn') {
+      this.hideUserName = true;
+      this.signUPForm.controls['username'].clearValidators();
+      this.signUPForm.updateValueAndValidity();
+    }
   }
 
   sendLoginCode(token) {
@@ -58,14 +67,19 @@ export class SignUpComponent implements OnInit {
 
   verifyLoginCode(): void {
     this.confirmationResult.confirm(this.verificationForm.value.verification_code).then(result => {
-      console.log(result);
       this.cookieService.set('user_uid', result.user.uid);
       const user = firebase.auth().currentUser;
+      firebase.auth().currentUser.getIdToken(true).then(token => {
+        this.cookieService.set('token', token);
+        this.cookieService.set('refresh_token',firebase.auth().currentUser.refreshToken);
+      });
       this.userService.user = user;
+      this.userService.auth = firebase.auth();
       this.dialogRef.close();
       this.router.navigate(['/offers']);
     }).catch(error => console.log(error, 'incorrect code entered'));
   }
+
 
   login(): void {
     const dialogRef = this.dialog.open(LoginComponent, {
@@ -89,6 +103,10 @@ export class SignUpComponent implements OnInit {
 
   get verificationF() {
     return this.verificationForm.controls;
+  }
+
+  ngOnDestroy() {
+   this.app.delete();
   }
 
 
