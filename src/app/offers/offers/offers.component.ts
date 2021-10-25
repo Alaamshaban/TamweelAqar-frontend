@@ -17,11 +17,28 @@ export class OffersComponent implements OnInit {
   offers: Offer[];
 
   constructor(
+    private dialog: MatDialog,
+    private offersService: OffersService,
+    private cookieService: CookieService,
     private router: Router) { }
 
   ngOnInit(): void {
-    this.offers = history.state.data.offers;
-    console.log(this.offers)
+    const userId = this.cookieService.get('user_uid');
+    this.offersService.getOffers(userId).subscribe(offers => {
+      console.log(offers);
+      this.offers = offers;
+    }, (error: HttpErrorResponse) => {
+      console.log('err>>', error);
+      if (error.status === 401) {
+        this.dialog.open(SignUpComponent, {
+          width: '300px',
+          disableClose: true,
+          data: {
+            process: 'signIn'
+          }
+        });
+      }
+    });
   }
 
 }

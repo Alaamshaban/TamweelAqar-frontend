@@ -98,10 +98,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       const user = firebase.auth().currentUser;
       firebase.auth().currentUser.getIdToken(true).then(token => {
         this.cookieService.set('token', token);
-        this.offersService.getOffers(result.user.uid).subscribe(offers => {
-          console.log(offers);
-          this.router.navigate(['/offers'], { state: { data: { offers } } });
-        });
+        this.router.navigate(['/offers']);
       });
       this.userService.user = user;
       this.userService.auth = firebase.auth();

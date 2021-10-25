@@ -2,7 +2,7 @@ import { environment } from './../../../environments/environment';
 import { Router } from '@angular/router';
 import { OffersService } from './../../shared/services/offers.service';
 import { CookieService } from 'ngx-cookie-service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { SignUpComponent } from 'src/app/user/sign-up/sign-up.component';
@@ -17,8 +17,7 @@ import 'firebase/auth';
   styleUrls: ['./home.component.scss']
 })
 
-export class HomeComponent implements OnInit {
-
+export class HomeComponent implements OnInit, OnDestroy {
 
   offersForm: FormGroup;
   userId: string;
@@ -92,23 +91,14 @@ export class HomeComponent implements OnInit {
 
       });
     } else {
-      this.offersService.getOffers(this.userId).subscribe(offers => {
-        console.log(offers);
-        this.router.navigate(['/offers'], { state: { data: { offers } } });
-      }, (error: HttpErrorResponse) => {
-        console.log('err>>', error);
-        if (error.status === 401) {
-          this.dialog.open(SignUpComponent, {
-            width: '300px',
-            data: {
-              process: 'signIn'
-            }
-          });
-        }
-      });
+      this.router.navigate(['/offers']);
     }
   }
   get f() {
     return this.offersForm.controls;
+  }
+
+  ngOnDestroy() {
+    this.app.delete();
   }
 }
