@@ -1,3 +1,4 @@
+<h1 mat-dialog-title>{{loginProcess?'Login':(confirmationResult || data?.process==='verification')?'Verification Code':'Sign up'}}</h1>
 <div class="form">
     <form [formGroup]="signUPForm" [hidden]="confirmationResult || data?.process==='verification'">
         <div class="flex-container">
@@ -32,10 +33,10 @@
                 </mat-form-field>
             </div>
 
-            <button mat-raised-button color="primary" id="signup-btn" [disabled]="signUPForm.invalid"
+            <button mat-raised-button color="accent" id="signup-btn"  [disabled]="signUPForm.invalid"
                 *ngIf="!loginProcess">Create account</button>
-            <button mat-raised-button color="primary" id="signup-btn" [disabled]="signUPForm.invalid"
-                [hidden]="!loginProcess">Login</button>
+            <button mat-raised-button color="accent" id="signup-btn" [disabled]="signUPForm.invalid"
+                [hidden]="!loginProcess">Phone Login</button>
             <button class="back-to-login" mat-stroked-button color="primary" (click)="loginProcess=!loginProcess"
                 *ngIf="!loginProcess">Back to login</button>
         </div>
@@ -44,9 +45,6 @@
     <form [formGroup]="verificationForm" *ngIf="confirmationResult || data?.process==='verification'">
         <div class="flex-container">
             <div class="text">
-                <h1>
-                    Verification Code
-                </h1>
                 <p>
                     We sent you a SMS on your phone, please enter your <br /> verification code
                 </p>
@@ -64,7 +62,7 @@
                     </mat-error>
                 </mat-form-field>
             </div>
-            <button mat-raised-button color="primary" (click)="verifyLoginCode()">Verify</button>
+            <button mat-raised-button color="accent" (click)="verifyLoginCode()">Verify</button>
         </div>
     </form>
 </div>

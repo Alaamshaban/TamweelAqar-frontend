@@ -55,23 +55,23 @@ export class SignUpComponent implements OnInit, OnDestroy {
       }
     );
     this.recaptchaVerifier.render();
-    firebase.auth().onAuthStateChanged(user => {
-      const userId = this.cookieService.get('user_uid');
-      if (user && userId) {
-        // User is signed in before but token is expired
-        this.loginProcess = true;
-      } else {
-        // no user is signed in before
-        this.loginProcess = false;
-        /** sign up pop-up will appear */
-        // No user is signed in.
-      }
-    });
     if (this.data && this.data.process === 'signIn') {
-      console.log(this.data)
       this.loginProcess = true;
       this.signUPForm.controls['username'].clearValidators();
       this.signUPForm.updateValueAndValidity();
+    } else {
+      firebase.auth().onAuthStateChanged(user => {
+        const userId = this.cookieService.get('user_uid');
+        if (user && userId) {
+          // User is signed in before but token is expired
+          this.loginProcess = true;
+        } else {
+          // no user is signed in before
+          this.loginProcess = false;
+          /** sign up pop-up will appear */
+          // No user is signed in.
+        }
+      });
     }
   }
 

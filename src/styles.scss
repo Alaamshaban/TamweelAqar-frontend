@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-
+@use '~@angular/material' as mat;
 
 $common-font: 'Poppins', sans-serif;
 $heading-font: 'Montserrat', sans-serif;
@@ -10,6 +10,17 @@ $grey-color: #777777;
 $black-color: #0d1820;
 $gradient-green: linear-gradient(90deg, rgba(16,195,23,1) 23%, rgba(21,208,154,1) 64%);
 
+$my-primary: mat.define-palette(mat.$grey-palette, 900);
+$my-accent: mat.define-palette(mat.$green-palette,500);
+
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+ )
+));
+
+@include mat.all-component-themes($my-theme);
 
 /*-- Default CSS --*/
 body {
@@ -24,7 +35,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     line-height: 1.3;
-    font-family: $heading-font !important;
+    font-family: $heading-font;
     color: $black-color;
 }
 }
