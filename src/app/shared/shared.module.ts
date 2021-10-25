@@ -29,6 +29,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
+import { SharedRoutingModule } from './shared-routing.module';
 
 
 
@@ -66,7 +67,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatDividerModule,
     FlexLayoutModule,
     MatProgressSpinnerModule,
-    RouterModule
+    RouterModule,
+
+    SharedRoutingModule
   ],
   exports: [
     HttpClientModule,
