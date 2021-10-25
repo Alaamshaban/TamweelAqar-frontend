@@ -45,6 +45,10 @@
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="phone_number"
                                                     placeholder="Phone number *">
+                                                <mat-error
+                                                    *ngIf="f.phone_number.hasError('invalid_field') && (f.phone_number.dirty || f.phone_number.touched)">
+                                                    {{invalidPhoneNumberError}}.
+                                                </mat-error>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -94,8 +98,8 @@
                                         </div>
 
                                         <div class="col-lg-6">
-                                            <button (click)="calculateMoney()" [disabled]="offersForm.invalid" id="calculate-money"
-                                                class="btn banner-form-btn">Calculate
+                                            <button (click)="calculateMoney()" [disabled]="offersForm.invalid"
+                                                id="calculate-money" class="btn banner-form-btn">Calculate
                                                 money</button>
                                         </div>
 

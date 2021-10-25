@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   recaptchaVerifier: firebase.auth.RecaptchaVerifier;
   app: any;
   confirmationResult: any;
+  invalidPhoneNumberError: string;
 
   constructor(
     private router: Router,
@@ -77,9 +78,7 @@ export class HomeComponent implements OnInit {
       const appVerifier = this.recaptchaVerifier;
       const num = '+20' + this.offersForm.value.phone_number;
       firebase.auth().signInWithPhoneNumber(num, appVerifier).then(result => {
-        console.log(result);
         this.confirmationResult = result;
-        console.log(this.confirmationResult);
         this.dialog.open(SignUpComponent, {
           width: '300px',
           data: {
@@ -87,6 +86,10 @@ export class HomeComponent implements OnInit {
             confirmation: this.confirmationResult
           }
         })
+      }).catch(err => {
+        this.offersForm.controls['phone_number'].setErrors({ invalid_field: true });
+        this.invalidPhoneNumberError = err.message;
+
       });
     } else {
       this.offersService.getOffers(this.userId).subscribe(offers => {
@@ -105,5 +108,7 @@ export class HomeComponent implements OnInit {
       });
     }
   }
-
+  get f() {
+    return this.offersForm.controls;
+  }
 }

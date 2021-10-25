@@ -24,9 +24,10 @@
                         *ngIf="f.phone_number.hasError('pattern') && (f.phone_number.dirty || f.phone_number.touched)">
                         Field format is incorrect.
                     </mat-error>
-                    <!-- <mat-error *ngIf="f.phone_number.hasError('invalid_field') && (f.phone_number.dirty || f.phone_number.touched)">
-                            {{BeError}}.
-                        </mat-error> -->
+                    <mat-error
+                        *ngIf="f.phone_number.hasError('invalid_field') && (f.phone_number.dirty || f.phone_number.touched)">
+                        {{invalidPhoneNumberError}}.
+                    </mat-error>
                     <span matPrefix>+20&nbsp;</span>
                 </mat-form-field>
             </div>
@@ -56,6 +57,10 @@
                     <input matInput type="text" formControlName="verification_code" placeholder="Verification code">
                     <mat-error
                         *ngIf="verificationF.verification_code.hasError('required') && (verificationF.verification_code.dirty || verificationF.verification_code.touched)">
+                    </mat-error>
+                    <mat-error
+                        *ngIf="verificationF.verification_code.hasError('invalid_field') && (verificationF.verification_code.dirty || verificationF.verification_code.touched)">
+                        {{invalidVerificationCode}}.
                     </mat-error>
                 </mat-form-field>
             </div>

@@ -19,10 +19,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
   signUPForm: FormGroup;
   verificationForm: FormGroup;
   recaptchaVerifier: firebase.auth.RecaptchaVerifier;
-
+  invalidPhoneNumberError: string;
+  invalidVerificationCode: string;
   confirmationResult: any;
   app: any;
-
   loginProcess: boolean = false;
 
   constructor(
@@ -56,16 +56,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
     );
     this.recaptchaVerifier.render();
     firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        console.log(user)
-        // User is signed in and token is expired
+      const userId = this.cookieService.get('user_uid');
+      if (user && userId) {
+        // User is signed in before but token is expired
         this.loginProcess = true;
-        // user.getIdToken().then(idToken => {
-        //   console.log(idToken)
-        //   this.cookieService.set('token', idToken);
-        // });
       } else {
-        console.log('no user');
+        // no user is signed in before
         this.loginProcess = false;
         /** sign up pop-up will appear */
         // No user is signed in.
@@ -85,6 +81,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
     const num = '+20' + this.signUPForm.value.phone_number;
     firebase.auth().signInWithPhoneNumber(num, appVerifier).then(result => {
       this.confirmationResult = result;
+    }).catch(err => {
+      this.signUPForm.controls['phone_number'].setErrors({ invalid_field: true });
+      this.invalidPhoneNumberError = err.message;
+
     });
 
   }
@@ -106,7 +106,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
       this.userService.user = user;
       this.userService.auth = firebase.auth();
       this.dialogRef.close();
-    }).catch(error => console.log(error, 'incorrect code entered'));
+    }).catch(error => {
+      this.verificationForm.controls['verification_code'].setErrors({ invalid_field: true });
+      this.invalidVerificationCode = error.message;
+    });
   }
 
 
