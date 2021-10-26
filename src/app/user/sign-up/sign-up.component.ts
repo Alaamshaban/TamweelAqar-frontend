@@ -92,16 +92,19 @@ export class SignUpComponent implements OnInit, OnDestroy {
   verifyLoginCode(): void {
     if (!this.confirmationResult && this.data.process === 'verification') {
       this.confirmationResult = this.data.confirmation;
+      this.signUPForm.controls['user_name'].setValue(this.data.user_name);
+      this.signUPForm.controls['phone_number'].setValue(this.data.phone_number);
     }
     this.confirmationResult.confirm(this.verificationForm.value.verification_code).then(result => {
-      this.cookieService.set('user_uid', result.user.uid);
       const user = firebase.auth().currentUser;
       firebase.auth().currentUser.getIdToken(true).then(token => {
-        this.cookieService.set('token', token);
-        this.router.navigate(['/offers']);
+        this.userService.addUser({ ...this.signUPForm.value, token: token, user_id: result.user.uid }).subscribe(res => {
+          this.cookieService.set('token', token);
+          this.cookieService.set('user_uid', result.user.uid);
+          this.router.navigate(['/offers']);
+          console.log(res);
+        });
       });
-      this.userService.user = user;
-      this.userService.auth = firebase.auth();
       this.dialogRef.close();
     }).catch(error => {
       this.verificationForm.controls['verification_code'].setErrors({ invalid_field: true });
@@ -118,7 +121,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   setForms(): void {
     this.signUPForm = this.fb.group({
-      username: [null, Validators.required],
+      user_name: [null, Validators.required],
       phone_number: [null, [Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/), Validators.required]],
     });
     this.verificationForm = this.fb.group({

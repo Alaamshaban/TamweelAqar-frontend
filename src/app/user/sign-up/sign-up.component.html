@@ -4,8 +4,8 @@
         <div class="flex-container">
             <div class="FormCell" *ngIf="!loginProcess">
                 <mat-form-field>
-                    <input matInput type="text" formControlName="username" placeholder="User name">
-                    <mat-error *ngIf="f.username.hasError('required') && (f.username.dirty || f.username.touched)">
+                    <input matInput type="text" formControlName="user_name" placeholder="User name">
+                    <mat-error *ngIf="f.user_name.hasError('required') && (f.user_name.dirty || f.user_name.touched)">
                         Field is required.
                     </mat-error>
                     <!-- <mat-error *ngIf="f.username.hasError('invalid_field') && (f.phone_number.dirty || f.phone_number.touched)">

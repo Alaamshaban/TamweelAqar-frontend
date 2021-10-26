@@ -40,15 +40,6 @@ export class NavComponent implements OnInit {
     });
   }
 
-  signOut() {
-    this.userService.signOut().then(res => {
-      this.router.navigate(['/home']);
-      this.cookieService.delete('token');
-    })
-
-  }
-  
-
   get ifUserLoggedIn() {
     return this.cookieService.get('token');
   }

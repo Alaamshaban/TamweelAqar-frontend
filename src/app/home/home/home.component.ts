@@ -25,6 +25,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   app: any;
   confirmationResult: any;
   invalidPhoneNumberError: string;
+  markerTypes = [
+    {
+      id: 1,
+      desc: 'option 1'
+    },
+    {
+      id: 2,
+      desc: 'option 2'
+    },
+    {
+      id: 3,
+      desc: 'option 3'
+    }
+  ]
 
   constructor(
     private router: Router,
@@ -82,7 +96,9 @@ export class HomeComponent implements OnInit, OnDestroy {
           width: '300px',
           data: {
             process: 'verification',
-            confirmation: this.confirmationResult
+            confirmation: this.confirmationResult,
+            user_name: this.offersForm.value.user_name,
+            phone_number: this.offersForm.value.phone_number
           }
         })
       }).catch(err => {

@@ -1,29 +1,18 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { BaseURL } from 'src/app/base-url';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  currentUser;
-  firebaseAuth;
+  
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
-
-  set auth(auth) {
-this.firebaseAuth=auth;
-  }
-
-  set user(user) {
-    this.currentUser = user;
-  }
-
-  get user() {
-    return this.currentUser;
-  }
-
-  signOut(){
-  return  this.firebaseAuth.signOut();
+  addUser(user) {
+    console.log(user)
+    return this.http.post(BaseURL+'/api/users', user);
   }
 
 }

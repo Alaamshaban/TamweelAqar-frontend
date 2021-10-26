@@ -81,33 +81,34 @@
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <mat-label>Mortgage term length</mat-label>
-                                                <mat-select formControlName="mortgage_term_length">
-                                                    <option>Another option</option>
-                                                    <option>A option</option>
-                                                    <option>Potato</option>
-                                                </mat-select>
+                                                <select class="form-control" formControlName="mortgage_term_length">
+                                                    <option id="markerType" [value]="markerType" 
+                                                        *ngFor="let markerType of markerTypes">{{markerType.desc}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            </div>
+
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="email" formControlName="email_address"
+                                                        class="form-control" placeholder="Email address">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <button (click)="calculateMoney()" [disabled]="offersForm.invalid"
+                                                    id="calculate-money" class="btn banner-form-btn">Calculate
+                                                    money</button>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <a class="banner-call" href="tel:5432123451">Call Us: 5432 123 451 (Sat
+                                                    -
+                                                    Thu)</a>
                                             </div>
                                         </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <input type="email" formControlName="email_address" class="form-control"
-                                                    placeholder="Email address">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <button (click)="calculateMoney()" [disabled]="offersForm.invalid"
-                                                id="calculate-money" class="btn banner-form-btn">Calculate
-                                                money</button>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <a class="banner-call" href="tel:5432123451">Call Us: 5432 123 451 (Sat -
-                                                Thu)</a>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
 
