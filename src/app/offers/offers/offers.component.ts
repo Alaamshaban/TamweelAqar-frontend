@@ -32,7 +32,6 @@ export class OffersComponent implements OnInit {
       if (error.status === 401) {
         this.dialog.open(SignUpComponent, {
           width: '300px',
-          disableClose: true,
           data: {
             process: 'signIn'
           }

@@ -30,6 +30,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedRoutingModule } from './shared-routing.module';
+import { SearchComponent } from './components/search/search.component';
 
 
 
@@ -44,7 +45,8 @@ import { SharedRoutingModule } from './shared-routing.module';
     TeamComponent,
     AboutUsComponent,
     BlogsComponent,
-    ContactsComponent
+    ContactsComponent,
+    SearchComponent
   ],
   imports: [
     // modules

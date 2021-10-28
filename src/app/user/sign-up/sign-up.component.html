@@ -33,11 +33,11 @@
                 </mat-form-field>
             </div>
 
-            <button mat-raised-button color="accent" id="signup-btn"  [disabled]="signUPForm.invalid"
+            <button mat-raised-button color="accent" id="signup-btn" class="sign-up-btn" [disabled]="signUPForm.invalid"
                 *ngIf="!loginProcess">Create account</button>
-            <button mat-raised-button color="accent" id="signup-btn" [disabled]="signUPForm.invalid"
+            <button mat-raised-button color="accent" id="signup-btn" class="sign-up-btn" [disabled]="signUPForm.invalid"
                 [hidden]="!loginProcess">Phone Login</button>
-            <button class="back-to-login" mat-stroked-button color="primary" (click)="loginProcess=!loginProcess"
+            <button class="back-to-login" mat-stroked-button color="primary" (click)="backToLogin()"
                 *ngIf="!loginProcess">Back to login</button>
         </div>
     </form>

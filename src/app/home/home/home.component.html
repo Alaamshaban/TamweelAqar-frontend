@@ -39,12 +39,20 @@
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="user_name"
                                                     placeholder="Username *">
+                                                    <mat-error
+                                                    *ngIf="f.user_name.hasError('required') && (f.user_name.dirty || f.user_name.touched)">
+                                                    This field is required.
+                                                </mat-error>
                                             </div>
                                         </div>
                                         <div class="col-lg-6" *ngIf="!userId">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="phone_number"
                                                     placeholder="Phone number *">
+                                                    <mat-error
+                                                    *ngIf="f.phone_number.hasError('required') && (f.phone_number.dirty || f.phone_number.touched)">
+                                                    This field is required.
+                                                </mat-error>
                                                 <mat-error
                                                     *ngIf="f.phone_number.hasError('invalid_field') && (f.phone_number.dirty || f.phone_number.touched)">
                                                     {{invalidPhoneNumberError}}.
@@ -54,21 +62,33 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="purchase_price"
-                                                    placeholder="Purchase price">
+                                                    placeholder="Purchase price *">
+                                                    <mat-error
+                                                    *ngIf="f.purchase_price.hasError('required') && (f.purchase_price.dirty || f.purchase_price.touched)">
+                                                    This field is required.
+                                                </mat-error>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control"
-                                                    formControlName="estimated_monthly" placeholder="Estimated monthly">
-                                            </div>
+                                                    formControlName="user_salary" placeholder="Monthly income *">
+                                                    <mat-error
+                                                    *ngIf="f.user_salary.hasError('required') && (f.user_salary.dirty || f.user_salary.touched)">
+                                                    This field is required.
+                                                </mat-error>
+                                                </div>
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="down_payment"
-                                                    placeholder="Down payment">
+                                                    placeholder="Down payment *">
+                                                    <mat-error
+                                                    *ngIf="f.down_payment.hasError('required') && (f.down_payment.dirty || f.down_payment.touched)">
+                                                    This field is required.
+                                                </mat-error>
                                             </div>
                                         </div>
 
@@ -83,9 +103,13 @@
                                             <div class="form-group">
                                                 <select class="form-control" formControlName="mortgage_term_length">
                                                     <option id="markerType" [value]="markerType" 
-                                                        *ngFor="let markerType of markerTypes">{{markerType.desc}}
+                                                        *ngFor="let markerType of getMortgageLength()">{{markerType}}
                                                     </option>
                                                 </select>
+                                                <mat-error
+                                                *ngIf="f.mortgage_term_length.hasError('required') && (f.mortgage_term_length.dirty || f.mortgage_term_length.touched)">
+                                                This field is required.
+                                            </mat-error>
                                             </div>
                                             </div>
 

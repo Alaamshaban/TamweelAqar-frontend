@@ -1,3 +1,4 @@
+
 import { OffersService } from './../../shared/services/offers.service';
 import { UserService } from './../../shared/services/user.service';
 import { Router } from '@angular/router';
@@ -57,7 +58,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.recaptchaVerifier.render();
     if (this.data && this.data.process === 'signIn') {
       this.loginProcess = true;
-      this.signUPForm.controls['username'].clearValidators();
+      this.signUPForm.controls['user_name'].clearValidators();
       this.signUPForm.updateValueAndValidity();
     } else {
       firebase.auth().onAuthStateChanged(user => {
@@ -97,7 +98,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }
     this.confirmationResult.confirm(this.verificationForm.value.verification_code).then(result => {
       const user = firebase.auth().currentUser;
-      firebase.auth().currentUser.getIdToken(true).then(token => {
+      user.getIdToken(true).then(token => {
         this.userService.addUser({ ...this.signUPForm.value, token: token, user_id: result.user.uid }).subscribe(res => {
           this.cookieService.set('token', token);
           this.cookieService.set('user_uid', result.user.uid);
@@ -112,6 +113,14 @@ export class SignUpComponent implements OnInit, OnDestroy {
     });
   }
 
+  backToLogin() {
+    this.dialogRef.close();
+    this.dialog.open(SignUpComponent, {
+      data: {
+        process: 'signIn'
+      }
+    })
+  }
 
   login(): void {
     const dialogRef = this.dialog.open(LoginComponent, {

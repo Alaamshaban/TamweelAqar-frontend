@@ -1,0 +1,33 @@
+<div [ngClass]="{'home-search-card':page==='home'}" class="search-card">
+    <form [ngClass]="{'home-search-widget-card':page==='home'}" class="search-widget-card" [formGroup]="searchForm">
+        <mat-form-field class="formField" appearance="outline" id="type">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type">
+                <mat-option *ngFor="let type of types$ | async" [value]="type.id">
+                    {{type.description}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+
+        <mat-form-field id="dates" class="example-full-width" appearance="outline">
+            <mat-label>start date</mat-label>
+            <input matInput readonly (click)="checkin.open()" [matDatepicker]="checkin" formControlName="created_at">
+            <mat-datepicker-toggle matSuffix [for]="checkin">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #checkin></mat-datepicker>
+        </mat-form-field>
+
+
+        <mat-form-field id="category" class="formField" appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="policy_category">
+                <mat-option>
+                   vv</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button class="update-btn CN_button" mat-raised-button color="primary" (click)="search()">Search</button>
+    </form>
+</div>

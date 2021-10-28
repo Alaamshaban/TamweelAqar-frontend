@@ -6,7 +6,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { SignUpComponent } from 'src/app/user/sign-up/sign-up.component';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -56,6 +56,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.offersForm.controls['user_name'].clearValidators();
       this.offersForm.controls['phone_number'].clearValidators();
       this.offersForm.updateValueAndValidity();
+      console.log(this.offersForm)
     }
     this.app = firebase.initializeApp(environment.firebase);
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
@@ -73,13 +74,17 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   }
 
+  getMortgageLength() {
+    return Array(30).fill(0).map((x, i) => i + 1)
+  }
+
   setOffersForm() {
     this.offersForm = this.fb.group({
       user_name: [null, Validators.required],
       phone_number: [null, [Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/), Validators.required]],
-      purchase_price: [null],
-      estimated_monthly: [null],
-      down_payment: [null],
+      purchase_price: [null, Validators.required],
+      user_salary: [null, Validators.required],
+      down_payment: [null, Validators.required],
       property_ZIP_code: [null],
       mortgage_term_length: [null],
       email_address: [null]
@@ -87,28 +92,41 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   calculateMoney() {
-    if (!this.userId) {
-      const appVerifier = this.recaptchaVerifier;
-      const num = '+20' + this.offersForm.value.phone_number;
-      firebase.auth().signInWithPhoneNumber(num, appVerifier).then(result => {
-        this.confirmationResult = result;
-        this.dialog.open(SignUpComponent, {
-          width: '300px',
-          data: {
-            process: 'verification',
-            confirmation: this.confirmationResult,
-            user_name: this.offersForm.value.user_name,
-            phone_number: this.offersForm.value.phone_number
-          }
-        })
-      }).catch(err => {
-        this.offersForm.controls['phone_number'].setErrors({ invalid_field: true });
-        this.invalidPhoneNumberError = err.message;
+    if (this.offersForm.valid) {
+      if (!this.userId) {
+        const appVerifier = this.recaptchaVerifier;
+        const num = '+2' + this.offersForm.value.phone_number;
+        firebase.auth().signInWithPhoneNumber(num, appVerifier).then(result => {
+          this.confirmationResult = result;
+          this.dialog.open(SignUpComponent, {
+            width: '300px',
+            disableClose: true,
+            data: {
+              process: 'verification',
+              confirmation: this.confirmationResult,
+              user_name: this.offersForm.value.user_name,
+              phone_number: this.offersForm.value.phone_number
+            }
+          })
+        }).catch(err => {
+          this.offersForm.controls['phone_number'].setErrors({ invalid_field: true });
+          this.invalidPhoneNumberError = err.message;
 
-      });
+        });
+      } else {
+        this.router.navigate(['/offers']);
+      }
     } else {
-      this.router.navigate(['/offers']);
+      Object.keys(this.offersForm.controls).forEach(key => {
+        const controlErrors: ValidationErrors = this.offersForm.get(key).errors;
+        if (controlErrors != null) {
+          Object.keys(controlErrors).forEach(keyError => {
+            this.offersForm.get(key).markAsTouched();
+          });
+        }
+      });
     }
+
   }
   get f() {
     return this.offersForm.controls;

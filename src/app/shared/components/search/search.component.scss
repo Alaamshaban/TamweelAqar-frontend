@@ -1,0 +1,51 @@
+.search-widget-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+  }
+  
+  #dates,
+  #category,
+  #type {
+    width: 100%;
+    height: 51px;
+  }
+  
+  .update-btn {
+    width: 100%;
+    height: 60px;
+  }
+  $desktop: 1280px;
+  @media only screen and (min-width: $desktop) {
+    .search-card {
+      width: 100%;
+    }
+    .home-search-card {
+      width: 60vw;
+    }
+    .home-search-widget-card,.search-widget-card {
+      display: flex;
+      flex-direction: row;
+      border-radius: 8px;
+      ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+        top: 0.02em;
+        bottom: -6px;
+      }
+    }
+    .home-search-widget-card {
+      width: 68vw;
+    }
+    .update-btn {
+      width: 30%;
+      border-radius: 0px 10px 10px 0px;
+    }
+    #dates,
+    #category,
+    #type {
+      width: 40%;
+      height: 60px;
+    }
+  }
+  
