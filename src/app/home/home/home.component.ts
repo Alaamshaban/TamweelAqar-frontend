@@ -1,9 +1,8 @@
+import { UserService } from './../../shared/services/user.service';
 import { environment } from './../../../environments/environment';
 import { Router } from '@angular/router';
-import { OffersService } from './../../shared/services/offers.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { SignUpComponent } from 'src/app/user/sign-up/sign-up.component';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
@@ -44,7 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private cookieService: CookieService,
     private dialog: MatDialog,
-    private offersService: OffersService,
+    private userService: UserService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -72,6 +71,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
     this.recaptchaVerifier.render();
 
+    // interval to refresh user token every one hour
+
+    setInterval(() => {
+      const user = firebase.auth().currentUser;
+      user.getIdToken(true).then(token => {
+        console.log('>>>>>')
+        this.userService.addUser({
+          user_name: this.offersForm.value.user_name,
+          phone_number: this.offersForm.value.phone_number, token: token, user_id: user.uid
+        }).subscribe(res => {
+          this.cookieService.set('token', token);
+          this.cookieService.set('refresh_token', user.refreshToken);
+          this.cookieService.set('user_uid', user.uid);
+        });
+      });
+    }, 30 * 60 * 1000)
+
   }
 
   getMortgageLength() {
@@ -86,13 +102,22 @@ export class HomeComponent implements OnInit, OnDestroy {
       user_salary: [null, Validators.required],
       down_payment: [null, Validators.required],
       property_ZIP_code: [null],
-      mortgage_term_length: [null],
+      mortgage_term_length: ['',Validators.required],
       email_address: [null]
     });
   }
 
+  // change_mortgage_term_length(e) {
+  //   console.log(e)
+  //   console.log(e.value)
+  //   this.offersForm.get('mortgage_term_length').setValue(e.target.value, {
+  //     onlySelf: true
+  //   })
+  // }
+
   calculateMoney() {
     if (this.offersForm.valid) {
+      console.log(this.offersForm.value)
       if (!this.userId) {
         const appVerifier = this.recaptchaVerifier;
         const num = '+2' + this.offersForm.value.phone_number;
@@ -114,7 +139,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         });
       } else {
-        this.router.navigate(['/offers']);
+        this.router.navigate(['/offers'], {
+          queryParams: {
+            purchase_price: this.offersForm.value.purchase_price,
+            user_salary: this.offersForm.value.user_salary,
+            user_down_payment: this.offersForm.value.down_payment,
+            user_mortgage_term_length: this.offersForm.value.mortgage_term_length
+          }
+        });
       }
     } else {
       Object.keys(this.offersForm.controls).forEach(key => {

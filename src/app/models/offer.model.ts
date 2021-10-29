@@ -1,3 +1,4 @@
+
 export interface Offer {
     id: number;
     founder: string;
@@ -8,4 +9,9 @@ export interface Offer {
     early_payment_fees: string;
     monthly_payment: string;
     views: number;
+}
+
+export interface Offers {
+    eligible: Offer[],
+    not_eligible: Offer[]
 }

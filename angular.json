@@ -34,7 +34,7 @@
                 "node_modules/bootstrap/scss/bootstrap.scss",
                 "node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
                 "node_modules/owl.carousel/dist/assets/owl.theme.default.min.css",
-                "src/assets/css/boxicons.min.css",
+               
                 "node_modules/magnific-popup/dist/magnific-popup.css",
                 "node_modules/jquery-nice-select/scss/nice-select.scss",
                 "src/assets/css/progressbar.min.css",
@@ -47,10 +47,8 @@
                 "node_modules/bootstrap/dist/js/bootstrap.min.js",
                 "node_modules/owl.carousel/dist/owl.carousel.min.js",
                 "node_modules/magnific-popup/dist/jquery.magnific-popup.min.js",
-                "src/assets/js/mixitup.min.js",
                 "node_modules/jquery-nice-select/js/jquery.nice-select.min.js",
-                "src/assets/js/progressbar.min.js",
-                "src/assets/js/custom.js"
+                "src/assets/js/progressbar.min.js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,

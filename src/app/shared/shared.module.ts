@@ -1,12 +1,6 @@
 import { RouterModule } from '@angular/router';
 
 import { NavComponent } from './components/nav/nav.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { ServicesComponent } from './components/services/services.component';
-import { TeamComponent } from './components/team/team.component';
-import { AboutUsComponent } from './components/about-us/about-us.component';
-import { BlogsComponent } from './components/blogs/blogs.component';
-import { ContactsComponent } from './components/contacts/contacts.component';
 import { PreloaderComponent } from './components/preloader/preloader.component';
 
 import { NgModule } from '@angular/core';
@@ -29,7 +23,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
-import { SharedRoutingModule } from './shared-routing.module';
 import { SearchComponent } from './components/search/search.component';
 
 
@@ -40,12 +33,6 @@ import { SearchComponent } from './components/search/search.component';
   declarations: [
     NavComponent,
     PreloaderComponent,
-    FooterComponent,
-    ServicesComponent,
-    TeamComponent,
-    AboutUsComponent,
-    BlogsComponent,
-    ContactsComponent,
     SearchComponent
   ],
   imports: [
@@ -69,9 +56,7 @@ import { SearchComponent } from './components/search/search.component';
     MatDividerModule,
     FlexLayoutModule,
     MatProgressSpinnerModule,
-    RouterModule,
-
-    SharedRoutingModule
+    RouterModule
   ],
   exports: [
     HttpClientModule,
