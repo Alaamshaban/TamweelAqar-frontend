@@ -101,8 +101,8 @@
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <select class="form-control"  formControlName="mortgage_term_length">
-                                                  <option value='' selected disabled>Mortgage term length</option>
+                                                <select class="form-control select"  formControlName="mortgage_term_length">
+                                                  <option value='' selected disabled>Mortgage term length *</option>
                                                     <option *ngFor="let mortgage_term_length of getMortgageLength()" [ngValue]="mortgage_term_length">{{mortgage_term_length}}
                                                     </option>
                                                 </select>
