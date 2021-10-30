@@ -39,7 +39,7 @@
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="user_name"
                                                     placeholder="Username *">
-                                                    <mat-error
+                                                <mat-error
                                                     *ngIf="f.user_name.hasError('required') && (f.user_name.dirty || f.user_name.touched)">
                                                     This field is required.
                                                 </mat-error>
@@ -49,7 +49,7 @@
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="phone_number"
                                                     placeholder="Phone number *">
-                                                    <mat-error
+                                                <mat-error
                                                     *ngIf="f.phone_number.hasError('required') && (f.phone_number.dirty || f.phone_number.touched)">
                                                     This field is required.
                                                 </mat-error>
@@ -63,7 +63,7 @@
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="purchase_price"
                                                     placeholder="Purchase price *">
-                                                    <mat-error
+                                                <mat-error
                                                     *ngIf="f.purchase_price.hasError('required') && (f.purchase_price.dirty || f.purchase_price.touched)">
                                                     This field is required.
                                                 </mat-error>
@@ -72,20 +72,20 @@
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control"
-                                                    formControlName="user_salary" placeholder="Monthly income *">
-                                                    <mat-error
+                                                <input type="text" class="form-control" formControlName="user_salary"
+                                                    placeholder="Monthly income *">
+                                                <mat-error
                                                     *ngIf="f.user_salary.hasError('required') && (f.user_salary.dirty || f.user_salary.touched)">
                                                     This field is required.
                                                 </mat-error>
-                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="down_payment"
                                                     placeholder="Down payment *">
-                                                    <mat-error
+                                                <mat-error
                                                     *ngIf="f.down_payment.hasError('required') && (f.down_payment.dirty || f.down_payment.touched)">
                                                     This field is required.
                                                 </mat-error>
@@ -101,38 +101,41 @@
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <select class="form-control select"  formControlName="mortgage_term_length">
-                                                  <option value='' selected disabled>Mortgage term length *</option>
-                                                    <option *ngFor="let mortgage_term_length of getMortgageLength()" [ngValue]="mortgage_term_length">{{mortgage_term_length}}
+                                                <select class="form-control select" nice-select (change)="onChange($event)"
+                                                    [value]="f.mortgage_term_length"
+                                                    [attr.data-value]="f.mortgage_term_length">
+                                                    <option value=''>Mortgage term length *</option>
+                                                    <option *ngFor="let mortgage_term_length of getMortgageLength()"
+                                                        [ngValue]="f.mortgage_term_length">{{mortgage_term_length}}
                                                     </option>
                                                 </select>
                                                 <mat-error
-                                                *ngIf="f.mortgage_term_length.hasError('required') && (f.mortgage_term_length.dirty || f.mortgage_term_length.touched)">
-                                                This field is required.
-                                            </mat-error>
-                                            </div>
-                                            </div>
-
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <input type="email" formControlName="email_address"
-                                                        class="form-control" placeholder="Email address">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <button (click)="calculateMoney()" [disabled]="offersForm.invalid"
-                                                    id="calculate-money" class="btn banner-form-btn">Calculate
-                                                    money</button>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <a class="banner-call" href="tel:5432123451">Call Us: 5432 123 451 (Sat
-                                                    -
-                                                    Thu)</a>
+                                                    *ngIf="f.mortgage_term_length.hasError('required') && (f.mortgage_term_length.dirty || f.mortgage_term_length.touched)">
+                                                    This field is required.
+                                                </mat-error>
                                             </div>
                                         </div>
+
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <input type="email" formControlName="email_address" class="form-control"
+                                                    placeholder="Email address">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <button (click)="calculateMoney()" [disabled]="offersForm.invalid"
+                                                id="calculate-money" class="btn banner-form-btn">Calculate
+                                                money</button>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <a class="banner-call" href="tel:5432123451">Call Us: 5432 123 451 (Sat
+                                                -
+                                                Thu)</a>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
 

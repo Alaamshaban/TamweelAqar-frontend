@@ -21,6 +21,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NiceSelectModule } from "ng-nice-select";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchComponent } from './components/search/search.component';
@@ -55,6 +56,7 @@ import { SearchComponent } from './components/search/search.component';
     MatCheckboxModule,
     MatDividerModule,
     FlexLayoutModule,
+    NiceSelectModule,
     MatProgressSpinnerModule,
     RouterModule
   ],
@@ -77,6 +79,7 @@ import { SearchComponent } from './components/search/search.component';
     MatDividerModule,
     FlexLayoutModule,
     MatProgressSpinnerModule,
+    NiceSelectModule,
     RouterModule,
     //components
     NavComponent,

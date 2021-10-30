@@ -2,12 +2,14 @@ import { UserService } from './../../shared/services/user.service';
 import { environment } from './../../../environments/environment';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SignUpComponent } from 'src/app/user/sign-up/sign-up.component';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import { Subject } from 'rxjs';
+import * as $ from 'jquery';
 
 
 @Component({
@@ -39,12 +41,45 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   ]
 
+  userActivity;
+  userInactive: Subject<any> = new Subject();
+
+  setTimeout() {
+    this.userActivity = setTimeout(() => this.userInactive.next(undefined), 3600000);
+  }
+
+  @HostListener('window:mousemove') refreshUserState() {
+    clearTimeout(this.userActivity);
+    this.setTimeout();
+  }
+
   constructor(
     private router: Router,
     private cookieService: CookieService,
     private dialog: MatDialog,
     private userService: UserService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder) {
+    this.setTimeout();
+    this.userInactive.subscribe(() => {
+      console.log('user has been inactive for 3s');
+      // interval to refresh user token every one hour
+
+      setInterval(() => {
+        const user = firebase.auth().currentUser;
+        user.getIdToken(true).then(token => {
+          console.log('>>>>>')
+          this.userService.addUser({
+            user_name: this.offersForm.value.user_name,
+            phone_number: this.offersForm.value.phone_number, token: token, user_id: user.uid
+          }).subscribe(res => {
+            this.cookieService.set('token', token);
+            this.cookieService.set('refresh_token', user.refreshToken);
+            this.cookieService.set('user_uid', user.uid);
+          });
+        });
+      }, 3600000)
+    });
+  }
 
   ngOnInit(): void {
 
@@ -70,23 +105,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     );
     this.recaptchaVerifier.render();
-
-    // interval to refresh user token every one hour
-
-    setInterval(() => {
-      const user = firebase.auth().currentUser;
-      user.getIdToken(true).then(token => {
-        console.log('>>>>>')
-        this.userService.addUser({
-          user_name: this.offersForm.value.user_name,
-          phone_number: this.offersForm.value.phone_number, token: token, user_id: user.uid
-        }).subscribe(res => {
-          this.cookieService.set('token', token);
-          this.cookieService.set('refresh_token', user.refreshToken);
-          this.cookieService.set('user_uid', user.uid);
-        });
-      });
-    }, 30 * 60 * 1000)
+    var selected = $("select").val();
+    console.log(selected)
 
   }
 
@@ -102,7 +122,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       user_salary: [null, Validators.required],
       down_payment: [null, Validators.required],
       property_ZIP_code: [null],
-      mortgage_term_length: ['',Validators.required],
+      mortgage_term_length: ['', Validators.required],
       email_address: [null]
     });
   }
@@ -162,6 +182,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   get f() {
     return this.offersForm.controls;
+  }
+
+  onChange(ev) {
+    console.log(ev.target.value)
+    this.offersForm.controls['mortgage_term_length'].setValue(ev.target.value)
   }
 
   ngOnDestroy() {
