@@ -3,6 +3,7 @@ import { Offer } from './../../models/offer.model';
 import { OffersService } from './../../shared/services/offers.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-offers',
@@ -13,6 +14,8 @@ export class OffersComponent implements OnInit {
 
   eligible_offers: Offer[];
   not_eligible_offers: Offer[];
+  searchParams;
+  userId = this.cookieService.get('user_uid');
 
   constructor(
     private offersService: OffersService,
@@ -20,12 +23,22 @@ export class OffersComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    const userId = this.cookieService.get('user_uid');
     this.route.queryParams.subscribe(params => {
-      this.offersService.getOffers(userId, params).subscribe(offers => {
+      this.searchParams = params;
+      this.offersService.getOffers(this.userId, params).subscribe(offers => {
         this.eligible_offers = offers.eligible;
         this.not_eligible_offers = offers.not_eligible;
       });
+    });
+  }
+
+
+  search(ev) {
+    ev.user_mortgage_term_length = ev.mortgage_term_length;
+    ev.user_down_payment = ev.down_payment;
+    this.offersService.getOffers(this.userId, ev).subscribe(offers => {
+      this.eligible_offers = offers.eligible;
+      this.not_eligible_offers = offers.not_eligible;
     });
   }
 }

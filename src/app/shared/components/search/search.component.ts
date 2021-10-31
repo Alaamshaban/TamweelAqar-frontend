@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-// import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Offers } from 'src/app/models/offer.model';
 
 export const MY_FORMATS = {
   display: {
@@ -15,29 +13,17 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  // providers: [
-  //   {
-  //     provide: DateAdapter,
-  //     useClass: MomentDateAdapter,
-  //     deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-  //   },
-
-  //   { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  // ],
   styleUrls: ['./search.component.scss']
 })
 
 export class SearchComponent implements OnInit {
 
   searchForm: FormGroup;
-  @Input() types$;
   @Input() searchParams;
-  @Input() page: string;
+  @Input() offers: Offers;
   @Output() updateSearch = new EventEmitter();
 
-  constructor(
-    private snackBar: MatSnackBar,
-    private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.setForm();
@@ -46,48 +32,38 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  getMortgageLength() {
+    return Array(30).fill(0).map((x, i) => i + 1)
+  }
+
+
   setForm(): void {
     this.searchForm = this.fb.group({
-      type: [null],
-      created_at: [null],
-      policy_category: [null],
-      content_type: [null]
+      purchase_price: [null, Validators.required],
+      user_salary: [null, Validators.required],
+      down_payment: [null, Validators.required],
+      mortgage_term_length: ['', Validators.required],
     });
   }
 
   patchForm(): void {
+    console.log(this.searchParams)
     this.searchForm.patchValue({
-      type: this.searchParams.type,
-      created_at: this.searchParams.created_at,
-      policy_category: this.searchParams.policy_category,
-      content_type: this.searchParams.content_type
+      purchase_price: this.searchParams.purchase_price,
+      user_salary: this.searchParams.user_salary,
+      down_payment: this.searchParams.user_down_payment,
+      mortgage_term_length: this.searchParams.user_mortgage_term_length
     });
   }
 
   search(): void {
-    let allIsNull = true;
-    Object.keys(this.searchForm.value).forEach(key => {
-      if (this.searchForm.value[key]) {
-        allIsNull = false;
-        return;
-      }
-    });
-    if (!allIsNull) {
-      this.searchForm.patchValue({
-        content_type: 'RT'
-      });
-      if (this.searchForm.get('created_at').value) {
-        this.searchForm.patchValue({
-          created_at: this.searchForm.get('created_at').value.format('YYYY-MM-DD HH:mm:ss')
-        });
-      }
-      this.updateSearch.next({ ...this.searchForm.value });
-    } else {
-      this.snackBar.open('Please select search data first!', '', {
-        duration: 3000,
-      });
-    }
+    this.updateSearch.next(this.searchForm.value);
 
+  }
+
+
+  get f() {
+    return this.searchForm.controls;
   }
 
 }

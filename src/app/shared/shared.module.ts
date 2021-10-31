@@ -22,9 +22,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NiceSelectModule } from "ng-nice-select";
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchComponent } from './components/search/search.component';
+import { OffersContentComponent } from './components/offers-content/offers-content.component';
+import { TermsExplainComponent } from './components/terms-explain/terms-explain.component';
 
 
 
@@ -34,7 +37,9 @@ import { SearchComponent } from './components/search/search.component';
   declarations: [
     NavComponent,
     PreloaderComponent,
-    SearchComponent
+    SearchComponent,
+    OffersContentComponent,
+    TermsExplainComponent
   ],
   imports: [
     // modules
@@ -48,6 +53,7 @@ import { SearchComponent } from './components/search/search.component';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatSelectModule,
+    MatExpansionModule,
     MatInputModule,
     MatMenuModule,
     MatCardModule,
@@ -70,6 +76,7 @@ import { SearchComponent } from './components/search/search.component';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatSelectModule,
+    MatExpansionModule,
     MatInputModule,
     MatMenuModule,
     MatCardModule,
@@ -83,7 +90,10 @@ import { SearchComponent } from './components/search/search.component';
     RouterModule,
     //components
     NavComponent,
-    PreloaderComponent
+    PreloaderComponent,
+    SearchComponent,
+    OffersContentComponent,
+    TermsExplainComponent
   ]
 })
 export class SharedModule { }

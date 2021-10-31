@@ -1,33 +1,44 @@
-<div [ngClass]="{'home-search-card':page==='home'}" class="search-card">
-    <form [ngClass]="{'home-search-widget-card':page==='home'}" class="search-widget-card" [formGroup]="searchForm">
-        <mat-form-field class="formField" appearance="outline" id="type">
-            <mat-label>Type</mat-label>
-            <mat-select formControlName="type">
-                <mat-option *ngFor="let type of types$ | async" [value]="type.id">
-                    {{type.description}}</mat-option>
+<div class="search-card">
+    <form class="search-widget-card" [formGroup]="searchForm">
+        <mat-form-field class="formField" appearance="outline" id="purchase_price">
+            <mat-label>Purchase price</mat-label>
+            <input type="text" matInput class="form-control" formControlName="purchase_price"
+                placeholder="Purchase price *">
+            <mat-error
+                *ngIf="f.purchase_price.hasError('required') && (f.purchase_price.dirty || f.purchase_price.touched)">
+                This field is required.
+            </mat-error>
+        </mat-form-field>
+
+
+
+        <mat-form-field id="salary" class="example-full-width" appearance="outline">
+            <mat-label>Monthly income</mat-label>
+            <input type="text" matInput class="form-control" formControlName="user_salary"
+                placeholder="Monthly income *">
+            <mat-error *ngIf="f.user_salary.hasError('required') && (f.user_salary.dirty || f.user_salary.touched)">
+                This field is required.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field id="down_payment" class="example-full-width" appearance="outline">
+            <mat-label>Down payment</mat-label>
+            <input type="text" matInput class="form-control" formControlName="down_payment"
+                placeholder="Down payment *">
+            <mat-error *ngIf="f.down_payment.hasError('required') && (f.down_payment.dirty || f.down_payment.touched)">
+                This field is required.
+            </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field id="mortgage_term_length" class="formField" appearance="outline">
+            <mat-label>Mortgage term length *</mat-label>
+            <mat-select formControlName="mortgage_term_length">
+                <mat-option *ngFor="let mortgage_term_length of getMortgageLength()" [value]="mortgage_term_length">
+                    {{mortgage_term_length}}</mat-option>
             </mat-select>
         </mat-form-field>
 
-
-
-        <mat-form-field id="dates" class="example-full-width" appearance="outline">
-            <mat-label>start date</mat-label>
-            <input matInput readonly (click)="checkin.open()" [matDatepicker]="checkin" formControlName="created_at">
-            <mat-datepicker-toggle matSuffix [for]="checkin">
-                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #checkin></mat-datepicker>
-        </mat-form-field>
-
-
-        <mat-form-field id="category" class="formField" appearance="outline">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="policy_category">
-                <mat-option>
-                   vv</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <button class="update-btn CN_button" mat-raised-button color="primary" (click)="search()">Search</button>
+        <button class="search_btn" mat-raised-button color="accent" (click)="search()">Search</button>
     </form>
 </div>

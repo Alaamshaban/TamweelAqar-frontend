@@ -1,7 +1,7 @@
 
 export interface Offer {
     id: number;
-    founder: string;
+    founder: Founder;
     minimum_down_payment: string;
     required_salary: string;
     admin_fees: string;
@@ -14,4 +14,9 @@ export interface Offer {
 export interface Offers {
     eligible: Offer[],
     not_eligible: Offer[]
+}
+
+export interface Founder {
+    founder_name: string,
+    founder_logo: string
 }

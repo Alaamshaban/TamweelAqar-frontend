@@ -1,0 +1,25 @@
+
+.page {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    width: 80%;
+}
+
+$desktop: 1200px;
+@media only screen and (min-width: $desktop) {
+    body {
+        display: block;
+    }
+    .page {
+        width: 100%;
+    }
+}

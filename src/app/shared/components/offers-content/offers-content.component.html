@@ -1,0 +1,50 @@
+<ng-container *ngIf="offers.length">
+    <h2 [ngClass]="offersType==='not_eligible'?'not-eligible-headers':'eligible'">
+        {{offersType==='eligible'?'Your eligible for the following offers':'Offers you’re not
+        currently
+        eligible for'}}</h2>
+    <mat-card class="offer-card" *ngFor="let offer of offers">
+        <mat-card-header>
+            <div mat-card-avatar>
+                <img class="offer-card-image" [src]="getCompanyLogo(offer.founder)" />
+            </div>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+            <div class="content">
+                <div class="down_payment">
+                    <p class="value">EGP {{getDownPayment(offer.down_payment)}}</p>
+
+                    <p class="title">Minimum Down Payment</p>
+                </div>
+                <div class="required_salary">
+                    <p class="value" [ngClass]="{'not_eligible_offer':offersType==='not_eligible'}">EGP
+                        {{offer.required_salary}}
+                    </p>
+
+                    <p class="title">Required Salary</p>
+                </div>
+                <div class="admin_fees">
+                    <p class="value">EGP {{offer.admin_fees}}</p>
+
+                    <p class="title">Admin Fees</p>
+                </div>
+                <div class="max_period">
+                    <p class="value" [ngClass]="{'not_eligible_offer':offersType==='not_eligible'}">
+                        {{offer.mortgage_term_length}} Years</p>
+
+                    <p class="title">Max.Period</p>
+                </div>
+                <div class="early_payment_fees">
+                    <p class="value">EGP {{offer.early_payment_amount}}</p>
+
+                    <p class="title">Early Payment Fees</p>
+                </div>
+                <div class="monthly_payment">
+                    <p class="value">EGP {{offer.monthly_payment}}</p>
+
+                    <p class="title">Monthly Payment</p>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</ng-container>

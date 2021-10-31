@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   userInactive: Subject<any> = new Subject();
 
   setTimeout() {
-    this.userActivity = setTimeout(() => this.userInactive.next(undefined), 3600000);
+    this.userActivity = setTimeout(() => this.userInactive.next(undefined), 3000);
   }
 
   @HostListener('window:mousemove') refreshUserState() {

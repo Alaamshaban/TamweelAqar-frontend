@@ -1,0 +1,27 @@
+
+  <mat-accordion class="example-headers-align" >
+    <mat-expansion-panel [expanded]="isDesktop()" class="terms">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Terms Explained
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+  
+<div>
+    <h2>Home Price</h2>
+    <p>{{searchParams.purchase_price}} EGP</p>
+    <h2>Required Salary</h2>
+    <p></p>
+    <h2>Minimum Down Payment</h2>
+    <p>{{getDownPayment(searchParams.user_down_payment)}} EGP</p>
+    <h2>Maximum Mortgage Period</h2>
+    <p></p>
+    <h2>Admin Fees</h2>
+    <p></p>
+    <h2>Monthly Amount</h2>
+    <p></p>
+</div>
+  
+    </mat-expansion-panel>
+  </mat-accordion>
+  

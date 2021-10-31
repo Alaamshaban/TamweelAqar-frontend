@@ -1,10 +1,15 @@
 <section class="three-loan-area five-loan-area ptb-100">
     <div class="container">
-        <div class="one-section-title three-section-title">
-            <span class="sub-title"># WHAT'S YOU EXPECT</span>
-            <h2>We Have Offer To You</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed diusmod mlaboret dolore magnad minim veniamquaera</p>
+        <app-search [searchParams]="searchParams" (updateSearch)="search($event)"></app-search>
+        <div class="page">
+            <app-terms-explain [offers]="eligible_offers" [searchParams]="searchParams"></app-terms-explain>
+            <div class="card-container">
+                <app-offers-content [offers]="eligible_offers" [offersType]="'eligible'" [searchParams]="searchParams">
+                </app-offers-content>
+                <mat-divider *ngIf="eligible_offers?.length"></mat-divider>
+                <app-offers-content [offers]="not_eligible_offers" [offersType]="'not_eligible'"
+                    [searchParams]="searchParams"></app-offers-content>
+            </div>
         </div>
-
     </div>
 </section>

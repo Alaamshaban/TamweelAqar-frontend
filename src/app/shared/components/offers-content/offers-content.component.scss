@@ -1,0 +1,77 @@
+.offer-card {
+    width: 100%;
+    margin: 20px;
+    .mat-card-avatar {
+        width: 120px !important;
+    }
+    .offer-card-image {
+        width: 120px;
+        height: 40px;
+        flex-shrink: 0;
+        object-fit: cover;
+    }
+    ::ng-deep .mat-card-header-text {
+        width: 70%;
+    }
+    .card-content {
+        margin: 20px;
+    }
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .down_payment,
+        .required_salary,
+        .admin_fees,
+        .max_period,
+        .early_payment_fees,
+        .monthly_payment {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            margin: 5px;
+            text-align: center;
+        }
+        .value {
+            font-size: 20px;
+            color: #4caf50;
+        }
+        .title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .value.not_eligible_offer {
+            color: #f44336;
+        }
+    }
+}
+
+$desktop: 1200px;
+@media only screen and (min-width: $desktop) {
+    .offer-card {
+        .content {
+            display: flex;
+            flex-direction: row;
+            .down_payment,
+            .required_salary,
+            .admin_fees,
+            .max_period,
+            .early_payment_fees,
+            .monthly_payment {
+                width: 30%;
+            }
+            .value {
+                font-size: 20px;
+                color: #4caf50;
+            }
+            .title {
+                font-size: 20px;
+                font-weight: 500;
+            }
+            .value.not_eligible_offer {
+                color: #f44336;
+            }
+        }
+    }
+}
