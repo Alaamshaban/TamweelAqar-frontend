@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, NavigationStart, NavigationCancel, NavigationEnd } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import firebase from 'firebase/app';
+import { Subject } from 'rxjs';
 declare let $: any;
 
 @Component({
@@ -18,9 +21,42 @@ declare let $: any;
 export class AppComponent implements OnInit {
     location: any;
     routerSubscription: any;
+    userActivity;
+    userInactive: Subject<any> = new Subject();
 
-    constructor(private router: Router) {
+    constructor(
+        private cookieService: CookieService,
+        private router: Router) {
+        this.setTimeout();
+        this.userInactive.subscribe(() => {
+          console.log('user has been inactive for one hour');
+          // interval to refresh user token every one hour
+    
+          setInterval(() => {
+            const user = firebase.auth().currentUser;
+            user.getIdToken(true).then(token => {
+            //   this.userService.addUser({
+            //     user_name: this.offersForm.value.user_name,
+            //     phone_number: this.offersForm.value.phone_number, token: token, user_id: user.uid
+            //   }).subscribe(res => {
+                this.cookieService.set('token', token);
+                this.cookieService.set('refresh_token', user.refreshToken);
+                this.cookieService.set('user_uid', user.uid);
+          //    });
+            });
+          }, 3600000)
+        });
     }
+
+    
+  setTimeout() {
+    this.userActivity = setTimeout(() => this.userInactive.next(undefined), 3600000);
+  }
+
+  @HostListener('window:mousemove') refreshUserState() {
+    clearTimeout(this.userActivity);
+    this.setTimeout();
+  }
 
     ngOnInit(){
         this.recallJsFuntions();

@@ -85,9 +85,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }).catch(err => {
       this.signUPForm.controls['phone_number'].setErrors({ invalid_field: true });
       this.invalidPhoneNumberError = err.message;
-
     });
-
   }
 
   verifyLoginCode(): void {
@@ -102,8 +100,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
         this.userService.addUser({ ...this.signUPForm.value, token: token, user_id: result.user.uid }).subscribe(res => {
           this.cookieService.set('token', token);
           this.cookieService.set('user_uid', result.user.uid);
-          this.router.navigate(['/offers']);
-          console.log(res);
         });
       });
       this.dialogRef.close();

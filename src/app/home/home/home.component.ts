@@ -8,9 +8,6 @@ import { SignUpComponent } from 'src/app/user/sign-up/sign-up.component';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { Subject } from 'rxjs';
-import * as $ from 'jquery';
-
 
 @Component({
   selector: 'app-home',
@@ -41,44 +38,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   ]
 
-  userActivity;
-  userInactive: Subject<any> = new Subject();
-
-  setTimeout() {
-    this.userActivity = setTimeout(() => this.userInactive.next(undefined), 3000);
-  }
-
-  @HostListener('window:mousemove') refreshUserState() {
-    clearTimeout(this.userActivity);
-    this.setTimeout();
-  }
-
   constructor(
     private router: Router,
     private cookieService: CookieService,
     private dialog: MatDialog,
-    private userService: UserService,
     private fb: FormBuilder) {
-    this.setTimeout();
-    this.userInactive.subscribe(() => {
-      console.log('user has been inactive for 3s');
-      // interval to refresh user token every one hour
-
-      setInterval(() => {
-        const user = firebase.auth().currentUser;
-        user.getIdToken(true).then(token => {
-          console.log('>>>>>')
-          this.userService.addUser({
-            user_name: this.offersForm.value.user_name,
-            phone_number: this.offersForm.value.phone_number, token: token, user_id: user.uid
-          }).subscribe(res => {
-            this.cookieService.set('token', token);
-            this.cookieService.set('refresh_token', user.refreshToken);
-            this.cookieService.set('user_uid', user.uid);
-          });
-        });
-      }, 3600000)
-    });
   }
 
   ngOnInit(): void {
@@ -90,7 +54,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.offersForm.controls['user_name'].clearValidators();
       this.offersForm.controls['phone_number'].clearValidators();
       this.offersForm.updateValueAndValidity();
-      console.log(this.offersForm)
     }
     this.app = firebase.initializeApp(environment.firebase);
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
@@ -101,13 +64,10 @@ export class HomeComponent implements OnInit, OnDestroy {
           if (token) {
             this.calculateMoney();
           }
-        },
+        }
       }
     );
     this.recaptchaVerifier.render();
-    var selected = $("select").val();
-    console.log(selected)
-
   }
 
   getMortgageLength() {
@@ -127,17 +87,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  // change_mortgage_term_length(e) {
-  //   console.log(e)
-  //   console.log(e.value)
-  //   this.offersForm.get('mortgage_term_length').setValue(e.target.value, {
-  //     onlySelf: true
-  //   })
-  // }
-
   calculateMoney() {
     if (this.offersForm.valid) {
-      console.log(this.offersForm.value)
       if (!this.userId) {
         const appVerifier = this.recaptchaVerifier;
         const num = '+2' + this.offersForm.value.phone_number;
@@ -185,7 +136,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onChange(ev) {
-    console.log(ev.target.value)
     this.offersForm.controls['mortgage_term_length'].setValue(ev.target.value)
   }
 

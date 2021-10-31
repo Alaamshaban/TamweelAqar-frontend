@@ -11,15 +11,10 @@ import { Offer } from 'src/app/models/offer.model';
 export class TermsExplainComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   @Input() offers: Offer[];
-  @Input() searchParams;
 
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  getDownPayment(percentage) {
-    return percentage / 100 * this.searchParams.purchase_price;
   }
 
   isDesktop() {

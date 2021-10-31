@@ -2,7 +2,7 @@
     <div class="container">
         <app-search [searchParams]="searchParams" (updateSearch)="search($event)"></app-search>
         <div class="page">
-            <app-terms-explain [offers]="eligible_offers" [searchParams]="searchParams"></app-terms-explain>
+            <app-terms-explain [offers]="eligible_offers"></app-terms-explain>
             <div class="card-container">
                 <app-offers-content [offers]="eligible_offers" [offersType]="'eligible'" [searchParams]="searchParams">
                 </app-offers-content>

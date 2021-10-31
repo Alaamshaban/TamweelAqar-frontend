@@ -1,27 +1,52 @@
+<mat-accordion class="example-headers-align">
+  <mat-expansion-panel [expanded]="isDesktop()" class="terms">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Terms Explained
+      </mat-panel-title>
+    </mat-expansion-panel-header>
 
-  <mat-accordion class="example-headers-align" >
-    <mat-expansion-panel [expanded]="isDesktop()" class="terms">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Terms Explained
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-  
-<div>
-    <h2>Home Price</h2>
-    <p>{{searchParams.purchase_price}} EGP</p>
-    <h2>Required Salary</h2>
-    <p></p>
-    <h2>Minimum Down Payment</h2>
-    <p>{{getDownPayment(searchParams.user_down_payment)}} EGP</p>
-    <h2>Maximum Mortgage Period</h2>
-    <p></p>
-    <h2>Admin Fees</h2>
-    <p></p>
-    <h2>Monthly Amount</h2>
-    <p></p>
-</div>
-  
-    </mat-expansion-panel>
-  </mat-accordion>
-  
+    <div>
+      <h2>Home Price</h2>
+      <p>Is the value of the house at date of mortgage.
+        <br />
+        Home prices are further evaluated by the mortgage company through approved real estate appraisers.
+      </p>
+      <h2> Loan Amount:</h2>
+      <p>
+        Is the price of the home minus the down payment paid by the borrower at time of mortgage.
+        <br />
+        The loan amount is the primary determinant of the monthly
+      </p>
+      <h2>Required Salary</h2>
+      <p>
+        CBE regulations require that monthly loan repayments do not exceed 40% of the borrower's monthly income.
+        <br />
+        Companies typically accept forms of income other than salary, such as income on certificates of deposit held at
+        a bank.
+      </p>
+      <h2>Minimum Down Payment</h2>
+      <p>
+        Is the minimum accepted down payment paid by the borrower as their contribution towards the purchase of the
+        property.
+      </p>
+      <h2>Maximum Mortgage Period</h2>
+      <p>
+        The maximum number of months that a mortgage company will allow the borrower to repay the loan amount over.
+        <br />
+        Lengthier mortgage period lead to lower monthly payments.
+      </p>
+      <h2>Admin Fees</h2>
+      <p>
+        Mortgage companies typically charge borrowers a fee in order to issue them the mortgage financing.
+      </p>
+      <h2>Monthly Amount</h2>
+      <p>
+        Monthly payments are the amount to be paid by the borrower to the mortgage company in return for the financing.
+        <br />
+        Monthly payments are higher with shorter period and higher value mortgage options.
+      </p>
+    </div>
+
+  </mat-expansion-panel>
+</mat-accordion>
