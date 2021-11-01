@@ -91,8 +91,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
   verifyLoginCode(): void {
     if (!this.confirmationResult && this.data.process === 'verification') {
       this.confirmationResult = this.data.confirmation;
-      this.signUPForm.controls['user_name'].setValue(this.data.user_name);
-      this.signUPForm.controls['phone_number'].setValue(this.data.phone_number);
+      this.signUPForm.controls['user_name'].setValue(this.data.offersForm.user_name);
+      this.signUPForm.controls['phone_number'].setValue(this.data.offersForm.phone_number);
     }
     this.confirmationResult.confirm(this.verificationForm.value.verification_code).then(result => {
       const user = firebase.auth().currentUser;
@@ -101,6 +101,14 @@ export class SignUpComponent implements OnInit, OnDestroy {
           this.cookieService.set('token', token);
           this.cookieService.set('user_uid', result.user.uid);
         });
+      });
+      this.router.navigate(['/offers'], {
+        queryParams: {
+          purchase_price: this.data.offersForm.purchase_price,
+          user_salary: this.data.offersForm.user_salary,
+          user_down_payment: this.data.offersForm.down_payment,
+          user_mortgage_term_length: this.data.offersForm.mortgage_term_length
+        }
       });
       this.dialogRef.close();
     }).catch(error => {

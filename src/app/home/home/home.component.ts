@@ -56,6 +56,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.offersForm.updateValueAndValidity();
     }
     this.app = firebase.initializeApp(environment.firebase);
+    console.log(this.app.name)
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'calculate-money',
       {
@@ -100,8 +101,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             data: {
               process: 'verification',
               confirmation: this.confirmationResult,
-              user_name: this.offersForm.value.user_name,
-              phone_number: this.offersForm.value.phone_number
+              offersForm:this.offersForm.value
             }
           })
         }).catch(err => {
