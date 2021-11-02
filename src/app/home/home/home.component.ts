@@ -101,7 +101,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             data: {
               process: 'verification',
               confirmation: this.confirmationResult,
-              offersForm:this.offersForm.value
+              offersForm: this.offersForm.value
             }
           })
         }).catch(err => {
@@ -140,6 +140,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.app.delete();
+    if (this.app)
+      this.app.delete();
   }
 }

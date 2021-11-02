@@ -28,6 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SearchComponent } from './components/search/search.component';
 import { OffersContentComponent } from './components/offers-content/offers-content.component';
 import { TermsExplainComponent } from './components/terms-explain/terms-explain.component';
+import { SearchCardComponent } from './search-card/search-card.component';
 
 
 
@@ -39,7 +40,8 @@ import { TermsExplainComponent } from './components/terms-explain/terms-explain.
     PreloaderComponent,
     SearchComponent,
     OffersContentComponent,
-    TermsExplainComponent
+    TermsExplainComponent,
+    SearchCardComponent
   ],
   imports: [
     // modules

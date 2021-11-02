@@ -26,44 +26,16 @@ export class SearchComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.setForm();
-    if (this.searchParams) {
-      this.patchForm();
-    }
-  }
-
-  getMortgageLength() {
-    return Array(30).fill(0).map((x, i) => i + 1)
-  }
-
-
-  setForm(): void {
-    this.searchForm = this.fb.group({
-      purchase_price: [null, Validators.required],
-      user_salary: [null, Validators.required],
-      down_payment: [null, Validators.required],
-      mortgage_term_length: ['', Validators.required],
-    });
-  }
-
-  patchForm(): void {
-    console.log(this.searchParams)
-    this.searchForm.patchValue({
-      purchase_price: this.searchParams.purchase_price,
-      user_salary: this.searchParams.user_salary,
-      down_payment: this.searchParams.user_down_payment,
-      mortgage_term_length: this.searchParams.user_mortgage_term_length
-    });
-  }
-
-  search(): void {
-    this.updateSearch.next(this.searchForm.value);
 
   }
 
+  search(event): void {
+    this.updateSearch.next(event);
 
-  get f() {
-    return this.searchForm.controls;
+  }
+
+  isDesktop() {
+    return window.innerWidth >= 1200
   }
 
 }

@@ -1,44 +1,16 @@
-<div class="search-card">
-    <form class="search-widget-card" [formGroup]="searchForm">
-        <mat-form-field class="formField" appearance="outline" id="purchase_price">
-            <mat-label>Purchase price</mat-label>
-            <input type="text" matInput class="form-control" formControlName="purchase_price"
-                placeholder="Purchase price *">
-            <mat-error
-                *ngIf="f.purchase_price.hasError('required') && (f.purchase_price.dirty || f.purchase_price.touched)">
-                This field is required.
-            </mat-error>
-        </mat-form-field>
+<mat-accordion class="example-headers-align" *ngIf="!isDesktop()">
+    <mat-expansion-panel class="terms">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+             <mat-icon>filter_list</mat-icon>Filter
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <app-search-card [offers]="offers" [searchParams]="searchParams" (onSearch)="search($event)"></app-search-card>
+    </mat-expansion-panel>
+</mat-accordion>
 
 
-
-        <mat-form-field id="salary" class="example-full-width" appearance="outline">
-            <mat-label>Monthly income</mat-label>
-            <input type="text" matInput class="form-control" formControlName="user_salary"
-                placeholder="Monthly income *">
-            <mat-error *ngIf="f.user_salary.hasError('required') && (f.user_salary.dirty || f.user_salary.touched)">
-                This field is required.
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field id="down_payment" class="example-full-width" appearance="outline">
-            <mat-label>Down payment</mat-label>
-            <input type="text" matInput class="form-control" formControlName="down_payment"
-                placeholder="Down payment *">
-            <mat-error *ngIf="f.down_payment.hasError('required') && (f.down_payment.dirty || f.down_payment.touched)">
-                This field is required.
-            </mat-error>
-        </mat-form-field>
-
-
-        <mat-form-field id="mortgage_term_length" class="formField" appearance="outline">
-            <mat-label>Mortgage term length *</mat-label>
-            <mat-select formControlName="mortgage_term_length">
-                <mat-option *ngFor="let mortgage_term_length of getMortgageLength()" [value]="mortgage_term_length">
-                    {{mortgage_term_length}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <button class="search_btn" mat-raised-button color="accent" (click)="search()">Search</button>
-    </form>
-</div>
+<ng-container *ngIf="isDesktop()">
+    <app-search-card [offers]="offers" [searchParams]="searchParams" (onSearch)="search($event)"></app-search-card>
+</ng-container>

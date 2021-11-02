@@ -1,11 +1,24 @@
+::ng-deep .mat-expansion-panel:not([class*=mat-elevation-z]){
+    box-shadow: 0 1px 2px rgb(0 128 0 / 7%), 0 2px 4px rgb(0 128 0 / 7%), 0 4px 8px rgb(0 0 0 / 7%), 0 8px 16px rgb(0 128 0 / 7%), 0 16px 32px rgb(0 128 0 / 7%), 0 32px 64px rgb(0 128 0 / 7%);
+}
 .terms {
-    margin: 30px 30px 30px 30px !important;
+    margin: 30px -4px 30px -3px !important;
     mat-panel-title {
         font-size: 25px;
     }
-    .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+    .mat-expansion-panel-header-title,
+    .mat-expansion-panel-header-description {
         justify-content: center;
         margin: 40px 0 40px 20px;
+    }
+    .mat-expansion-panel-header{
+        background: linear-gradient(90deg, rgba(16,195,23,1) 23%, rgba(21,208,154,1) 64%);
+      }
+}
 
+$desktop: 1280px;
+@media only screen and (min-width: $desktop) {
+    .terms {
+        margin: 30px 30px 30px 30px !important;
     }
 }

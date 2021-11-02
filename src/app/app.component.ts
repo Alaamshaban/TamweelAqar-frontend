@@ -29,33 +29,29 @@ export class AppComponent implements OnInit, OnDestroy {
         private cookieService: CookieService,
         private router: Router) {
         this.setTimeout();
+        if (!firebase.apps.length) {
+             firebase.initializeApp(environment.firebase);
+          }
         this.userInactive.subscribe(() => {
             console.log('user has been inactive for an hour');
             // interval to refresh user token every one hour
 
             setInterval(() => {
-                console.log('>>>>>',firebase.app('[DEFAULT]'))
-                if (firebase.app('[DEFAULT]')) {
+                if (firebase.app('[DEFAULT]') && firebase.auth(firebase.app('[DEFAULT]')).currentUser) {
                     const user = firebase.auth(firebase.app('[DEFAULT]')).currentUser;
                     user.getIdToken(true).then(token => {
-                        //   this.userService.addUser({
-                        //     user_name: this.offersForm.value.user_name,
-                        //     phone_number: this.offersForm.value.phone_number, token: token, user_id: user.uid
-                        //   }).subscribe(res => {
                         this.cookieService.set('token', token);
                         this.cookieService.set('refresh_token', user.refreshToken);
                         this.cookieService.set('user_uid', user.uid);
-                        //    });
                     });
-
                 }
-            }, 3600000)
+            }, 108000)
         });
     }
 
 
     setTimeout() {
-        this.userActivity = setTimeout(() => this.userInactive.next(undefined), 3600000);
+        this.userActivity = setTimeout(() => this.userInactive.next(undefined), 108000);
     }
 
     @HostListener('window:mousemove') refreshUserState() {

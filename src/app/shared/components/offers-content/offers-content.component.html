@@ -6,25 +6,41 @@
     <mat-card class="offer-card" *ngFor="let offer of offers">
         <mat-card-header>
             <div mat-card-avatar>
-                <img class="offer-card-image" [src]="getCompanyLogo(offer.founder)" />
+                <div class="img">
+                    <img class="offer-card-image" [src]="getCompanyLogo(offer.founder)" />
+                </div>
             </div>
+            <mat-card-actions align="end">
+                <div class="icons">
+                    <a mat-icon-button class="call" href="{{'tel:'+getCompanyPhone(offer.founder)}}">
+                        <mat-icon>call</mat-icon>
+                    </a>
+                    <a mat-icon-button class="web" [href]="getCompanyWebsite(offer.founder)">
+                        <mat-icon>public</mat-icon>
+                    </a>
+                    <a mat-icon-button class="email" href="{{'mailto: '+getCompanyEmail(offer.founder)}}">
+                        <mat-icon>email</mat-icon>
+                    </a>
+                </div>
+            </mat-card-actions>
         </mat-card-header>
+
         <mat-card-content class="card-content">
             <div class="content">
                 <div class="down_payment">
-                    <p class="value">EGP {{getDownPayment(offer.down_payment)}}</p>
+                    <p class="value">EGP {{getDownPayment(offer.down_payment) | number:'1.0-0' :'en-US'}}</p>
 
                     <p class="title">Minimum Down Payment</p>
                 </div>
                 <div class="required_salary">
                     <p class="value" [ngClass]="{'not_eligible_offer':offersType==='not_eligible'}">EGP
-                        {{offer.required_salary}}
+                        {{offer.required_salary | number:'1.0-0' :'en-US'}}
                     </p>
 
                     <p class="title">Required Salary</p>
                 </div>
                 <div class="admin_fees">
-                    <p class="value">EGP {{offer.admin_fees}}</p>
+                    <p class="value">EGP {{offer.admin_fees | number:'1.0-0' :'en-US'}}</p>
 
                     <p class="title">Admin Fees</p>
                 </div>
@@ -35,12 +51,12 @@
                     <p class="title">Max.Period</p>
                 </div>
                 <div class="early_payment_fees">
-                    <p class="value">EGP {{offer.early_payment_amount}}</p>
+                    <p class="value">EGP {{offer.early_payment_amount | number:'1.0-0' :'en-US'}}</p>
 
                     <p class="title">Early Payment Fees</p>
                 </div>
                 <div class="monthly_payment">
-                    <p class="value">EGP {{offer.monthly_payment}}</p>
+                    <p class="value">EGP {{offer.monthly_payment | number:'1.0-0' :'en-US'}}</p>
 
                     <p class="title">Monthly Payment</p>
                 </div>

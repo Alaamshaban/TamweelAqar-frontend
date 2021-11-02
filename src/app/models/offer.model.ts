@@ -18,5 +18,8 @@ export interface Offers {
 
 export interface Founder {
     founder_name: string,
-    founder_logo: string
+    founder_logo: string,
+    phone_number: string;
+    email: string;
+    website: string;
 }
