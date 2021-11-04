@@ -102,14 +102,17 @@ export class SignUpComponent implements OnInit, OnDestroy {
           this.cookieService.set('user_uid', result.user.uid);
         });
       });
-      this.router.navigate(['/offers'], {
-        queryParams: {
-          purchase_price: this.data.offersForm.purchase_price,
-          user_salary: this.data.offersForm.user_salary,
-          user_down_payment: this.data.offersForm.down_payment,
-          user_mortgage_term_length: this.data.offersForm.mortgage_term_length
-        }
-      });
+      if (this.data.offersForm) {
+        this.router.navigate(['/offers'], {
+          queryParams: {
+            purchase_price: this.data.offersForm.purchase_price,
+            user_salary: this.data.offersForm.user_salary,
+            user_down_payment: this.data.offersForm.down_payment,
+            user_mortgage_term_length: this.data.offersForm.mortgage_term_length
+          }
+        });
+      }
+
       this.dialogRef.close();
     }).catch(error => {
       this.verificationForm.controls['verification_code'].setErrors({ invalid_field: true });
@@ -151,7 +154,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.app.delete();
+   // this.app.delete();
   }
 
 

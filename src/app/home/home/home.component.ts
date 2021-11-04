@@ -55,8 +55,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.offersForm.controls['phone_number'].clearValidators();
       this.offersForm.updateValueAndValidity();
     }
-    this.app = firebase.initializeApp(environment.firebase);
-    console.log(this.app.name)
+    if (!firebase.apps.length) {
+      this.app = firebase.initializeApp(environment.firebase);
+    } else {
+      this.app = firebase.app();
+    }
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'calculate-money',
       {
@@ -140,7 +143,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.app)
-      this.app.delete();
+    //   if (this.app)
+    //     this.app.delete();
   }
 }

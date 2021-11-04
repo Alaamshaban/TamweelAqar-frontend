@@ -1,0 +1,29 @@
+
+.home-icon.mat-icon-button{
+    width: 90px !important;
+ }
+ .mat-icon-button{
+    .mat-icon{
+        font-size: 45px;
+        color: #fff; 
+    }
+ }
+.navbar-brand{
+    width: 35%;
+}
+.btns-section{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: stretch;
+    justify-content: space-between;
+}
+.btn-link{
+    text-decoration: unset;
+    color: #0d1820;
+}
+$desktop: 1200px;
+@media only screen and (min-width: $desktop) {
+    .navbar-brand{
+        width: 90%;
+}
+}

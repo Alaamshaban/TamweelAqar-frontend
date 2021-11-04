@@ -8,7 +8,7 @@ import {
     HttpInterceptor
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import firebase from 'firebase/app';
 
 @Injectable()
@@ -25,6 +25,7 @@ export class ErrorIntercept implements HttpInterceptor {
                     let errorMessage = '';
                     if (error.status === 401) {
                         errorMessage = '401';
+                      
                         if (firebase.app('[DEFAULT]') && firebase.auth(firebase.app('[DEFAULT]')).currentUser) {
                             const user = firebase.auth(firebase.app('[DEFAULT]')).currentUser;
                             user.getIdToken(true).then(token => {
@@ -34,6 +35,7 @@ export class ErrorIntercept implements HttpInterceptor {
                             });
                         }
                     }
+                    
                     return throwError(errorMessage);
                 })
             )

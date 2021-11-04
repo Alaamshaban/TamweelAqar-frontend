@@ -95,8 +95,6 @@ button {
 
 /*-- Navbar --*/
 .navbar-light {
-    padding-left: 55px;
-    padding-right: 55px;
     background-color: $white-color;
     box-shadow: 0px 20px 20px 0px #dddddd52;
 
@@ -177,11 +175,6 @@ button {
     background: $gradient-green;
     position: relative;
     z-index: 1;
-
-    &.sticky-top {
-        position: sticky;
-        z-index: 1020;
-    }
     &:before {
         position: absolute;
         background-image: url(assets/img/navbar-shape.png);
