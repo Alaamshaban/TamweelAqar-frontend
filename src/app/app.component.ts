@@ -24,14 +24,16 @@ export class AppComponent implements OnInit, OnDestroy {
     routerSubscription: any;
     userActivity;
     userInactive: Subject<any> = new Subject();
-
+    app;
     constructor(
         private cookieService: CookieService,
         private router: Router) {
         this.setTimeout();
         if (!firebase.apps.length) {
-             firebase.initializeApp(environment.firebase);
-          }
+            this.app = firebase.initializeApp(environment.firebase);
+        } else {
+            this.app = firebase.app('[DEFAULT]')
+        }
         this.userInactive.subscribe(() => {
             console.log('user has been inactive for an hour');
             // interval to refresh user token every one hour

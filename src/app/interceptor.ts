@@ -15,17 +15,24 @@ import firebase from 'firebase/app';
 
 export class ErrorIntercept implements HttpInterceptor {
     constructor(private cookieService: CookieService) { }
+
     intercept(
         request: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
+        const token = this.cookieService.get('token')
+
+        request = request.clone({
+            headers: request.headers.set('AuthToken', token
+            )
+        });
         return next.handle(request)
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     let errorMessage = '';
                     if (error.status === 401) {
                         errorMessage = '401';
-                      
+
                         if (firebase.app('[DEFAULT]') && firebase.auth(firebase.app('[DEFAULT]')).currentUser) {
                             const user = firebase.auth(firebase.app('[DEFAULT]')).currentUser;
                             user.getIdToken(true).then(token => {
@@ -35,7 +42,7 @@ export class ErrorIntercept implements HttpInterceptor {
                             });
                         }
                     }
-                    
+
                     return throwError(errorMessage);
                 })
             )

@@ -1,0 +1,26 @@
+.half-form {
+    display: flex;
+    flex-direction: row;
+    .bg-img {
+      width: 50%;
+    }
+    .form {
+      width: 50%;
+      .flex-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        .FormCell {
+          margin: 10px;
+          width: 60%;
+          > mat-form-field {
+            width: 100%;
+          }
+        }
+        button {
+          width: 60%;
+        }
+      }
+    }
+  }

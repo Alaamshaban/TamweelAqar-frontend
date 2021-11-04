@@ -25,7 +25,7 @@ export class OffersService {
       .append('user_salary', user_salary)
       .append('user_down_payment', user_down_payment)
       .append('user_mortgage_term_length', user_mortgage_term_length)
-    return this.http.get<Offers>(`${BaseURL}/api/users/${user_id}/offers/`, { headers: headers, params: offersParams });
+    return this.http.get<Offers>(`${BaseURL}/api/users/${user_id}/offers/`, {params: offersParams });
 
   }
 }
