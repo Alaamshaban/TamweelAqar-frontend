@@ -1,0 +1,41 @@
+<ng-container *ngIf="results && results.length">
+    <mat-accordion class="example-headers-align">
+        <mat-expansion-panel class="results">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                   User Results
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-card class="results-card" *ngFor="let result of results ,let i=index">
+                <mat-card-title>Offer {{i+1}}</mat-card-title>
+                <mat-card-content>
+                    <h2>Home Price</h2>
+                    <p>{{result.params.purchase_price | number:'1.0-0' :'en-US'}} EGP
+                    </p>
+                    <h2>Input Salary</h2>
+                    <p>{{result.params.user_salary | number:'1.0-0' :'en-US'}} EGP
+                    </p>
+                    <h2>Down Payment</h2>
+                    <p>{{result.params.user_down_payment}} %
+                    </p>
+                    <h2>mortgage term length</h2>
+                    <p>{{result.params.user_mortgage_term_length}} Years
+                    </p>
+                    <mat-divider inset></mat-divider>
+                    <div class="offers">
+                        <span class="number_header">Number Of Eligible Offers</span>
+                        <span class="number_of_offers">{{result.eligible_offers}}</span>
+                    </div>
+                    <div class="offers">
+                        <span class="number_header">Number Of Not Eligible Offers</span>
+                        <span class="number_of_offers">{{result.not_eligible_offers}}</span>
+                    </div>
+                </mat-card-content>
+                <!-- <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions> -->
+            </mat-card>
+        </mat-expansion-panel>
+    </mat-accordion>
+</ng-container>

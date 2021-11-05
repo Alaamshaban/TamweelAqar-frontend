@@ -1,11 +1,11 @@
 .half-form {
     display: flex;
-    flex-direction: row;
-    .bg-img {
-      width: 50%;
+    flex-direction: column;
+    .search-results {
+      width: 100%;
     }
     .form {
-      width: 50%;
+      width: 100%;
       .flex-container {
         display: flex;
         flex-direction: column;
@@ -24,3 +24,16 @@
       }
     }
   }
+  $desktop: 1280px;
+@media only screen and (min-width: $desktop) {
+  .half-form {
+    display: flex;
+    flex-direction: row;
+    .search-results {
+      width: 50%;
+    }
+    .form {
+      width: 50%;
+    }
+  }
+}

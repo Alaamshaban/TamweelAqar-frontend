@@ -26,19 +26,21 @@ export class ErrorIntercept implements HttpInterceptor {
             headers: request.headers.set('AuthToken', token
             )
         });
+        console.log(request)
         return next.handle(request)
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     let errorMessage = '';
                     if (error.status === 401) {
                         errorMessage = '401';
-
                         if (firebase.app('[DEFAULT]') && firebase.auth(firebase.app('[DEFAULT]')).currentUser) {
                             const user = firebase.auth(firebase.app('[DEFAULT]')).currentUser;
                             user.getIdToken(true).then(token => {
                                 this.cookieService.set('token', token);
                                 this.cookieService.set('refresh_token', user.refreshToken);
                                 this.cookieService.set('user_uid', user.uid);
+                                console.log(request)
+                                return next.handle(request)
                             });
                         }
                     }

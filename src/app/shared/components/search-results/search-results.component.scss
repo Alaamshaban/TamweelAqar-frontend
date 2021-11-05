@@ -1,0 +1,18 @@
+.results,
+.results-card {
+    margin: 20px;
+}
+.offers {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+    .number_header {
+        font-size: 16px;
+        font-weight: bold;
+        width: 50%;
+    }
+    .number_of_offers {
+        width: 50%;
+    }
+}

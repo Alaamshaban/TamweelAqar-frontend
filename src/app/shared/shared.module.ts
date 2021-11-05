@@ -1,3 +1,4 @@
+import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { RouterModule } from '@angular/router';
 
 import { NavComponent } from './components/nav/nav.component';
@@ -34,6 +35,7 @@ import { SearchCardComponent } from './search-card/search-card.component';
 
 
 
+
 @NgModule({
   declarations: [
     NavComponent,
@@ -41,7 +43,8 @@ import { SearchCardComponent } from './search-card/search-card.component';
     SearchComponent,
     OffersContentComponent,
     TermsExplainComponent,
-    SearchCardComponent
+    SearchCardComponent,
+    SearchResultsComponent
   ],
   imports: [
     // modules
@@ -95,7 +98,8 @@ import { SearchCardComponent } from './search-card/search-card.component';
     PreloaderComponent,
     SearchComponent,
     OffersContentComponent,
-    TermsExplainComponent
+    TermsExplainComponent,
+    SearchResultsComponent
   ]
 })
 export class SharedModule { }

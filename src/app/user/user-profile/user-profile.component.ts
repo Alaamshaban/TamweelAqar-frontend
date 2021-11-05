@@ -1,9 +1,10 @@
+import { OffersService } from './../../shared/services/offers.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmedValidator } from 'src/app/shared/components/validators/confirm-password.validator';
 import { UserService } from 'src/app/shared/services/user.service';
-import NationaltiesJSON from '../../../assets/nationalities.json';
+import NationaltiesJSON from '../../../assets/json/nationalities.json';
 
 @Component({
   selector: 'app-user-profile',
@@ -14,14 +15,18 @@ export class UserProfileComponent implements OnInit {
 
   userForm: FormGroup;
   nationalities = NationaltiesJSON;
+  userResults;
 
   constructor(
     private userService: UserService,
+    private offersService: OffersService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.setUserForm();
     this.getUser();
+    this.userResults = this.offersService.userLastSearch
+    console.log(this.offersService.userLastSearch);
   }
 
   getUser() {

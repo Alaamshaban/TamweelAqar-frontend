@@ -11,6 +11,8 @@ import { BaseURL } from 'src/app/base-url';
 })
 export class OffersService {
 
+  userLastSearch=new Array();
+
   constructor(
     private cookieService: CookieService,
     private http: HttpClient) { }
@@ -19,13 +21,22 @@ export class OffersService {
     const headers = {
       AuthToken: this.cookieService.get('token')
     }
+    this.lastSearchResults.push({ params: params });
     const { purchase_price, user_salary, user_down_payment, user_mortgage_term_length } = params;
     let offersParams = new HttpParams();
     offersParams = offersParams.set('purchase_price', purchase_price)
       .append('user_salary', user_salary)
       .append('user_down_payment', user_down_payment)
       .append('user_mortgage_term_length', user_mortgage_term_length)
-    return this.http.get<Offers>(`${BaseURL}/api/users/${user_id}/offers/`, {params: offersParams });
+    return this.http.get<Offers>(`${BaseURL}/api/users/${user_id}/offers/`, { params: offersParams });
 
+  }
+
+  set lastSearchResults(results) {
+    this.userLastSearch = results;
+  }
+
+  get lastSearchResults() {
+    return this.userLastSearch;
   }
 }
