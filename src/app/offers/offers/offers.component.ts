@@ -28,12 +28,7 @@ export class OffersComponent implements OnInit {
       this.offersService.getOffers(this.userId, params).subscribe(offers => {
         this.eligible_offers = offers.eligible;
         this.not_eligible_offers = offers.not_eligible;
-        const index = this.offersService.userLastSearch.findIndex(r => r.params === params);
-        this.offersService.userLastSearch[index] = {
-          ...this.offersService.userLastSearch[index],
-          eligible_offers: this.eligible_offers.length,
-          not_eligible_offers: this.not_eligible_offers.length
-        }
+        this.setUserHistory(params)
       });
     });
   }
@@ -45,6 +40,16 @@ export class OffersComponent implements OnInit {
     this.offersService.getOffers(this.userId, ev).subscribe(offers => {
       this.eligible_offers = offers.eligible;
       this.not_eligible_offers = offers.not_eligible;
+      this.setUserHistory(ev)
     });
+  }
+
+  setUserHistory(params) {
+    const index = this.offersService.userLastSearch.findIndex(r => r.params === params);
+    this.offersService.userLastSearch[index] = {
+      ...this.offersService.userLastSearch[index],
+      eligible_offers: this.eligible_offers.length,
+      not_eligible_offers: this.not_eligible_offers.length
+    }
   }
 }
