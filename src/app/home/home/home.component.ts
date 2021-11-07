@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.setOffersForm();
 
-    this.userId = this.cookieService.get('user_uid');
+    this.userId = this.cookieService.get('user_uid') && this.cookieService.get('token');
     if (this.userId) {
       this.offersForm.controls['user_name'].clearValidators();
       this.offersForm.controls['phone_number'].clearValidators();

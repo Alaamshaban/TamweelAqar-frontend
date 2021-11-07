@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import {
@@ -33,7 +34,7 @@ export class ErrorIntercept implements HttpInterceptor {
                     let errorMessage = '';
                     console.log('ejjejejej')
                     if (error.status === 401) {
-                        console.log('jjj',firebase.app('[DEFAULT]') && firebase.auth(firebase.app('[DEFAULT]')).currentUser)
+                        console.log('jjj',firebase.app('[DEFAULT]') )
                         errorMessage = '401';
                         if (firebase.app('[DEFAULT]') && firebase.auth(firebase.app('[DEFAULT]')).currentUser) {
                             const user = firebase.auth(firebase.app('[DEFAULT]')).currentUser;
