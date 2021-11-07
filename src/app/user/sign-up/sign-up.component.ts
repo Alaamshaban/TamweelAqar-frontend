@@ -102,7 +102,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
           this.cookieService.set('user_uid', result.user.uid);
         });
       });
-      if (this.data.offersForm) {
+      if (this.data && this.data.offersForm) {
         this.router.navigate(['/offers'], {
           queryParams: {
             purchase_price: this.data.offersForm.purchase_price,
