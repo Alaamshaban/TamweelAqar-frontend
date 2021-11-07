@@ -31,7 +31,9 @@ export class ErrorIntercept implements HttpInterceptor {
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     let errorMessage = '';
+                    console.log('ejjejejej')
                     if (error.status === 401) {
+                        console.log('jjj',firebase.app('[DEFAULT]') && firebase.auth(firebase.app('[DEFAULT]')).currentUser)
                         errorMessage = '401';
                         if (firebase.app('[DEFAULT]') && firebase.auth(firebase.app('[DEFAULT]')).currentUser) {
                             const user = firebase.auth(firebase.app('[DEFAULT]')).currentUser;

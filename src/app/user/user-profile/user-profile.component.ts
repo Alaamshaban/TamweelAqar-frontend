@@ -23,6 +23,7 @@ export class UserProfileComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    console.log('hererer')
     this.setUserForm();
     this.getUser();
     this.userResults = this.offersService.userLastSearch

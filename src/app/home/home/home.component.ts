@@ -60,6 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       this.app = firebase.app();
     }
+    console.log(this.app)
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'calculate-money',
       {
