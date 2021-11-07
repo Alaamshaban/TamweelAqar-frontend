@@ -36,16 +36,20 @@ export class ErrorIntercept implements HttpInterceptor {
                     if (error.status === 401) {
                         console.log('jjj',firebase.app('[DEFAULT]') )
                         errorMessage = '401';
-                        if (firebase.app('[DEFAULT]') && firebase.auth(firebase.app('[DEFAULT]')).currentUser) {
-                            const user = firebase.auth(firebase.app('[DEFAULT]')).currentUser;
-                            user.getIdToken(true).then(token => {
-                                this.cookieService.set('token', token);
-                                this.cookieService.set('refresh_token', user.refreshToken);
-                                this.cookieService.set('user_uid', user.uid);
-                                console.log(request)
+                        firebase.auth().onAuthStateChanged((user)=> {
+                            if (user) {
+                                console.log('signed in')
+                                const user = firebase.auth(firebase.app('[DEFAULT]')).currentUser;
+                                console.log(user)
+                                user.getIdToken(true).then(token => {
+                                    this.cookieService.set('token', token);
+                                    this.cookieService.set('refresh_token', user.refreshToken);
+                                    this.cookieService.set('user_uid', user.uid);
+                                    console.log(request)
+                                });
                                 return next.handle(request)
-                            });
-                        }
+                            }
+                          });
                     } else {
                         return throwError(errorMessage);
                     }
