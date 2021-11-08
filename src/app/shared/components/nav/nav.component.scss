@@ -1,29 +1,31 @@
-
-.home-icon.mat-icon-button{
+.home-icon.mat-icon-button {
     width: 90px !important;
- }
- .mat-icon-button{
-    .mat-icon{
+}
+.mat-icon-button {
+    .mat-icon {
         font-size: 45px;
-        color: #fff; 
+        color: #fff;
     }
- }
-.navbar-brand{
+}
+.navbar-brand {
     width: 35%;
 }
-.btns-section{
+.btns-section {
     display: flex;
     flex-direction: row-reverse;
     align-items: stretch;
     justify-content: space-between;
 }
-.btn-link{
+.btn-link {
     text-decoration: unset;
     color: #0d1820;
 }
 $desktop: 1200px;
 @media only screen and (min-width: $desktop) {
-    .navbar-brand{
+    .navbar-brand {
         width: 90%;
-}
+    }
+    .sign-btns {
+        width: 20%;
+    }
 }

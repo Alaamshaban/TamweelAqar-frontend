@@ -21,9 +21,7 @@ export class NavComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog) { }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   signUp() {
     const dialogRef = this.dialog.open(SignUpComponent, {
@@ -46,6 +44,7 @@ export class NavComponent implements OnInit {
 
   signOut() {
     firebase.auth(firebase.app('[DEFAULT]')).signOut().then(res => {
+      console.log('>>>',res)
       this.cookieService.deleteAll();
       this.router.navigate(['/home']);
       firebase.app().delete();
