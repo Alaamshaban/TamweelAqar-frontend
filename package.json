@@ -32,6 +32,7 @@
     "@angular/router": "~12.1.1",
     "bootstrap": "^5.0.2",
     "express": "^4.17.1",
+    "express-http-proxy": "^1.6.3",
     "jquery": "^3.6.0",
     "jquery-nice-select": "^1.1.0",
     "jwt-decode": "^3.1.2",
