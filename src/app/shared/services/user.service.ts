@@ -2,7 +2,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { BaseURL } from 'src/app/base-url';
 
 @Injectable({
   providedIn: 'root'
@@ -15,17 +14,17 @@ export class UserService {
 
   addUser(user) {
     console.log(user)
-    return this.http.post(BaseURL + '/api/users', user);
+    return this.http.post('/api/users', user);
   }
 
   getUser() {
     const user_id = this.cookieService.get('user_uid');
-    return this.http.get(BaseURL + `/api/users/${user_id}`);
+    return this.http.get(`/api/users/${user_id}`);
   }
 
   updateUser(user) {
     const user_id = this.cookieService.get('user_uid');
-   return this.http.put(BaseURL + `/api/users/${user_id}`, user);
+   return this.http.put(`/api/users/${user_id}`, user);
   }
 
 }

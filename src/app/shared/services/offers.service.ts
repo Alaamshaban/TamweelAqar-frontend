@@ -4,7 +4,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseURL } from 'src/app/base-url';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +27,7 @@ export class OffersService {
       .append('user_salary', user_salary)
       .append('user_down_payment', user_down_payment)
       .append('user_mortgage_term_length', user_mortgage_term_length)
-    return this.http.get<Offers>(`${BaseURL}/api/users/${user_id}/offers/`, { params: offersParams });
+    return this.http.get<Offers>(`/api/users/${user_id}/offers/`, { params: offersParams });
 
   }
 

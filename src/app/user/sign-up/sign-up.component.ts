@@ -97,21 +97,21 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.confirmationResult.confirm(this.verificationForm.value.verification_code).then(result => {
       const user = firebase.auth().currentUser;
       user.getIdToken(true).then(token => {
+        this.cookieService.set('token', token);
         this.userService.addUser({ ...this.signUPForm.value, token: token, user_id: result.user.uid }).subscribe(res => {
-          this.cookieService.set('token', token);
           this.cookieService.set('user_uid', result.user.uid);
-        });
-      });
-      if (this.data && this.data.offersForm) {
-        this.router.navigate(['/offers'], {
-          queryParams: {
-            purchase_price: this.data.offersForm.purchase_price,
-            user_salary: this.data.offersForm.user_salary,
-            user_down_payment: this.data.offersForm.down_payment,
-            user_mortgage_term_length: this.data.offersForm.mortgage_term_length
+          if (this.data && this.data.offersForm) {
+            this.router.navigate(['/offers'], {
+              queryParams: {
+                purchase_price: this.data.offersForm.purchase_price,
+                user_salary: this.data.offersForm.user_salary,
+                user_down_payment: this.data.offersForm.down_payment,
+                user_mortgage_term_length: this.data.offersForm.mortgage_term_length
+              }
+            });
           }
         });
-      }
+      });
 
       this.dialogRef.close();
     }).catch(error => {
