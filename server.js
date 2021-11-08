@@ -5,11 +5,10 @@ app.use(express.static(__dirname + '/dist/tamweelaqar'));
 app.get('/*', function(req,res){
     request('https://tamweelaqar.herokuapp.com' , function (error, response, body) { 
         if (!error && response.statusCode === 200) { 
-          console.log(body); 
-          res.send(body); 
+          console.log('body',body); 
+          res.sendFile(path.join(__dirname, '/dist/tamweelaqar', 'index.html'))
         } 
        }); 
-res.sendFile(path.join(__dirname, '/dist/tamweelaqar', 'index.html'))
 });
 // Start the app by listening on the default Heroku port
 app.listen(process.env.PORT || 8080);
