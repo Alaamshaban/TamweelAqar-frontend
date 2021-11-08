@@ -1,8 +1,0 @@
-{
-    "/api/*":{
-        "target":"https://tamweelaqar.herokuapp.com",
-        "secure":false,
-        "logLevel":"debug",
-        "changeOrigin":true
-    }
-}
