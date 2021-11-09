@@ -1,3 +1,4 @@
+import { BaseURL } from '../../basURL';
 import { Offer, Offers } from './../../models/offer.model';
 
 import { CookieService } from 'ngx-cookie-service';
@@ -10,8 +11,8 @@ import { Observable } from 'rxjs';
 })
 export class OffersService {
 
-  userLastSearch=new Array();
-
+  userLastSearch = new Array();
+  baseUrl = BaseURL;
   constructor(
     private cookieService: CookieService,
     private http: HttpClient) { }
@@ -27,7 +28,7 @@ export class OffersService {
       .append('user_salary', user_salary)
       .append('user_down_payment', user_down_payment)
       .append('user_mortgage_term_length', user_mortgage_term_length)
-    return this.http.get<Offers>(`/api/users/${user_id}/offers/`, { params: offersParams });
+    return this.http.get<Offers>(this.baseUrl + `/api/users/${user_id}/offers/`, { params: offersParams });
 
   }
 
