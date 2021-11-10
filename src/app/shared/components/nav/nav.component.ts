@@ -41,6 +41,9 @@ export class NavComponent implements OnInit {
     });
   }
 
+  navigateToProfile(){
+    this.router.navigate(['user/profile'])
+  }
 
   signOut() {
     firebase.auth(firebase.app('[DEFAULT]')).signOut().then(res => {

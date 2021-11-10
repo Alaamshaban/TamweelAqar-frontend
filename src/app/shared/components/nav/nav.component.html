@@ -29,8 +29,8 @@
         </div>
     </ng-template>
     <mat-menu #userMenu="matMenu">
-        <button mat-button>
-            <a class="btn-link" [routerLink]="['/user/profile']">
+        <button mat-button (click)="navigateToProfile()">
+            <a class="btn-link">
                 Profile
             </a></button>
         <mat-divider></mat-divider>
