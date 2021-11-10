@@ -144,7 +144,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
       .then((result) => {
         console.log(result)
         this.cookieService.set('user_uid',result.user.uid);
-        this.userService.getUser().subscribe(res => this.dialogRef.close());
+        this.userService.getUser().subscribe(res =>{
+           this.dialogRef.close();
+           window.location.reload();
+          });
       
         // this.ngZone.run(() => {
         //   this.router.navigate(['dashboard']);
