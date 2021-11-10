@@ -19,17 +19,17 @@ loggingOut=new BehaviorSubject(false);
 
   addUser(user) {
     console.log(user)
-    return this.http.post('/api/users', user);
+    return this.http.post(this.basUrl+'/api/users', user);
   }
 
   getUser() {
     const user_id = this.cookieService.get('user_uid');
-    return this.http.get(`/api/users/${user_id}`);
+    return this.http.get(`${this.basUrl}/api/users/${user_id}`);
   }
 
   updateUser(user) {
     const user_id = this.cookieService.get('user_uid');
-   return this.http.put(`/api/users/${user_id}`, user);
+   return this.http.put(this.basUrl+`/api/users/${user_id}`, user);
   }
 
 }
