@@ -1,15 +1,19 @@
 <section class="three-loan-area five-loan-area ptb-100">
     <div class="container">
         <app-search [searchParams]="searchParams" (updateSearch)="search($event)"></app-search>
-        <div class="page">
-            <app-terms-explain [offers]="eligible_offers"></app-terms-explain>
-            <div class="card-container">
-                <app-offers-content [offers]="eligible_offers" [offersType]="'eligible'" [searchParams]="searchParams">
-                </app-offers-content>
-                <mat-divider *ngIf="eligible_offers?.length"></mat-divider>
-                <app-offers-content [offers]="not_eligible_offers" [offersType]="'not_eligible'"
-                    [searchParams]="searchParams"></app-offers-content>
+        <mat-spinner class="spinner" *ngIf="loading;else offers"></mat-spinner>
+        <ng-template #offers>
+            <div class="page">
+                <app-terms-explain [offers]="eligible_offers"></app-terms-explain>
+                <div class="card-container">
+                    <app-offers-content [offers]="eligible_offers" [offersType]="'eligible'"
+                        [searchParams]="searchParams">
+                    </app-offers-content>
+                    <mat-divider *ngIf="eligible_offers?.length"></mat-divider>
+                    <app-offers-content [offers]="not_eligible_offers" [offersType]="'not_eligible'"
+                        [searchParams]="searchParams"></app-offers-content>
+                </div>
             </div>
-        </div>
+        </ng-template>
     </div>
 </section>

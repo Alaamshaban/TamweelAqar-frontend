@@ -1,129 +1,136 @@
-<div class="half-form">
-    <div class="form">
-        <form [formGroup]="userForm">
-            <div class="flex-container">
-                <div class="FormCell">
-                    <mat-form-field>
-                        <input matInput type="text" formControlName="user_name" placeholder="User name">
-                        <mat-error
-                            *ngIf="f.user_name.hasError('required') && (f.user_name.dirty || f.user_name.touched)">
+<mat-spinner class="spinner" *ngIf="loading;else user"></mat-spinner>
+<ng-template #user>
+    <div class="half-form">
+        <div class="form">
+            <form [formGroup]="userForm">
+                <div class="flex-container">
+                    <div class="FormCell">
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="user_name" placeholder="User name">
+                        </mat-form-field>
+                    </div>
+                    <div class="FormCell">
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="full_name" placeholder="Full name *">
+                            <mat-error
+                            *ngIf="f.full_name.hasError('required') && (f.full_name.dirty || f.full_name.touched)">
                             Field is required.
                         </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="FormCell">
-                    <mat-form-field>
-                        <input matInput type="text" formControlName="full_name" placeholder="Full name">
-                    </mat-form-field>
-                </div>
-                <div class="FormCell">
-                    <mat-form-field>
-                        <input matInput type="text" formControlName="phone_number" maxlength="11"
-                            placeholder="Phone number" readonly>
-                        <mat-error
-                            *ngIf="f.phone_number.hasError('required') && (f.phone_number.dirty || f.phone_number.touched)">
-                            Field is required.
-                        </mat-error>
-                        <mat-error
-                            *ngIf="f.phone_number.hasError('pattern') && (f.phone_number.dirty || f.phone_number.touched)">
-                            Field format is incorrect.
-                        </mat-error>
-                        <span matPrefix>+20&nbsp;</span>
-                    </mat-form-field>
-                </div>
-                <div class="FormCell">
-                    <mat-form-field>
-                        <input matInput type="email_address" formControlName="email_address"
-                            placeholder="Email Address">
-                        <mat-error
-                            *ngIf="f.email_address.hasError('email') && (f.email_address.dirty || f.email_address.touched)">
-                            Field format is incorrect.
-                        </mat-error>
-                        <mat-error
-                            *ngIf="f.email_address.hasError('required') && (f.email_address.dirty || f.email_address.touched)">
-                            Field is required.
-                        </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="FormCell">
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="phone_number" maxlength="11"
+                                placeholder="Phone number *" readonly>
+                            <mat-error
+                                *ngIf="f.phone_number.hasError('required') && (f.phone_number.dirty || f.phone_number.touched)">
+                                Field is required.
+                            </mat-error>
+                            <mat-error
+                                *ngIf="f.phone_number.hasError('pattern') && (f.phone_number.dirty || f.phone_number.touched)">
+                                Field format is incorrect.
+                            </mat-error>
+                            <span matPrefix>+20&nbsp;</span>
+                        </mat-form-field>
+                    </div>
+                    <div class="FormCell">
+                        <mat-form-field>
+                            <input matInput type="email_address" formControlName="email_address"
+                                placeholder="Email Address">
+                            <mat-error
+                                *ngIf="f.email_address.hasError('email') && (f.email_address.dirty || f.email_address.touched)">
+                                Field format is incorrect.
+                            </mat-error>
+                            <mat-error
+                                *ngIf="f.email_address.hasError('required') && (f.email_address.dirty || f.email_address.touched)">
+                                Field is required.
+                            </mat-error>
 
-                    </mat-form-field>
-                </div>
-                <div class="FormCell">
-                    <mat-form-field>
-                        <input matInput type="password" minlength="6" formControlName="password" placeholder="Password">
-                        <mat-error *ngIf="f.password.hasError('required') && (f.password.dirty || f.password.touched)">
-                            Field is required.
-                        </mat-error>
-                        <mat-error *ngIf="f.password.hasError('minLength') && (f.password.dirty || f.password.touched)">
-                            Min length is 6 characters.
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="FormCell">
-                    <mat-form-field>
-                        <input matInput type="password" formControlName="confirm_password"
-                            placeholder="Confirm Password">
-                        <mat-error
-                            *ngIf="f.confirm_password.hasError('required') && (f.confirm_password.dirty || f.confirm_password.touched)">
-                            Field is required.
-                        </mat-error>
-                        <mat-error *ngIf="f?.confirm_password?.errors?.confirmedValidator">
-                            Password and Confirm Password must be match.
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="FormCell">
-                    <mat-form-field >
-                        <mat-label>Date of birth</mat-label>
-                        <input matInput readonly (click)="checkin.open()" [matDatepicker]="checkin"
-                            formControlName="date_of_birth">
-                        <mat-datepicker-toggle matSuffix [for]="checkin">
-                            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                        </mat-datepicker-toggle>
-                        <mat-datepicker #checkin></mat-datepicker>
-                    </mat-form-field>
-                </div>
-                <div class="FormCell">
-                    <mat-form-field>
-                        <input matInput type="text" formControlName="address" placeholder="Address">
-                    </mat-form-field>
-                </div>
-                <div class="FormCell">
-                    <mat-form-field>
-                        <mat-label>Employment Status</mat-label>
-                        <mat-select panelClass="SelectClass" formControlName="employment_status">
-                            <mat-option *ngFor="let status of ['unemployed','self employed','employee','professional']"
-                                [value]="status">
-                                {{ status }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="FormCell">
-                    <mat-form-field>
-                        <mat-label>Nationality</mat-label>
-                        <mat-select panelClass="SelectClass" formControlName="nationality" [compareWith]="compareWith">
-                            <mat-option *ngFor="let nationality of nationalities" [value]="nationality">
-                                {{ nationality.nationality }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="FormCell">
-                    <mat-form-field>
-                        <mat-label>Gender</mat-label>
-                        <mat-select panelClass="SelectClass" formControlName="gender">
-                            <mat-option *ngFor="let g of ['Female','Male']" [value]="g">
-                                {{ g }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                        </mat-form-field>
+                    </div>
+                    <div class="FormCell">
+                        <mat-form-field>
+                            <input matInput type="password" minlength="6" formControlName="password"
+                                placeholder="Password">
+                            <mat-error
+                                *ngIf="f.password.hasError('required') && (f.password.dirty || f.password.touched)">
+                                Field is required.
+                            </mat-error>
+                            <mat-error
+                                *ngIf="f.password.hasError('minLength') && (f.password.dirty || f.password.touched)">
+                                Min length is 6 characters.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="FormCell">
+                        <mat-form-field>
+                            <input matInput type="password" formControlName="confirm_password"
+                                placeholder="Confirm Password">
+                            <mat-error
+                                *ngIf="f.confirm_password.hasError('required') && (f.confirm_password.dirty || f.confirm_password.touched)">
+                                Field is required.
+                            </mat-error>
+                            <mat-error *ngIf="f?.confirm_password?.errors?.confirmedValidator">
+                                Password and Confirm Password must be match.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="FormCell">
+                        <mat-form-field>
+                            <mat-label>Date of birth</mat-label>
+                            <input matInput readonly (click)="date_of_birth.open()" [matDatepicker]="date_of_birth"
+                                formControlName="date_of_birth" />
+                            <mat-datepicker-toggle matSuffix [for]="date_of_birth">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #date_of_birth></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="FormCell">
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="address" placeholder="Address">
+                        </mat-form-field>
+                    </div>
+                    <div class="FormCell">
+                        <mat-form-field>
+                            <mat-label>Employment Status</mat-label>
+                            <mat-select panelClass="SelectClass" formControlName="employment_status">
+                                <mat-option
+                                    *ngFor="let status of ['unemployed','self employed','employee','professional']"
+                                    [value]="status">
+                                    {{ status }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="FormCell">
+                        <mat-form-field>
+                            <mat-label>Nationality</mat-label>
+                            <mat-select panelClass="SelectClass" formControlName="nationality"
+                                [compareWith]="compareWith">
+                                <mat-option *ngFor="let nationality of nationalities" [value]="nationality">
+                                    {{ nationality.nationality }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="FormCell">
+                        <mat-form-field>
+                            <mat-label>Gender</mat-label>
+                            <mat-select panelClass="SelectClass" formControlName="gender">
+                                <mat-option *ngFor="let g of ['Female','Male']" [value]="g">
+                                    {{ g }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
 
-                <button mat-raised-button color="primary" (click)="saveUser()"
-                   >Save</button>
-            </div>
-        </form>
+                    <button mat-raised-button color="primary" [disabled]="userForm.invalid" (click)="saveUser()">Save</button>
+                </div>
+            </form>
+        </div>
+        <div class="search-results">
+            <app-search-results [results]="userResults"></app-search-results>
+        </div>
     </div>
-    <div class="search-results">
-     <app-search-results [results]="userResults"></app-search-results>
-    </div>
-</div>
+</ng-template>

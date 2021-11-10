@@ -8,6 +8,7 @@ import { SignUpComponent } from 'src/app/user/sign-up/sign-up.component';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import Cities from '../../../assets/json/cities.json';
 
 @Component({
   selector: 'app-home',
@@ -36,7 +37,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       id: 3,
       desc: 'option 3'
     }
-  ]
+  ];
+  cities = Cities;
 
   constructor(
     private router: Router,
@@ -51,7 +53,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.userId = this.cookieService.get('user_uid') && this.cookieService.get('token');
     if (this.userId) {
-      this.offersForm.controls['user_name'].clearValidators();
+      this.offersForm.controls['full_name'].clearValidators();
       this.offersForm.controls['phone_number'].clearValidators();
       this.offersForm.updateValueAndValidity();
     }
@@ -81,14 +83,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   setOffersForm() {
     this.offersForm = this.fb.group({
-      user_name: [null, Validators.required],
+      user_name: [null],
       phone_number: [null, [Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/), Validators.required]],
-      purchase_price: [null, Validators.required],
-      user_salary: [null, Validators.required],
-      down_payment: [null, Validators.required],
-      property_ZIP_code: [null],
+      purchase_price: [null, [Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/), Validators.required]],
+      user_salary: [null, [Validators.required, Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/)]],
+      down_payment: [null, [Validators.required, Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/)]],
+      property_area: [null],
       mortgage_term_length: ['', Validators.required],
-      email_address: [null,Validators.email]
+      full_name: [null, Validators.required]
     });
   }
 

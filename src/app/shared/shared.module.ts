@@ -1,9 +1,12 @@
 import { SearchResultsComponent } from './components/search-results/search-results.component';
-import { RouterModule } from '@angular/router';
-
 import { NavComponent } from './components/nav/nav.component';
 import { PreloaderComponent } from './components/preloader/preloader.component';
+import { SearchComponent } from './components/search/search.component';
+import { OffersContentComponent } from './components/offers-content/offers-content.component';
+import { TermsExplainComponent } from './components/terms-explain/terms-explain.component';
+import { SearchCardComponent } from './search-card/search-card.component';
 
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,10 +29,8 @@ import { NiceSelectModule } from "ng-nice-select";
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
-import { SearchComponent } from './components/search/search.component';
-import { OffersContentComponent } from './components/offers-content/offers-content.component';
-import { TermsExplainComponent } from './components/terms-explain/terms-explain.component';
-import { SearchCardComponent } from './search-card/search-card.component';
+
+
 
 
 

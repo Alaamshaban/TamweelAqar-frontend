@@ -35,6 +35,7 @@ export class OffersContentComponent implements OnInit {
   }
 
   getDownPayment(percentage) {
+    console.log(percentage)
     return percentage / 100 * this.searchParams.purchase_price;
   }
 

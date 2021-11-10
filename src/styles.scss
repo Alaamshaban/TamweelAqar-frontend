@@ -30,6 +30,12 @@ body {
     background-color: $white-color;
     font-size: $all-size;
 }
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    margin-top: calc(50vh - 100px);
+  }
 .mat-typography  {
     font-size: mat-font-size($all-size, body-1);
     font-family: mat-font-family($common-font, body-1);
@@ -380,6 +386,8 @@ button {
                             .list {
                                 display: block;
                                 width: 100%;
+                                height: 300px;
+                                overflow-y: scroll;
 
                                 li {
                                     display: block;

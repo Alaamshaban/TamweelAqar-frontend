@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { OffersService } from './../../shared/services/offers.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
@@ -18,14 +19,15 @@ export class UserProfileComponent implements OnInit {
   userForm: FormGroup;
   nationalities = NationaltiesJSON;
   userResults;
+  loading = true;
 
   constructor(
     private userService: UserService,
     private offersService: OffersService,
+    private snackBar: MatSnackBar,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    console.log('hererer')
     this.setUserForm();
     this.getUser();
     this.userResults = this.offersService.userLastSearch
@@ -34,6 +36,7 @@ export class UserProfileComponent implements OnInit {
 
   getUser() {
     this.userService.getUser().subscribe(res => {
+      this.loading = false;
       console.log(res);
       this.patchForm(res);
     })
@@ -42,11 +45,11 @@ export class UserProfileComponent implements OnInit {
   setUserForm() {
     this.userForm = this.fb.group({
       user_name: [null],
-      phone_number: [null],
+      phone_number: [null,Validators.required],
       email_address: [null],
       password: [null, Validators.minLength(6)],
       confirm_password: [''],
-      full_name: [null],
+      full_name: [null,Validators.required],
       gender: [null],
       date_of_birth: [null],
       address: [null],
@@ -59,19 +62,18 @@ export class UserProfileComponent implements OnInit {
 
   patchForm(user) {
     this.userForm.patchValue({
-      user_name: user.user_name,
+      user_name: user.user_name=== 'null' ? '' : user.user_name,
       phone_number: user.phone_number,
       email_address: user.email_address === 'null' ? '' : user.email_address,
       password: user.password === 'null' ? null : user.password,
       confirm_password: user.password === 'null' ? null : user.password,
       full_name: user.full_name === 'null' ? '' : user.full_name,
       gender: user.gender,
-      date_of_birth: user.date_of_birth,
-      address: user.address,
+      date_of_birth: user.date_of_birth === 'null' ? null : user.date_of_birth,
+      address: user.address === 'null' ? '' : user.address,
       nationality: JSON.parse(user.nationality),
       employment_status: user.employment_status
     });
-    console.log(this.userForm.errors)
   }
 
   get f() {
@@ -83,23 +85,45 @@ export class UserProfileComponent implements OnInit {
   }
 
   saveUser() {
-    console.log(this.userForm.value);
+    this.loading = true;
     this.userService.updateUser(this.userForm.value).subscribe(res => {
-      setTimeout(() => {
-        firebase.auth().currentUser.updateEmail(this.userForm.value.email_address)
-          .then((result) => {
-            firebase.auth().onAuthStateChanged((user) => {
-              console.log(user)
-              firebase.auth().currentUser.updatePassword(this.userForm.value.password).then(result => {
-                console.log('result?>>>>>', result)
-              })
-            })
+      const user = firebase.auth().currentUser;
+      if (user) {
+        this.updateUserEmailAndPass()
+      } else {
+        firebase.auth().onAuthStateChanged((user) => {
+          console.log(user);
+          this.updateUserEmailAndPass();
+        });
+      }
+    }, err => {
+      console.log(err);
+      this.loading = false;
+      this.snackBar.open(err.Error, '', {
+        duration: 30000,
+      });
+    });
+  }
 
-            console.log('result?>>>>>', result)
-          })
-      }, 2000)
-
-    })
+  updateUserEmailAndPass() {
+    firebase.auth().currentUser.updateEmail(this.userForm.value.email_address)
+      .then((result) => {
+        firebase.auth().currentUser.updatePassword(this.userForm.value.password).then(result => {
+          this.loading = false;
+        }, (err: firebase.auth.Error) => {
+          console.log(err);
+          this.loading = false;
+          this.snackBar.open(err.message, '', {
+            duration: 30000,
+          });
+        });
+      }, (err: firebase.auth.Error) => {
+        console.log(err);
+        this.loading = false;
+        this.snackBar.open(err.message, '', {
+          duration: 30000,
+        });
+      });
   }
 
 }

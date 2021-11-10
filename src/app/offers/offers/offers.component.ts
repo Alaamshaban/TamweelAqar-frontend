@@ -16,6 +16,7 @@ export class OffersComponent implements OnInit {
   not_eligible_offers: Offer[];
   searchParams;
   userId = this.cookieService.get('user_uid');
+  loading = true;
 
   constructor(
     private offersService: OffersService,
@@ -26,6 +27,7 @@ export class OffersComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.searchParams = params;
       this.offersService.getOffers(this.userId, params).subscribe(offers => {
+        this.loading = false;
         this.eligible_offers = offers.eligible;
         this.not_eligible_offers = offers.not_eligible;
         this.setUserHistory(params)
@@ -35,9 +37,11 @@ export class OffersComponent implements OnInit {
 
 
   search(ev) {
+    this.loading = true;
     ev.user_mortgage_term_length = ev.mortgage_term_length;
     ev.user_down_payment = ev.down_payment;
     this.offersService.getOffers(this.userId, ev).subscribe(offers => {
+      this.loading = false;
       this.eligible_offers = offers.eligible;
       this.not_eligible_offers = offers.not_eligible;
       this.setUserHistory(ev)

@@ -1,9 +1,9 @@
 <div class="search-card">
     <form class="search-widget-card" [formGroup]="searchForm">
         <mat-form-field class="formField" appearance="outline" id="purchase_price">
-            <mat-label>Purchase price</mat-label>
+            <mat-label>Home Price</mat-label>
             <input type="text" matInput class="form-control" formControlName="purchase_price"
-                placeholder="Purchase price *">
+                placeholder="Home Price *">
             <mat-error
                 *ngIf="f.purchase_price.hasError('required') && (f.purchase_price.dirty || f.purchase_price.touched)">
                 This field is required.

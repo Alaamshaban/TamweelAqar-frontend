@@ -6,8 +6,8 @@
         <div class="flex-container">
             <div class="FormCell">
                 <mat-form-field>
-                    <input matInput type="text" formControlName="user_name" placeholder="User name">
-                    <mat-error *ngIf="f.user_name.hasError('required') && (f.user_name.dirty || f.user_name.touched)">
+                    <input matInput type="text" formControlName="full_name" placeholder="User name">
+                    <mat-error *ngIf="f.full_name.hasError('required') && (f.full_name.dirty || f.full_name.touched)">
                         Field is required.
                     </mat-error>
                 </mat-form-field>

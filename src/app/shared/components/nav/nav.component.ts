@@ -46,11 +46,11 @@ export class NavComponent implements OnInit {
   }
 
   signOut() {
+    this.cookieService.delete('token');
+    this.cookieService.delete('refresh_token');
+    this.cookieService.delete('user_uid');
     firebase.auth(firebase.app('[DEFAULT]')).signOut().then(res => {
       console.log('>>>', res)
-      this.cookieService.delete('token');
-      this.cookieService.delete('refresh_token');
-      this.cookieService.delete('user_uid');
       this.router.navigate(['/home']);
       firebase.app().delete();
       this.userLoggedIn = null;

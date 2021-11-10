@@ -10,13 +10,13 @@
                 <div class="banner-content">
                     <span>
                         <img src="assets/img/banner-icon.png" alt="Banner">
-                        Welcome To Levi
+                        Welcome to Tamweelaqar
                     </span>
-                    <h1>Buy A Home By <span>Confidence</span></h1>
-                    <p>Reliable Sustainable Mortgage Provider</p>
+                    <h1>Egypt's first <span>digital mortgage advisor</span></h1>
+                    <p>Use our calculator to get instant offers from Egypt's leading mortgage companies</p>
 
                     <div class="banner-form">
-                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                        <!-- <ul class="nav nav-pills" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-default active" id="pills-home-tab" data-bs-toggle="pill"
                                     href="#pills-home" role="tab" aria-controls="pills-home"
@@ -28,7 +28,7 @@
                                     href="#pills-profile" role="tab" aria-controls="pills-profile"
                                     aria-selected="false">Refinance</a>
                             </li>
-                        </ul>
+                        </ul> -->
 
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
@@ -37,35 +37,43 @@
                                     <div class="row">
                                         <div class="col-lg-6" *ngIf="!userId">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" formControlName="user_name"
-                                                    placeholder="Username *">
+                                                <input type="text" formControlName="full_name" class="form-control"
+                                                    placeholder="Full Name *">
                                                 <mat-error
-                                                    *ngIf="f.user_name.hasError('required') && (f.user_name.dirty || f.user_name.touched)">
+                                                    *ngIf="f.full_name.hasError('required') && (f.full_name.dirty || f.full_name.touched)">
                                                     This field is required.
                                                 </mat-error>
                                             </div>
                                         </div>
                                         <div class="col-lg-6" *ngIf="!userId">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" formControlName="phone_number"
-                                                    placeholder="Phone number *">
+                                                <input type="text" class="form-control" maxlength="11"
+                                                    formControlName="phone_number" placeholder="Phone number *">
                                                 <mat-error
                                                     *ngIf="f.phone_number.hasError('required') && (f.phone_number.dirty || f.phone_number.touched)">
                                                     This field is required.
                                                 </mat-error>
                                                 <mat-error
-                                                    *ngIf="f.phone_number.hasError('invalid_field') && (f.phone_number.dirty || f.phone_number.touched)">
-                                                    {{invalidPhoneNumberError}}.
+                                                    *ngIf="f.phone_number.hasError('required') && (f.phone_number.dirty || f.phone_number.touched)">
+                                                    This field is required.
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="f.phone_number.hasError('pattern') && (f.phone_number.dirty || f.phone_number.touched)">
+                                                    Invalid format please enter numbers only.
                                                 </mat-error>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="purchase_price"
-                                                    placeholder="Purchase price *">
+                                                    placeholder="Home Price (e.g EGP 1,000,000) *" >
                                                 <mat-error
                                                     *ngIf="f.purchase_price.hasError('required') && (f.purchase_price.dirty || f.purchase_price.touched)">
                                                     This field is required.
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="f.purchase_price.hasError('pattern') && (f.purchase_price.dirty || f.purchase_price.touched)">
+                                                    Invalid format please enter numbers only.
                                                 </mat-error>
                                             </div>
                                         </div>
@@ -73,10 +81,14 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="user_salary"
-                                                    placeholder="Monthly income *">
+                                                    placeholder="Monthly Income (e.g EGP 30,000) *">
                                                 <mat-error
                                                     *ngIf="f.user_salary.hasError('required') && (f.user_salary.dirty || f.user_salary.touched)">
                                                     This field is required.
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="f.user_salary.hasError('pattern') && (f.user_salary.dirty || f.user_salary.touched)">
+                                                    Invalid format please enter numbers only.
                                                 </mat-error>
                                             </div>
                                         </div>
@@ -84,18 +96,28 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="down_payment"
-                                                    placeholder="Down payment *">
+                                                    placeholder="Down payment  (e.g EGP 30,000) *">
                                                 <mat-error
                                                     *ngIf="f.down_payment.hasError('required') && (f.down_payment.dirty || f.down_payment.touched)">
                                                     This field is required.
+                                                </mat-error>
+                                                <mat-error
+                                                    *ngIf="f.down_payment.hasError('pattern') && (f.down_payment.dirty || f.down_payment.touched)">
+                                                    Invalid format please enter numbers only.
                                                 </mat-error>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control"
-                                                    formControlName="property_ZIP_code" placeholder="Property ZIP code">
+                                                <select class="form-control select" nice-select
+                                                    (change)="onChange($event)" [value]="f.property_area"
+                                                    [attr.data-value]="f.property_area">
+                                                    <option value=''>Property Area</option>
+                                                    <option *ngFor="let property_area of cities"
+                                                        [ngValue]="f.property_area">{{property_area.name}}
+                                                    </option>
+                                                </select>
                                             </div>
                                         </div>
 
@@ -104,7 +126,7 @@
                                                 <select class="form-control select" nice-select
                                                     (change)="onChange($event)" [value]="f.mortgage_term_length"
                                                     [attr.data-value]="f.mortgage_term_length">
-                                                    <option value=''>Mortgage term length *</option>
+                                                    <option value=''>Mortgage term length in years *</option>
                                                     <option *ngFor="let mortgage_term_length of getMortgageLength()"
                                                         [ngValue]="f.mortgage_term_length">{{mortgage_term_length}}
                                                     </option>
@@ -116,28 +138,18 @@
                                             </div>
                                         </div>
 
-
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <input type="email" formControlName="email_address" class="form-control"
-                                                    placeholder="Email address">
-                                                <mat-error
-                                                    *ngIf="f.email_address.hasError('email') && (f.email_address.dirty || f.email_address.touched)">
-                                                    Field format is incorrect.
-                                                </mat-error>
+                                                <input type="text" class="form-control" formControlName="user_name"
+                                                    placeholder="Username">
                                             </div>
                                         </div>
+
 
                                         <div class="col-lg-6">
                                             <button (click)="calculateMoney()" [disabled]="offersForm.invalid"
                                                 id="calculate-money" class="btn banner-form-btn">Calculate
                                                 money</button>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <a class="banner-call" href="tel:5432123451">Call Us: 5432 123 451 (Sat
-                                                -
-                                                Thu)</a>
                                         </div>
                                     </div>
                                 </form>

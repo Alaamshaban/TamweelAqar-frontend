@@ -82,7 +82,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   verifyLoginCode(): void {
     if (!this.confirmationResult && this.data.process === 'verification') {
       this.confirmationResult = this.data.confirmation;
-      this.signUPForm.controls['user_name'].setValue(this.data.offersForm.user_name);
+      this.signUPForm.controls['full_name'].setValue(this.data.offersForm.full_name);
       this.signUPForm.controls['phone_number'].setValue(this.data.offersForm.phone_number);
     }
     this.confirmationResult.confirm(this.verificationForm.value.verification_code).then(result => {
@@ -107,6 +107,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.cookieService.set('user_uid', result.user.uid);
     this.cookieService.set('token', token);
     this.userService.updateUser({ ...this.phonNumberSignInForm.value, token: token, user_id: result.user.uid }).subscribe(res => {
+      window.location.reload();
     });
   }
 
@@ -114,6 +115,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.userService.addUser({ ...this.signUPForm.value, token: token, user_id: result.user.uid }).subscribe(res => {
       this.cookieService.set('token', token);
       this.cookieService.set('user_uid', result.user.uid);
+      window.location.reload();
       if (this.data && this.data.offersForm) {
         this.router.navigate(['/offers'], {
           queryParams: {
@@ -143,16 +145,14 @@ export class SignUpComponent implements OnInit, OnDestroy {
     return firebase.auth().signInWithEmailAndPassword(email_address, password)
       .then((result) => {
         console.log(result)
-        this.cookieService.set('user_uid',result.user.uid);
-        this.userService.getUser().subscribe(res =>{
-           this.dialogRef.close();
-           window.location.reload();
-          });
-      
-        // this.ngZone.run(() => {
-        //   this.router.navigate(['dashboard']);
-        // });
-        //  this.SetUserData(result.user);
+        this.cookieService.set('user_uid', result.user.uid);
+        this.userService.getUser().subscribe(res => {
+          this.dialogRef.close();
+          window.location.reload();
+        }, (err) => {
+          this.dialogRef.close();
+          window.location.reload();
+        });
       }).catch((error) => {
         window.alert(error.message)
       })
@@ -168,7 +168,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   setForms(): void {
     this.signUPForm = this.fb.group({
-      user_name: [null, Validators.required],
+      full_name: [null, Validators.required],
       phone_number: [null, [Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/), Validators.required]],
     });
     this.verificationForm = this.fb.group({
