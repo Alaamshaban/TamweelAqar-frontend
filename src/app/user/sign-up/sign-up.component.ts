@@ -143,8 +143,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
     return firebase.auth().signInWithEmailAndPassword(email_address, password)
       .then((result) => {
         console.log(result)
-        this.userService.getUser().subscribe(res => this.dialogRef.close());
         this.cookieService.set('user_uid',result.user.uid);
+        this.userService.getUser().subscribe(res => this.dialogRef.close());
+      
         // this.ngZone.run(() => {
         //   this.router.navigate(['dashboard']);
         // });
