@@ -1,16 +1,15 @@
-<h1 mat-dialog-title>{{loginProcess?'Login':(confirmationResult || data?.process==='verification')?'Verification Code':'Sign up'}}</h1>
+<h1 mat-dialog-title>{{loginProcess?'Login':(confirmationResult || data?.process==='verification')?'Verification
+    Code':'Sign up'}}</h1>
 <div class="form">
-    <form [formGroup]="signUPForm" [hidden]="confirmationResult || data?.process==='verification'">
+    <!-- SIGN UP FORM -->
+    <form [formGroup]="signUPForm" [hidden]="loginProcess || confirmationResult || data?.process==='verification'">
         <div class="flex-container">
-            <div class="FormCell" *ngIf="!loginProcess">
+            <div class="FormCell">
                 <mat-form-field>
                     <input matInput type="text" formControlName="user_name" placeholder="User name">
                     <mat-error *ngIf="f.user_name.hasError('required') && (f.user_name.dirty || f.user_name.touched)">
                         Field is required.
                     </mat-error>
-                    <!-- <mat-error *ngIf="f.username.hasError('invalid_field') && (f.phone_number.dirty || f.phone_number.touched)">
-                            {{BeError}}.
-                        </mat-error> -->
                 </mat-form-field>
             </div>
             <div class="FormCell">
@@ -33,14 +32,74 @@
                 </mat-form-field>
             </div>
 
-            <button mat-raised-button color="accent" id="signup-btn" class="sign-up-btn" [disabled]="signUPForm.invalid"
-                *ngIf="!loginProcess">Create account</button>
-            <button mat-raised-button color="accent" id="signup-btn" class="sign-up-btn" [disabled]="signUPForm.invalid"
-                [hidden]="!loginProcess">Phone Login</button>
+            <button mat-raised-button color="accent" id="signup-btn" class="sign-up-btn"
+                [disabled]="signUPForm.invalid">Create account</button>
             <button class="back-to-login" mat-stroked-button color="primary" (click)="backToLogin()"
                 *ngIf="!loginProcess">Back to login</button>
         </div>
     </form>
+
+    <!-- SIGN IN FORMs -->
+
+        <!-- Phone login form -->
+        <form [hidden]="!loginProcess || confirmationResult || data?.process==='verification'" [formGroup]="phonNumberSignInForm">
+            <div class="flex-container">
+
+                <div class="FormCell">
+                    <mat-form-field>
+                        <input matInput type="text" formControlName="phone_number" maxlength="11"
+                            placeholder="Phone number">
+                        <mat-error
+                            *ngIf="phone_signIn_form.phone_number.hasError('required') && (phone_signIn_form.phone_number.dirty || phone_signIn_form.phone_number.touched)">
+                            Field is required.
+                        </mat-error>
+                        <mat-error
+                            *ngIf="phone_signIn_form.phone_number.hasError('pattern') && (phone_signIn_form.phone_number.dirty || phone_signIn_form.phone_number.touched)">
+                            Field format is incorrect.
+                        </mat-error>
+                        <mat-error
+                            *ngIf="phone_signIn_form.phone_number.hasError('invalid_field') && (phone_signIn_form.phone_number.dirty || phone_signIn_form.phone_number.touched)">
+                            {{invalidPhoneNumberError}}.
+                        </mat-error>
+                        <span matPrefix>+20&nbsp;</span>
+                    </mat-form-field>
+                </div>
+                <button mat-raised-button color="accent" id="signIn-btn" class="sign-up-btn"
+                    [disabled]="phonNumberSignInForm.invalid">Phone Login</button>
+            </div>
+        </form>
+        <ng-container *ngIf="loginProcess">
+        <!--Email login form-->
+        <form [formGroup]="emailFormSignIn" [hidden]="!loginProcess || confirmationResult || data?.process==='verification'">
+            <div class="flex-container">
+
+                <div class="FormCell">
+                    <mat-form-field>
+                        <input type="email" formControlName="email_address" matInput class="form-control"
+                            placeholder="Email address">
+                        <mat-error
+                            *ngIf="email_signIn_form.email_address.hasError('email') && (email_signIn_form.email_address.dirty || email_signIn_form.email_address.touched)">
+                            Field format is incorrect.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput type="password" formControlName="password" placeholder="Password">
+                        <mat-error
+                            *ngIf="email_signIn_form.password.hasError('required') && (email_signIn_form.password.dirty || email_signIn_form.password.touched)">
+                            Field is required.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <button mat-raised-button color="accent" (click)="SignInWithEmail()" class="sign-up-btn"
+                    [disabled]="emailFormSignIn.invalid">
+                    Email Login</button>
+            </div>
+        </form>
+    </ng-container>
+
+    <!-- Verification code Form -->
 
     <form [formGroup]="verificationForm" *ngIf="confirmationResult || data?.process==='verification'">
         <div class="flex-container">

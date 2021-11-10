@@ -101,8 +101,8 @@
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <select class="form-control select" nice-select (change)="onChange($event)"
-                                                    [value]="f.mortgage_term_length"
+                                                <select class="form-control select" nice-select
+                                                    (change)="onChange($event)" [value]="f.mortgage_term_length"
                                                     [attr.data-value]="f.mortgage_term_length">
                                                     <option value=''>Mortgage term length *</option>
                                                     <option *ngFor="let mortgage_term_length of getMortgageLength()"
@@ -121,6 +121,10 @@
                                             <div class="form-group">
                                                 <input type="email" formControlName="email_address" class="form-control"
                                                     placeholder="Email address">
+                                                <mat-error
+                                                    *ngIf="f.email_address.hasError('email') && (f.email_address.dirty || f.email_address.touched)">
+                                                    Field format is incorrect.
+                                                </mat-error>
                                             </div>
                                         </div>
 

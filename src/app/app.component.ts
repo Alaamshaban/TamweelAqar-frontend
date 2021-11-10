@@ -23,20 +23,15 @@ export class AppComponent implements OnInit, OnDestroy {
     location: any;
     routerSubscription: any;
     userActivity;
-    userInactive: Subject<any> = new Subject();
     app;
     constructor(
         private cookieService: CookieService,
         private router: Router) {
-        this.setTimeout();
         if (!firebase.apps.length) {
             this.app = firebase.initializeApp(environment.firebase);
         } else {
             this.app = firebase.app('[DEFAULT]')
         }
-        this.userInactive.subscribe(() => {
-            console.log('user has been inactive for an hour');
-            // interval to refresh user token every one hour
 
             setInterval(() => {
                 if (firebase.app('[DEFAULT]') && firebase.auth(firebase.app('[DEFAULT]')).currentUser) {
@@ -48,21 +43,21 @@ export class AppComponent implements OnInit, OnDestroy {
                     });
                 }
             }, 108000)
-        });
-    }
-
-
-    setTimeout() {
-        this.userActivity = setTimeout(() => this.userInactive.next(undefined), 108000);
-    }
-
-    @HostListener('window:mousemove') refreshUserState() {
-        clearTimeout(this.userActivity);
-        this.setTimeout();
     }
 
     ngOnInit() {
         this.recallJsFuntions();
+        setInterval(() => {
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              // User is signed in.
+              console.log(user)
+            } else {
+                console.log('no user')
+              // No user is signed in.
+            }
+          });
+        },20000)
     }
 
     recallJsFuntions() {

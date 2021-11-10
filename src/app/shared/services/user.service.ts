@@ -1,7 +1,7 @@
 import { BaseURL } from '../../basURL';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -11,23 +11,25 @@ export class UserService {
 
 basUrl=BaseURL;
 
+loggingOut=new BehaviorSubject(false);
+
   constructor(
     private cookieService: CookieService,
     private http: HttpClient) { }
 
   addUser(user) {
     console.log(user)
-    return this.http.post(this.basUrl+'/api/users', user);
+    return this.http.post('/api/users', user);
   }
 
   getUser() {
     const user_id = this.cookieService.get('user_uid');
-    return this.http.get(`${this.basUrl}/api/users/${user_id}`);
+    return this.http.get(`/api/users/${user_id}`);
   }
 
   updateUser(user) {
     const user_id = this.cookieService.get('user_uid');
-   return this.http.put(this.basUrl+`/api/users/${user_id}`, user);
+   return this.http.put(`/api/users/${user_id}`, user);
   }
 
 }

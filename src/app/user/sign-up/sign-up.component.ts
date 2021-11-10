@@ -2,7 +2,7 @@
 import { OffersService } from './../../shared/services/offers.service';
 import { UserService } from './../../shared/services/user.service';
 import { Router } from '@angular/router';
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import firebase from 'firebase/app';
@@ -19,6 +19,8 @@ import { LoginComponent } from '../login/login.component';
 export class SignUpComponent implements OnInit, OnDestroy {
   signUPForm: FormGroup;
   verificationForm: FormGroup;
+  phonNumberSignInForm: FormGroup;
+  emailFormSignIn: FormGroup;
   recaptchaVerifier: firebase.auth.RecaptchaVerifier;
   invalidPhoneNumberError: string;
   invalidVerificationCode: string;
@@ -30,7 +32,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     public cookieService: CookieService,
     private userService: UserService,
-    private offersService: OffersService,
+    private ngZone: NgZone,
     private router: Router,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<SignUpComponent>,
@@ -44,46 +46,35 @@ export class SignUpComponent implements OnInit, OnDestroy {
     } else {
       this.app = firebase.app(); // if already initialized, use that one
     }
+    if (this.data && this.data.process === 'signIn') {
+      this.loginProcess = true;
+    }
+    const btn_id = this.loginProcess ? 'signIn-btn' : 'signup-btn'
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-      'signup-btn',
+      btn_id,
       {
         size: 'invisible',
         callback: (token) => {
+          console.log(token)
           if (token) {
             this.sendLoginCode(token);
           }
         },
       }
     );
+    console.log('...', this.recaptchaVerifier)
     this.recaptchaVerifier.render();
-    if (this.data && this.data.process === 'signIn') {
-      this.loginProcess = true;
-      this.signUPForm.controls['user_name'].clearValidators();
-      this.signUPForm.updateValueAndValidity();
-    } else {
-      firebase.auth().onAuthStateChanged(user => {
-        const userId = this.cookieService.get('user_uid');
-        if (user && userId) {
-          // User is signed in before but token is expired
-          this.loginProcess = true;
-        } else {
-          // no user is signed in before
-          this.loginProcess = false;
-          /** sign up pop-up will appear */
-          // No user is signed in.
-        }
-      });
-    }
   }
 
   sendLoginCode(token) {
-    console.log('token>>', token)
+    console.log(token)
     const appVerifier = this.recaptchaVerifier;
-    const num = '+20' + this.signUPForm.value.phone_number;
-    firebase.auth().signInWithPhoneNumber(num, appVerifier).then(result => {
+    const num = this.loginProcess ? this.phonNumberSignInForm.value.phone_number : this.signUPForm.value.phone_number;
+    firebase.auth().signInWithPhoneNumber('+20' + num, appVerifier).then(result => {
       this.confirmationResult = result;
     }).catch(err => {
-      this.signUPForm.controls['phone_number'].setErrors({ invalid_field: true });
+      this.loginProcess ? this.phonNumberSignInForm.controls['phone_number'].setErrors({ invalid_field: true }) :
+        this.signUPForm.controls['phone_number'].setErrors({ invalid_field: true });
       this.invalidPhoneNumberError = err.message;
     });
   }
@@ -97,26 +88,42 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.confirmationResult.confirm(this.verificationForm.value.verification_code).then(result => {
       const user = firebase.auth().currentUser;
       user.getIdToken(true).then(token => {
-        this.cookieService.set('token', token);
-        this.userService.addUser({ ...this.signUPForm.value, token: token, user_id: result.user.uid }).subscribe(res => {
-          this.cookieService.set('user_uid', result.user.uid);
-          if (this.data && this.data.offersForm) {
-            this.router.navigate(['/offers'], {
-              queryParams: {
-                purchase_price: this.data.offersForm.purchase_price,
-                user_salary: this.data.offersForm.user_salary,
-                user_down_payment: this.data.offersForm.down_payment,
-                user_mortgage_term_length: this.data.offersForm.mortgage_term_length
-              }
-            });
-          }
-        });
+        if (this.loginProcess) {
+          this.updateUser(result, token)
+        } else {
+          this.createUser(result, token);
+        }
+
       });
 
       this.dialogRef.close();
     }).catch(error => {
       this.verificationForm.controls['verification_code'].setErrors({ invalid_field: true });
       this.invalidVerificationCode = error.message;
+    });
+  }
+
+  updateUser(result, token) {
+    this.cookieService.set('user_uid', result.user.uid);
+    this.cookieService.set('token', token);
+    this.userService.updateUser({ ...this.phonNumberSignInForm.value, token: token, user_id: result.user.uid }).subscribe(res => {
+    });
+  }
+
+  createUser(result, token) {
+    this.userService.addUser({ ...this.signUPForm.value, token: token, user_id: result.user.uid }).subscribe(res => {
+      this.cookieService.set('token', token);
+      this.cookieService.set('user_uid', result.user.uid);
+      if (this.data && this.data.offersForm) {
+        this.router.navigate(['/offers'], {
+          queryParams: {
+            purchase_price: this.data.offersForm.purchase_price,
+            user_salary: this.data.offersForm.user_salary,
+            user_down_payment: this.data.offersForm.down_payment,
+            user_mortgage_term_length: this.data.offersForm.mortgage_term_length
+          }
+        });
+      }
     });
   }
 
@@ -128,6 +135,26 @@ export class SignUpComponent implements OnInit, OnDestroy {
       }
     })
   }
+
+  // // Sign in with email/password
+  SignInWithEmail() {
+    const { email_address, password } = this.emailFormSignIn.value;
+    console.log(email_address, password)
+    return firebase.auth().signInWithEmailAndPassword(email_address, password)
+      .then((result) => {
+        console.log(result)
+        this.userService.getUser().subscribe(res => this.dialogRef.close());
+        this.cookieService.set('user_uid',result.user.uid);
+        // this.ngZone.run(() => {
+        //   this.router.navigate(['dashboard']);
+        // });
+        //  this.SetUserData(result.user);
+      }).catch((error) => {
+        window.alert(error.message)
+      })
+  }
+
+
 
   login(): void {
     const dialogRef = this.dialog.open(LoginComponent, {
@@ -143,6 +170,13 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.verificationForm = this.fb.group({
       verification_code: [null, Validators.required]
     });
+    this.phonNumberSignInForm = this.fb.group({
+      phone_number: [null, [Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/), Validators.required]]
+    })
+    this.emailFormSignIn = this.fb.group({
+      email_address: [null, [Validators.email, Validators.required]],
+      password: [null, Validators.required],
+    })
   }
 
   get f() {
@@ -153,8 +187,16 @@ export class SignUpComponent implements OnInit, OnDestroy {
     return this.verificationForm.controls;
   }
 
+  get phone_signIn_form() {
+    return this.phonNumberSignInForm.controls;
+  }
+
+  get email_signIn_form() {
+    return this.emailFormSignIn.controls;
+  }
+
   ngOnDestroy() {
-   // this.app.delete();
+    // this.app.delete();
   }
 
 

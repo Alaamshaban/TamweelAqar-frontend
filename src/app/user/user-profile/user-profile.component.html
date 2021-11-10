@@ -19,7 +19,7 @@
                 <div class="FormCell">
                     <mat-form-field>
                         <input matInput type="text" formControlName="phone_number" maxlength="11"
-                            placeholder="Phone number">
+                            placeholder="Phone number" readonly>
                         <mat-error
                             *ngIf="f.phone_number.hasError('required') && (f.phone_number.dirty || f.phone_number.touched)">
                             Field is required.
@@ -48,9 +48,12 @@
                 </div>
                 <div class="FormCell">
                     <mat-form-field>
-                        <input matInput type="password" formControlName="password" placeholder="Password">
+                        <input matInput type="password" minlength="6" formControlName="password" placeholder="Password">
                         <mat-error *ngIf="f.password.hasError('required') && (f.password.dirty || f.password.touched)">
                             Field is required.
+                        </mat-error>
+                        <mat-error *ngIf="f.password.hasError('minLength') && (f.password.dirty || f.password.touched)">
+                            Min length is 6 characters.
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -116,7 +119,7 @@
                 </div>
 
                 <button mat-raised-button color="primary" (click)="saveUser()"
-                    [disabled]="userForm.invalid">Save</button>
+                   >Save</button>
             </div>
         </form>
     </div>

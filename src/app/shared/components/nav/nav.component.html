@@ -13,7 +13,7 @@
         </ul>
     </div> -->
 
-    <div class="side-nav sign-btns" *ngIf="!ifUserLoggedIn;else loggedIn">
+    <div class="side-nav sign-btns" *ngIf="!userLoggedIn;else loggedIn">
         <a class="side-nav-left" (click)="signIn()">Sign In</a>
         <a class="side-nav-right" (click)="signUp()"><i class='bx bx-link-external'></i>Sign
             Up</a>

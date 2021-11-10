@@ -88,7 +88,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       down_payment: [null, Validators.required],
       property_ZIP_code: [null],
       mortgage_term_length: ['', Validators.required],
-      email_address: [null]
+      email_address: [null,Validators.email]
     });
   }
 
