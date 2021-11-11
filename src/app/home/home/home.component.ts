@@ -83,7 +83,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   setOffersForm() {
     this.offersForm = this.fb.group({
-      user_name: [null],
       phone_number: [null, [Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/), Validators.required]],
       purchase_price: [null, [Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/), Validators.required]],
       user_salary: [null, [Validators.required, Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/)]],

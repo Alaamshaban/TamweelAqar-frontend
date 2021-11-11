@@ -15,7 +15,7 @@
                     <a mat-icon-button class="call" href="{{'tel:'+getCompanyPhone(offer.founder)}}">
                         <mat-icon>call</mat-icon>
                     </a>
-                    <a mat-icon-button class="web" [href]="getCompanyWebsite(offer.founder)">
+                    <a mat-icon-button class="web" (click)="getCompanyWebsite(offer.founder)">
                         <mat-icon>public</mat-icon>
                     </a>
                     <a mat-icon-button class="email" href="{{'mailto: '+getCompanyEmail(offer.founder)}}">

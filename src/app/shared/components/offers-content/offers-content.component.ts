@@ -31,7 +31,7 @@ export class OffersContentComponent implements OnInit {
     return JSON.parse(founder).email
   }
   getCompanyWebsite(founder) {
-    return JSON.parse(founder).website
+    window.open(JSON.parse(founder).website, "_blank");
   }
 
   getDownPayment(percentage) {

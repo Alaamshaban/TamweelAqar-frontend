@@ -4,7 +4,6 @@
 }
 .offer-card {
     width: 100%;
-    margin: 20px;
     .icons{
         display: flex;
     }
@@ -67,6 +66,7 @@
 $desktop: 1200px;
 @media only screen and (min-width: $desktop) {
     .offer-card {
+        margin: 20px;
         .content {
             .value {
                 font-size: 20px;
