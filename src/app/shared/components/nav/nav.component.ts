@@ -41,7 +41,7 @@ export class NavComponent implements OnInit {
     });
   }
 
-  navigateToProfile(){
+  navigateToProfile() {
     this.router.navigate(['user/profile'])
   }
 

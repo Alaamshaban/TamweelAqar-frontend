@@ -1,5 +1,4 @@
 
-import { OffersService } from './../../shared/services/offers.service';
 import { UserService } from './../../shared/services/user.service';
 import { Router } from '@angular/router';
 import { Component, Inject, NgZone, OnDestroy, OnInit } from '@angular/core';
@@ -10,6 +9,7 @@ import 'firebase/auth';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from '../login/login.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-sign-up',
@@ -88,14 +88,14 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.confirmationResult.confirm(this.verificationForm.value.verification_code).then(result => {
       const user = firebase.auth().currentUser;
       user.getIdToken(true).then(token => {
-        if (this.loginProcess) {
-          this.updateUser(result, token)
-        } else {
-          this.createUser(result, token);
-        }
-
+        this.userService.getUserByPhoneNumber(this.data.offersForm.phone_number).subscribe(signedInUser => {
+          this.updateUser(signedInUser, token);
+        }, (err: HttpErrorResponse) => {
+          if (err.status === 404) {
+            this.createUser(result, token);
+          }
+        });
       });
-
       this.dialogRef.close();
     }).catch(error => {
       this.verificationForm.controls['verification_code'].setErrors({ invalid_field: true });
@@ -103,11 +103,11 @@ export class SignUpComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateUser(result, token) {
-    this.cookieService.set('user_uid', result.user.uid);
+  updateUser(user, token) {
+    this.cookieService.set('user_uid', user.user_id);
     this.cookieService.set('token', token);
-    this.userService.updateUser({ ...this.phonNumberSignInForm.value, token: token, user_id: result.user.uid }).subscribe(res => {
-      window.location.reload();
+    this.userService.updateUser(user).subscribe(res => {
+      this.goToOffers();
     });
   }
 
@@ -115,18 +115,21 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.userService.addUser({ ...this.signUPForm.value, token: token, user_id: result.user.uid }).subscribe(res => {
       this.cookieService.set('token', token);
       this.cookieService.set('user_uid', result.user.uid);
-      window.location.reload();
-      if (this.data && this.data.offersForm) {
-        this.router.navigate(['/offers'], {
-          queryParams: {
-            purchase_price: this.data.offersForm.purchase_price,
-            user_salary: this.data.offersForm.user_salary,
-            user_down_payment: this.data.offersForm.down_payment,
-            user_mortgage_term_length: this.data.offersForm.mortgage_term_length
-          }
-        });
-      }
+      this.goToOffers();
     });
+  }
+
+  goToOffers() {
+    if (this.data && this.data.offersForm) {
+      this.router.navigate(['/offers'], {
+        queryParams: {
+          purchase_price: this.data.offersForm.purchase_price,
+          user_salary: this.data.offersForm.user_salary,
+          user_down_payment: this.data.offersForm.down_payment,
+          user_mortgage_term_length: this.data.offersForm.mortgage_term_length
+        }
+      });
+    }
   }
 
   backToLogin() {

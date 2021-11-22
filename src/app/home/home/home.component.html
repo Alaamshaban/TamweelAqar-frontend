@@ -61,6 +61,10 @@
                                                     *ngIf="f.phone_number.hasError('pattern') && (f.phone_number.dirty || f.phone_number.touched)">
                                                     Invalid format please enter numbers only.
                                                 </mat-error>
+                                                <mat-error
+                                                *ngIf="f.phone_number.hasError('invalid_field') && (f.phone_number.dirty || f.phone_number.touched)">
+                                                {{invalidPhoneNumberError}}.
+                                            </mat-error>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
