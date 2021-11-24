@@ -28,12 +28,13 @@
         <mat-card-content class="card-content">
             <div class="content">
                 <div class="down_payment">
-                    <p class="value">EGP {{getDownPayment(offer.down_payment) | number:'1.0-0' :'en-US'}}</p>
+                    <p class="value" [ngClass]="{'not_eligible_offer':getDownPayment(offer.down_payment)>searchParams.user_down_payment}">
+                        EGP {{getDownPayment(offer.down_payment) | number:'1.0-0' :'en-US'}}</p>
 
                     <p class="title">Minimum Down Payment</p>
                 </div>
                 <div class="required_salary">
-                    <p class="value" [ngClass]="{'not_eligible_offer':offersType==='not_eligible'}">EGP
+                    <p class="value" [ngClass]="{'not_eligible_offer':offer.required_salary>searchParams.user_salary}">EGP
                         {{offer.required_salary | number:'1.0-0' :'en-US'}}
                     </p>
 
@@ -45,7 +46,7 @@
                     <p class="title">Admin Fees</p>
                 </div>
                 <div class="max_period">
-                    <p class="value" [ngClass]="{'not_eligible_offer':offersType==='not_eligible'}">
+                    <p class="value" [ngClass]="{'not_eligible_offer':offer.mortgage_term_length<searchParams.user_mortgage_term_length}">
                         {{offer.mortgage_term_length}} Years</p>
 
                     <p class="title">Max.Period</p>

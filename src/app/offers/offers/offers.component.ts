@@ -2,7 +2,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Offer } from './../../models/offer.model';
 import { OffersService } from './../../shared/services/offers.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 
 @Component({
@@ -21,7 +21,8 @@ export class OffersComponent implements OnInit {
   constructor(
     private offersService: OffersService,
     private cookieService: CookieService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router:Router) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -38,14 +39,15 @@ export class OffersComponent implements OnInit {
 
   search(ev) {
     this.loading = true;
-    ev.user_mortgage_term_length = ev.mortgage_term_length;
-    ev.user_down_payment = ev.down_payment;
-    this.offersService.getOffers(this.userId, ev).subscribe(offers => {
-      this.loading = false;
-      this.eligible_offers = offers.eligible;
-      this.not_eligible_offers = offers.not_eligible;
-      this.setUserHistory(ev)
+    this.router.navigate(['/offers'], {
+      queryParams: {
+        purchase_price: ev.purchase_price,
+        user_salary: ev.user_salary,
+        user_down_payment: ev.down_payment,
+        user_mortgage_term_length: ev.mortgage_term_length
+      }
     });
+    this.setUserHistory(ev)
   }
 
   setUserHistory(params) {
