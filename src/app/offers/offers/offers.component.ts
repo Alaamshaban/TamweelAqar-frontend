@@ -44,7 +44,8 @@ export class OffersComponent implements OnInit {
         purchase_price: ev.purchase_price,
         user_salary: ev.user_salary,
         user_down_payment: ev.down_payment,
-        user_mortgage_term_length: ev.mortgage_term_length
+        user_mortgage_term_length: ev.mortgage_term_length,
+        property_area:ev.property_area
       }
     });
     this.setUserHistory(ev)

@@ -1,13 +1,12 @@
 <ng-container *ngIf="results && results.length">
-    <mat-accordion class="example-headers-align">
+    <mat-accordion class="example-headers-align"  *ngFor="let result of UniqueResults() ,let i=index">
         <mat-expansion-panel class="results">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                   Search History
+                    {{result.params.property_area}} - {{result.params.purchase_price | number:'1.0-0' :'en-US'}} EGP
                 </mat-panel-title>
             </mat-expansion-panel-header>
-            <mat-card class="results-card" *ngFor="let result of results ,let i=index">
-                <mat-card-title>Offer {{i+1}}</mat-card-title>
+            <mat-card class="results-card">
                 <mat-card-content>
                     <h2>Home Price</h2>
                     <p>{{result.params.purchase_price | number:'1.0-0' :'en-US'}} EGP
@@ -16,7 +15,7 @@
                     <p>{{result.params.user_salary | number:'1.0-0' :'en-US'}} EGP
                     </p>
                     <h2>Down Payment</h2>
-                    <p>{{result.params.user_down_payment}} %
+                    <p>{{result.params.user_down_payment}} EGP
                     </p>
                     <h2>mortgage term length</h2>
                     <p>{{result.params.user_mortgage_term_length}} Years

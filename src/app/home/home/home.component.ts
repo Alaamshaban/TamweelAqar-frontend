@@ -87,7 +87,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       purchase_price: [null, [Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/), Validators.required]],
       user_salary: [null, [Validators.required, Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/)]],
       down_payment: [null, [Validators.required, Validators.pattern(/^(?=.*[0-9])[- +()0-9]+$/)]],
-      property_area: [null],
+      property_area: [null,Validators.required],
       mortgage_term_length: ['', Validators.required],
       full_name: [null, Validators.required]
     });
@@ -120,7 +120,8 @@ export class HomeComponent implements OnInit, OnDestroy {
             purchase_price: this.offersForm.value.purchase_price,
             user_salary: this.offersForm.value.user_salary,
             user_down_payment: this.offersForm.value.down_payment,
-            user_mortgage_term_length: this.offersForm.value.mortgage_term_length
+            user_mortgage_term_length: this.offersForm.value.mortgage_term_length,
+            property_area:this.offersForm.value.property_area
           }
         });
       }
@@ -144,6 +145,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.offersForm.controls['mortgage_term_length'].setValue(ev.target.value)
   }
 
+  onChangePropertyArea(ev){
+    this.offersForm.controls['property_area'].setValue(ev.target.value)
+  }
   ngOnDestroy() {
     //   if (this.app)
     //     this.app.delete();

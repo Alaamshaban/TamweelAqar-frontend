@@ -126,7 +126,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
           purchase_price: this.data.offersForm.purchase_price,
           user_salary: this.data.offersForm.user_salary,
           user_down_payment: this.data.offersForm.down_payment,
-          user_mortgage_term_length: this.data.offersForm.mortgage_term_length
+          user_mortgage_term_length: this.data.offersForm.mortgage_term_length,
+          property_area:this.data.property_area
         }
       });
     }

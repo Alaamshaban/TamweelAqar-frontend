@@ -1,6 +1,7 @@
 import { Offers } from './../../models/offer.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Cities from '../../../assets/json/cities.json';
 
 @Component({
   selector: 'app-search-card',
@@ -13,6 +14,8 @@ export class SearchCardComponent implements OnInit {
   @Input() searchParams;
   @Input() offers: Offers;
   @Output() onSearch = new EventEmitter();
+
+  cities = Cities;
 
   constructor(private fb: FormBuilder) { }
 
@@ -27,6 +30,13 @@ export class SearchCardComponent implements OnInit {
     return Array(30).fill(0).map((x, i) => i + 1)
   }
 
+  onChange(ev) {
+    this.searchForm.controls['mortgage_term_length'].setValue(ev.target.value)
+  }
+
+  onChangePropertyArea(ev){
+    this.searchForm.controls['property_area'].setValue(ev.target.value)
+  }
 
   setForm(): void {
     this.searchForm = this.fb.group({
@@ -34,8 +44,18 @@ export class SearchCardComponent implements OnInit {
       user_salary: [null, Validators.required],
       down_payment: [null, Validators.required],
       mortgage_term_length: ['', Validators.required],
+      property_area: ['', Validators.required],
     });
   }
+
+  MortgageLengthCompareFunction(o1: any, o2: any) {
+    return (o1==o2);
+   }
+
+   propertyAreaCompareFunction(o1: any, o2: any) {
+    return (o1 == o2);
+   }
+
 
   patchForm(): void {
     console.log(this.searchParams)
@@ -43,7 +63,8 @@ export class SearchCardComponent implements OnInit {
       purchase_price: this.searchParams.purchase_price,
       user_salary: this.searchParams.user_salary,
       down_payment: this.searchParams.user_down_payment,
-      mortgage_term_length: this.searchParams.user_mortgage_term_length
+      mortgage_term_length: this.searchParams.user_mortgage_term_length,
+      property_area:this.searchParams.property_area
     });
   }
 

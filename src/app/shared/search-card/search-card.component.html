@@ -31,9 +31,18 @@
 
         <mat-form-field id="mortgage_term_length" class="formField" appearance="outline">
             <mat-label>Mortgage term length *</mat-label>
-            <mat-select formControlName="mortgage_term_length">
+            <mat-select [compareWith]="MortgageLengthCompareFunction" (change)="onChange($event)" formControlName="mortgage_term_length">
                 <mat-option *ngFor="let mortgage_term_length of getMortgageLength()" [value]="mortgage_term_length">
                     {{mortgage_term_length}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field id="mortgage_term_length" class="formField" appearance="outline">
+            <mat-label>Property area *</mat-label>
+            <mat-select [compareWith]="propertyAreaCompareFunction" (change)="onChangePropertyArea($event)" formControlName="property_area">
+                <mat-option *ngFor="let city of cities"[value]="city">
+                    {{city}}
+                </mat-option>
             </mat-select>
         </mat-form-field>
 

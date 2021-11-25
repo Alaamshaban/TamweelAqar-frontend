@@ -62,15 +62,15 @@
                                                     Invalid format please enter numbers only.
                                                 </mat-error>
                                                 <mat-error
-                                                *ngIf="f.phone_number.hasError('invalid_field') && (f.phone_number.dirty || f.phone_number.touched)">
-                                                {{invalidPhoneNumberError}}.
-                                            </mat-error>
+                                                    *ngIf="f.phone_number.hasError('invalid_field') && (f.phone_number.dirty || f.phone_number.touched)">
+                                                    {{invalidPhoneNumberError}}.
+                                                </mat-error>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" formControlName="purchase_price"
-                                                    placeholder="Home Price (e.g EGP 1,000,000) *" >
+                                                    placeholder="Home Price (e.g EGP 1,000,000) *">
                                                 <mat-error
                                                     *ngIf="f.purchase_price.hasError('required') && (f.purchase_price.dirty || f.purchase_price.touched)">
                                                     This field is required.
@@ -115,13 +115,17 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <select class="form-control select" nice-select
-                                                    (change)="onChange($event)" [value]="f.property_area"
+                                                    (change)="onChangePropertyArea($event)" [value]="f.property_area"
                                                     [attr.data-value]="f.property_area">
-                                                    <option value=''>Property Area</option>
-                                                    <option *ngFor="let property_area of cities"
-                                                        [ngValue]="f.property_area">{{property_area.name}}
+                                                    <option value=''>Property Area *</option>
+                                                    <option *ngFor="let city of cities"
+                                                        [ngValue]="f.property_area">{{city}}
                                                     </option>
                                                 </select>
+                                                <mat-error
+                                                    *ngIf="f.property_area.hasError('required') && (f.property_area.dirty || f.property_area.touched)">
+                                                    This field is required.
+                                                </mat-error>
                                             </div>
                                         </div>
 

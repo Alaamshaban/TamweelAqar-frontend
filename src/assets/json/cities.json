@@ -1,82 +1,29 @@
 [
-    {
-        "name": "Cairo",
-        "id": 360630
-    },
-    {
-        "name": "Alexandria",
-        "id": 361058
-    },
-    {
-        "name": "Giza",
-        "id": 360995
-    },
-    {
-        "name": "Port Said",
-        "id": 358619
-    },
-    {
-        "name": "Suez",
-        "id": 359796
-    },
-    {
-        "name": "Al Maḩallah al Kubrá",
-        "id": 360829
-    },
-    {
-        "name": "Luxor",
-        "id": 360502
-    },
-    {
-        "name": "Asyūţ",
-        "id": 359783
-    },
-    {
-        "name": "Al Manşūrah",
-        "id": 360761
-    },
-    {
-        "name": "Tanta",
-        "id": 347497
-    },
-    {
-        "name": "Al Fayyūm",
-        "id": 361320
-    },
-    {
-        "name": "Zagazig",
-        "id": 359493
-    },
-    {
-        "name": "Ismailia",
-        "id": 361055
-    },
-    {
-        "name": "Kafr ad Dawwār",
-        "id": 354775
-    },
-    {
-        "name": "Aswan",
-        "id": 359792
-    },
-    {
-        "name": "Qinā",
-        "id": 350550
-    },
-    {
-        "name": "Ḩalwān",
-        "id": 355795
-    },
-    {
-        "name": "Damanhūr",
-        "id": 358448
-    },
-    {
-        "name": "Al Minyā",
-        "id": 360686
-    },
-    {
-        "name": "Sohag",
-        "id": 347796
-    }
+    "Giza - Sheikh Zayed",
+    "Giza - 6 October",
+    "Giza - New Giza",
+    "Giza - Alex Cairo Road",
+    "Giza - Dokki",
+    "Giza - Agouza",
+    "Giza - Mohandesin",
+    "Giza - Giza",
+    "Giza - Haram",
+    "Giza - Faisal",
+    "Cairo - Heliopolis ",
+    "Cairo - Madinet Nasr",
+    "Cairo - New Cairo",
+    "Cairo - 5 Settelement",
+    "Cairo - Rehab",
+    "Cairo - Madinaty",
+    "Cairo - Katameya",
+    "Cairo - Uptown Cairo",
+    "Cairo - Maadi",
+    "Cairo - Downtown",
+    "Cairo - Zamalek",
+    "Cairo - Garden City",
+    "Cairo - Manial",
+    "Cairo - Ain Shams",
+    "Cairo - Old Cairo",
+    "Cairo - Other",
+    "Giza - Other"
 ]
