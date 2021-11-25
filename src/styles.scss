@@ -181,6 +181,8 @@ button {
     background: $gradient-green;
     position: relative;
     z-index: 1;
+    display: flex;
+    justify-content: space-between;
     &:before {
         position: absolute;
         background-image: url(assets/img/navbar-shape.png);
