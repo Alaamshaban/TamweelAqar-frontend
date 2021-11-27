@@ -9,9 +9,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UserService {
 
-basUrl=BaseURL;
+  basUrl = BaseURL;
 
-loggingOut=new BehaviorSubject(false);
+  loggingOut = new BehaviorSubject(false);
 
   constructor(
     private cookieService: CookieService,
@@ -19,7 +19,7 @@ loggingOut=new BehaviorSubject(false);
 
   addUser(user) {
     console.log(user)
-    return this.http.post(this.basUrl+'/api/users', user);
+    return this.http.post(this.basUrl + '/api/users', user);
   }
 
   getUser() {
@@ -33,7 +33,17 @@ loggingOut=new BehaviorSubject(false);
 
   updateUser(user) {
     const user_id = this.cookieService.get('user_uid');
-   return this.http.put(this.basUrl+`/api/users/${user_id}`, user);
+    return this.http.put(this.basUrl + `/api/users/${user_id}`, user);
+  }
+
+  updateUserHistory(history) {
+    const user_id = this.cookieService.get('user_uid');
+    return this.http.post(this.basUrl + `/api/users/userhistory`, {user_id:user_id,...history});
+  }
+
+  getUserHistory(){
+    const user_id = this.cookieService.get('user_uid');
+    return this.http.get(this.basUrl + `/api/users/${user_id}/userhistory`);
   }
 
 }

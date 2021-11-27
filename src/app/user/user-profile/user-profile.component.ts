@@ -30,8 +30,11 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.setUserForm();
     this.getUser();
-    this.userResults = this.offersService.userLastSearch
-    console.log(this.offersService.userLastSearch);
+    this.userService.getUserHistory().subscribe((res:[]) => {
+      console.log(res);
+      this.userResults = res;
+      this.offersService.lastSearchResults=res;
+    });
   }
 
   getUser() {
@@ -45,11 +48,11 @@ export class UserProfileComponent implements OnInit {
   setUserForm() {
     this.userForm = this.fb.group({
       user_name: [null],
-      phone_number: [null,Validators.required],
+      phone_number: [null, Validators.required],
       email_address: [null],
       password: [null, Validators.minLength(6)],
       confirm_password: [''],
-      full_name: [null,Validators.required],
+      full_name: [null, Validators.required],
       gender: [null],
       date_of_birth: [null],
       address: [null],
@@ -62,7 +65,7 @@ export class UserProfileComponent implements OnInit {
 
   patchForm(user) {
     this.userForm.patchValue({
-      user_name: user.user_name=== 'null' ? '' : user.user_name,
+      user_name: user.user_name === 'null' ? '' : user.user_name,
       phone_number: user.phone_number,
       email_address: user.email_address === 'null' ? '' : user.email_address,
       password: user.password === 'null' ? null : user.password,

@@ -4,11 +4,14 @@
 .mat-icon-button {
     .mat-icon {
         font-size: 45px;
-        color: #fff;
+        color: #000;
     }
 }
 .navbar-brand {
     width: 35%;
+    img {
+        max-width: 100%;
+    }
 }
 .btns-section {
     display: flex;
@@ -24,5 +27,11 @@ $desktop: 1200px;
 @media only screen and (min-width: $desktop) {
     .sign-btns {
         width: 20%;
+    }
+    .navbar-brand {
+        width: 35%;
+        img {
+            max-width: 60%;
+        }
     }
 }

@@ -1,24 +1,24 @@
 <ng-container *ngIf="results && results.length">
-    <mat-accordion class="example-headers-align"  *ngFor="let result of UniqueResults() ,let i=index">
+    <mat-accordion class="example-headers-align" *ngFor="let key of getGrouupedResultsKeys(),let i=index">
         <mat-expansion-panel class="results">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    {{result.params.property_area}} - {{result.params.purchase_price | number:'1.0-0' :'en-US'}} EGP
+                    {{key}}
                 </mat-panel-title>
             </mat-expansion-panel-header>
-            <mat-card class="results-card">
+            <mat-card class="results-card" *ngFor="let result of grouppedResults[key]">
                 <mat-card-content>
                     <h2>Home Price</h2>
-                    <p>{{result.params.purchase_price | number:'1.0-0' :'en-US'}} EGP
+                    <p>{{result.purchase_price | number:'1.0-0' :'en-US'}} EGP
                     </p>
                     <h2>Input Salary</h2>
-                    <p>{{result.params.user_salary | number:'1.0-0' :'en-US'}} EGP
+                    <p>{{result.user_salary | number:'1.0-0' :'en-US'}} EGP
                     </p>
                     <h2>Down Payment</h2>
-                    <p>{{result.params.user_down_payment}} EGP
+                    <p>{{result.user_down_payment}} EGP
                     </p>
                     <h2>mortgage term length</h2>
-                    <p>{{result.params.user_mortgage_term_length}} Years
+                    <p>{{result.user_mortgage_term_length}} Years
                     </p>
                     <mat-divider inset></mat-divider>
                     <div class="offers">
@@ -30,10 +30,9 @@
                         <span class="number_of_offers">{{result.not_eligible_offers}}</span>
                     </div>
                 </mat-card-content>
-                <!-- <mat-card-actions>
-          <button mat-button>LIKE</button>
-          <button mat-button>SHARE</button>
-        </mat-card-actions> -->
+                <mat-card-actions>
+                    <a class="offerLink"(click)="goToOffer(result)">Visit Offer</a>
+                </mat-card-actions>
             </mat-card>
         </mat-expansion-panel>
     </mat-accordion>

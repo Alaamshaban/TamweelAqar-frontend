@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/shared/services/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Offer } from './../../models/offer.model';
 import { OffersService } from './../../shared/services/offers.service';
@@ -21,8 +22,9 @@ export class OffersComponent implements OnInit {
   constructor(
     private offersService: OffersService,
     private cookieService: CookieService,
+    private userService: UserService,
     private route: ActivatedRoute,
-    private router:Router) { }
+    private router: Router) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -32,6 +34,7 @@ export class OffersComponent implements OnInit {
         this.eligible_offers = offers.eligible;
         this.not_eligible_offers = offers.not_eligible;
         this.setUserHistory(params)
+
       });
     });
   }
@@ -45,18 +48,18 @@ export class OffersComponent implements OnInit {
         user_salary: ev.user_salary,
         user_down_payment: ev.down_payment,
         user_mortgage_term_length: ev.mortgage_term_length,
-        property_area:ev.property_area
+        property_area: ev.property_area
       }
     });
     this.setUserHistory(ev)
   }
 
   setUserHistory(params) {
-    const index = this.offersService.userLastSearch.findIndex(r => r.params === params);
-    this.offersService.userLastSearch[index] = {
-      ...this.offersService.userLastSearch[index],
+    const history = {
+      ...params,
       eligible_offers: this.eligible_offers.length,
       not_eligible_offers: this.not_eligible_offers.length
     }
+    this.userService.updateUserHistory(history).subscribe((res) => { });
   }
 }

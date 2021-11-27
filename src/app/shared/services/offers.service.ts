@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/shared/services/user.service';
 import { BaseURL } from '../../basURL';
 import { Offer, Offers } from './../../models/offer.model';
 
@@ -21,7 +22,6 @@ export class OffersService {
     const headers = {
       AuthToken: this.cookieService.get('token')
     }
-    this.lastSearchResults.push({ params: params });
     const { purchase_price, user_salary, user_down_payment, user_mortgage_term_length } = params;
     let offersParams = new HttpParams();
     offersParams = offersParams.set('purchase_price', purchase_price)
@@ -32,8 +32,8 @@ export class OffersService {
 
   }
 
-  set lastSearchResults(results) {
-    this.userLastSearch = results;
+  set lastSearchResults(history) {
+    this.userLastSearch = history;
   }
 
   get lastSearchResults() {
