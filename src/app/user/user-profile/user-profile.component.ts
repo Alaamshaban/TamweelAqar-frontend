@@ -30,10 +30,10 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.setUserForm();
     this.getUser();
-    this.userService.getUserHistory().subscribe((res:[]) => {
+    this.userService.getUserHistory().subscribe((res: []) => {
       console.log(res);
       this.userResults = res;
-      this.offersService.lastSearchResults=res;
+      this.offersService.lastSearchResults = res;
     });
   }
 
@@ -74,7 +74,7 @@ export class UserProfileComponent implements OnInit {
       gender: user.gender,
       date_of_birth: user.date_of_birth === 'null' ? null : user.date_of_birth,
       address: user.address === 'null' ? '' : user.address,
-      nationality: JSON.parse(user.nationality),
+      nationality: user.nationality !== '' ? JSON.parse(user.nationality) : '',
       employment_status: user.employment_status
     });
   }
