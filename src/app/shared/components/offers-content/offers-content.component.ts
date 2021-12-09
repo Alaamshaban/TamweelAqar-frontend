@@ -1,5 +1,5 @@
 import { Offer, Offers } from './../../../models/offer.model';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-offers-content',
@@ -11,6 +11,7 @@ export class OffersContentComponent implements OnInit {
   @Input() offers: Offer[];
   @Input() searchParams;
   @Input() offersType: string;
+  @Output() onRevealOffer = new EventEmitter()
   toggle: Boolean = true;
 
   constructor() { }
@@ -25,10 +26,13 @@ export class OffersContentComponent implements OnInit {
     return JSON.parse(founder).founder_logo
   }
   getCompanyPhone(founder) {
-    return JSON.parse(founder).phone_number
+    const phone = JSON.parse(founder).phone_number;
+    window.open(`tel:${phone}`, "_blank");
   }
   getCompanyEmail(founder) {
-    return JSON.parse(founder).email
+    console.log(founder)
+    const email = JSON.parse(founder).email;
+    window.open(`mailto: ${email}`, "_blank");
   }
   getCompanyWebsite(founder) {
     window.open(JSON.parse(founder).website, "_blank");
@@ -38,5 +42,18 @@ export class OffersContentComponent implements OnInit {
     return percentage / 100 * this.searchParams.purchase_price;
   }
 
-
+  revealOffer(type: string, offer) {
+    switch (type) {
+      case 'phone':
+        this.getCompanyPhone(offer.founder);
+        break;
+      case 'web':
+        this.getCompanyWebsite(offer.founder);
+        break;
+      case 'email':
+        this.getCompanyEmail(offer.founder);
+        break;
+    }
+    this.onRevealOffer.next({ offer: offer, revealed_by: type })
+  }
 }

@@ -29,7 +29,10 @@ export class OffersService {
       .append('user_down_payment', user_down_payment)
       .append('user_mortgage_term_length', user_mortgage_term_length)
     return this.http.get<Offers>(this.baseUrl + `/api/users/${user_id}/offers/`, { params: offersParams });
+  }
 
+  revealOffer(offer_id, revealedOfferData) {
+    return this.http.post(this.baseUrl + `/api/offers/${offer_id}/reveal`, revealedOfferData);
   }
 
   set lastSearchResults(history) {

@@ -12,13 +12,13 @@
             </div>
             <mat-card-actions align="end">
                 <div class="icons">
-                    <a mat-icon-button class="call" href="{{'tel:'+getCompanyPhone(offer.founder)}}">
+                    <a mat-icon-button class="call" (click)="revealOffer('phone',offer)">
                         <mat-icon>call</mat-icon>
                     </a>
-                    <a mat-icon-button class="web" (click)="getCompanyWebsite(offer.founder)">
+                    <a mat-icon-button class="web" (click)="revealOffer('web',offer)">
                         <mat-icon>public</mat-icon>
                     </a>
-                    <a mat-icon-button class="email" href="{{'mailto: '+getCompanyEmail(offer.founder)}}">
+                    <a mat-icon-button class="email" (click)="revealOffer('email',offer)">
                         <mat-icon>email</mat-icon>
                     </a>
                 </div>

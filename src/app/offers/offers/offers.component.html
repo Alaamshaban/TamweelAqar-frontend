@@ -7,11 +7,11 @@
                 <app-terms-explain [offers]="eligible_offers"></app-terms-explain>
                 <div class="card-container">
                     <app-offers-content [offers]="eligible_offers" [offersType]="'eligible'"
-                        [searchParams]="searchParams">
+                        [searchParams]="searchParams" (onRevealOffer)="revealOffer($event)">
                     </app-offers-content>
                     <mat-divider *ngIf="eligible_offers?.length"></mat-divider>
                     <app-offers-content [offers]="not_eligible_offers" [offersType]="'not_eligible'"
-                        [searchParams]="searchParams"></app-offers-content>
+                        [searchParams]="searchParams" (onRevealOffer)="revealOffer($event)"></app-offers-content>
                 </div>
             </div>
         </ng-template>

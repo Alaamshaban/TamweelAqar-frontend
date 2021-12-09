@@ -30,11 +30,11 @@ export class OffersComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.searchParams = params;
       this.offersService.getOffers(this.userId, params).subscribe(offers => {
+        console.log(offers)
         this.loading = false;
         this.eligible_offers = offers.eligible;
         this.not_eligible_offers = offers.not_eligible;
         this.setUserHistory(params)
-
       });
     });
   }
@@ -51,7 +51,6 @@ export class OffersComponent implements OnInit {
         property_area: ev.property_area
       }
     });
-    this.setUserHistory(ev)
   }
 
   setUserHistory(params) {
@@ -61,5 +60,17 @@ export class OffersComponent implements OnInit {
       not_eligible_offers: this.not_eligible_offers.length
     }
     this.userService.updateUserHistory(history).subscribe((res) => { });
+  }
+
+  revealOffer(event) {
+    const offerData = {
+      interest_rate: event.offer.interest_rate,
+      monthly_payment: event.offer.monthly_payment,
+      user_id: this.cookieService.get('user_uid'),
+      revealed_by: event.revealed_by
+    }
+    this.offersService.revealOffer(event.offer.id, offerData).subscribe(res => {
+      console.log('revealed offers>>>', res)
+    })
   }
 }
