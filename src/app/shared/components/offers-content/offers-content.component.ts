@@ -23,19 +23,18 @@ export class OffersContentComponent implements OnInit {
   }
 
   getCompanyLogo(founder) {
-    return JSON.parse(founder).founder_logo
+    return JSON.parse(JSON.parse(founder)).founder_logo
   }
   getCompanyPhone(founder) {
-    const phone = JSON.parse(founder).phone_number;
+    const phone = JSON.parse(JSON.parse(founder)).phone_number;
     window.open(`tel:${phone}`, "_blank");
   }
   getCompanyEmail(founder) {
-    console.log(founder)
-    const email = JSON.parse(founder).email;
+    const email = JSON.parse(JSON.parse(founder)).email;
     window.open(`mailto: ${email}`, "_blank");
   }
   getCompanyWebsite(founder) {
-    window.open(JSON.parse(founder).website, "_blank");
+    window.open(JSON.parse(JSON.parse(founder)).website, "_blank");
   }
 
   getDownPayment(percentage) {
