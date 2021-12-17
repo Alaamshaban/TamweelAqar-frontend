@@ -32,8 +32,8 @@ export class OffersComponent implements OnInit {
       this.offersService.getOffers(this.userId, params).subscribe(offers => {
         console.log(offers)
         this.loading = false;
-        this.eligible_offers = offers.eligible;
-        this.not_eligible_offers = offers.not_eligible;
+        this.eligible_offers = offers.eligible.filter(offer => offer.active);
+        this.not_eligible_offers = offers.not_eligible.filter(offer => offer.active);
         this.setUserHistory(params)
       });
     });

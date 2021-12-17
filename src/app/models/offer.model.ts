@@ -1,5 +1,6 @@
 
 export interface Offer {
+    active: boolean;
     id: number;
     founder: Founder;
     minimum_down_payment: string;
