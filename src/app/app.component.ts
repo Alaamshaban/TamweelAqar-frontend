@@ -7,7 +7,7 @@ import { filter } from 'rxjs/operators';
 import firebase from 'firebase/app';
 import { Subject } from 'rxjs';
 declare let $: any;
-
+declare let gtag: Function;
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -58,6 +58,17 @@ export class AppComponent implements OnInit, OnDestroy {
             }
           });
         },20000)
+    }
+
+    setUpAnalytics() {
+        this.router.events.pipe(filter(event => event instanceof NavigationEnd))
+            .subscribe((event: NavigationEnd) => {
+                gtag('config', 'G-FK99X72SB3',
+                    {
+                        page_path: event.urlAfterRedirects
+                    }
+                );
+            });
     }
 
     recallJsFuntions() {
