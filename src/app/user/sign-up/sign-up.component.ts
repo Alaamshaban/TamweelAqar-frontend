@@ -10,6 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from '../login/login.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import moment from 'moment';
 
 @Component({
   selector: 'app-sign-up',
@@ -89,6 +90,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       const user = firebase.auth().currentUser;
       user.getIdToken(true).then(token => {
         this.userService.getUserByPhoneNumber(this.data.offersForm.phone_number).subscribe(signedInUser => {
+          signedInUser = { ...signedInUser, registered_at: moment().format('LLL') }
           this.updateUser(signedInUser, token);
         }, (err: HttpErrorResponse) => {
           if (err.status === 404) {
@@ -112,7 +114,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   createUser(result, token) {
-    this.userService.addUser({ ...this.signUPForm.value, token: token, user_id: result.user.uid }).subscribe(res => {
+    this.userService.addUser({ ...this.signUPForm.value, token: token, user_id: result.user.uid, registered_at: moment().format('LLL') }).subscribe(res => {
       this.cookieService.set('token', token);
       this.cookieService.set('user_uid', result.user.uid);
       this.goToOffers();
@@ -127,7 +129,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
           user_salary: this.data.offersForm.user_salary,
           user_down_payment: this.data.offersForm.down_payment,
           user_mortgage_term_length: this.data.offersForm.mortgage_term_length,
-          property_area:this.data.property_area
+          property_area: this.data.property_area
         }
       });
     }

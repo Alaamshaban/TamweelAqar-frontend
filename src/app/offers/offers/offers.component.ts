@@ -4,7 +4,7 @@ import { Offer } from './../../models/offer.model';
 import { OffersService } from './../../shared/services/offers.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpParams } from '@angular/common/http';
+import moment from 'moment';
 
 @Component({
   selector: 'app-offers',
@@ -66,8 +66,12 @@ export class OffersComponent implements OnInit {
     const offerData = {
       interest_rate: event.offer.interest_rate,
       monthly_payment: event.offer.monthly_payment,
+      admin_fees: event.offer.admin_fees,
+      mortgage_term_length: event.offer.mortgage_term_length,
+      created_at: moment().format('LLL'),
       user_id: this.cookieService.get('user_uid'),
-      revealed_by: event.revealed_by
+      revealed_by: event.revealed_by,
+      down_payment: event.offer.down_payment
     }
     this.offersService.revealOffer(event.offer.id, offerData).subscribe(res => {
       console.log('revealed offers>>>', res)
