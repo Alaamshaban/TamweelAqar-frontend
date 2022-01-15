@@ -68,7 +68,7 @@ export class OffersComponent implements OnInit {
       monthly_payment: event.offer.monthly_payment,
       admin_fees: event.offer.admin_fees,
       mortgage_term_length: event.offer.mortgage_term_length,
-      created_at: moment().format('LLL'),
+      created_at: moment().format('YYYY-MM-DD hh:mm:ss'),
       user_id: this.cookieService.get('user_uid'),
       revealed_by: event.revealed_by,
       down_payment: event.offer.down_payment

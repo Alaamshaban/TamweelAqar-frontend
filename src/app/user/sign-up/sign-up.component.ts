@@ -114,7 +114,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   createUser(result, token) {
-    this.userService.addUser({ ...this.signUPForm.value, token: token, user_id: result.user.uid, registered_at: moment().format('LLL') }).subscribe(res => {
+    this.userService.addUser({ ...this.signUPForm.value, token: token, user_id: result.user.uid, registered_at: moment().format('YYYY-MM-DD hh:mm:ss') }).subscribe(res => {
       this.cookieService.set('token', token);
       this.cookieService.set('user_uid', result.user.uid);
       this.goToOffers();
