@@ -33,31 +33,32 @@ export class AppComponent implements OnInit, OnDestroy {
             this.app = firebase.app('[DEFAULT]')
         }
 
-            setInterval(() => {
-                if (firebase.app('[DEFAULT]') && firebase.auth(firebase.app('[DEFAULT]')).currentUser) {
-                    const user = firebase.auth(firebase.app('[DEFAULT]')).currentUser;
-                    user.getIdToken(true).then(token => {
-                        this.cookieService.set('token', token);
-                        this.cookieService.set('refresh_token', user.refreshToken);
-                        this.cookieService.set('user_uid', user.uid);
-                    });
-                }
-            }, 108000)
+        setInterval(() => {
+            if (firebase.app('[DEFAULT]') && firebase.auth(firebase.app('[DEFAULT]')).currentUser) {
+                const user = firebase.auth(firebase.app('[DEFAULT]')).currentUser;
+                user.getIdToken(true).then(token => {
+                    this.cookieService.set('token', token);
+                    this.cookieService.set('refresh_token', user.refreshToken);
+                    this.cookieService.set('user_uid', user.uid);
+                });
+            }
+        }, 108000)
     }
 
     ngOnInit() {
         this.recallJsFuntions();
         setInterval(() => {
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-              // User is signed in.
-              console.log(user)
-            } else {
-                console.log('no user')
-              // No user is signed in.
-            }
-          });
-        },20000)
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    // User is signed in.
+                    console.log(user)
+                } else {
+                    console.log('no user')
+                    // No user is signed in.
+                }
+            });
+        }, 20000);
+        this.setUpAnalytics();
     }
 
     setUpAnalytics() {
