@@ -24,7 +24,7 @@ export class UserService {
 
   getUser() {
     const user_id = this.cookieService.get('user_uid');
-    return this.http.get(`${this.basUrl}/api/users/${user_id}`);
+    return this.http.get(`/api/users/${user_id}`);
   }
 
   getUserByPhoneNumber(phoneNumber) {
@@ -33,7 +33,7 @@ export class UserService {
 
   updateUser(user) {
     const user_id = this.cookieService.get('user_uid');
-    return this.http.put(this.basUrl + `/api/users/${user_id}`, user);
+    return this.http.put(`/api/users/${user_id}`, user);
   }
 
   updateUserHistory(history) {

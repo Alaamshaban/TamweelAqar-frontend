@@ -107,8 +107,8 @@
                         <mat-form-field>
                             <mat-label>Nationality</mat-label>
                             <mat-select panelClass="SelectClass" formControlName="nationality"
-                                [compareWith]="compareWith">
-                                <mat-option *ngFor="let nationality of nationalities" [value]="nationality">
+                              >
+                                <mat-option *ngFor="let nationality of nationalities" [value]="nationality.nationality">
                                     {{ nationality.nationality }}
                                 </mat-option>
                             </mat-select>
